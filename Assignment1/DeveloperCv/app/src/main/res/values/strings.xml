@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">DeveloperCv</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="DefautName">Martin Boje Carpentier</string>
+    <string name="DefaultId">14231</string>
+    <string name="DefaultAndroid">true</string>
+    <string name="SaveButton">Save</string>
+    <string name="CancelButton">Cancel</string>
+
+    <string name="NameLabel">Name</string>
+    <string name="IdLabel">Id</string>
+    <string name="AndroidLabel">Android</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="NameKey">Name</string>
+    <string name="IdKey">Id</string>
+    <string name="androidKey">Android</string>
+</resources>
