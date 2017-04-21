@@ -43,6 +43,8 @@ public class EditCvActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        setTitle(getString(R.string.edit_resource));
+
         String name = "";
         String id = "";
 
@@ -100,6 +102,8 @@ public class EditCvActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 
     @Override

@@ -20,6 +20,7 @@
     <EditText
         android:id="@+id/editText"
         android:layout_width="0dp"
+        android:hint="@string/name_hint"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -43,6 +44,7 @@
 
     <EditText
         android:id="@+id/editText2"
+        android:hint="@string/write_your_id_here"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

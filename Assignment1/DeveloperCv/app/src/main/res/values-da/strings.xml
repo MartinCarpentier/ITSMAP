@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Udvikler Cv</string>
+    <string name="action_settings">Indstillinger</string>
+
+
+    <string name="DefautName">Martin Boje Carpentier</string>
+    <string name="DefaultId">14231</string>
+    <string name="DefaultAndroid">true</string>
+    <string name="SaveButton">Gem</string>
+    <string name="CancelButton">Annuller</string>
+
+    <string name="NameLabel">Navn</string>
+    <string name="IdLabel">Id</string>
+    <string name="AndroidLabel">Android</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="name_hint">Skriv dit navn her</string>
+    <string name="write_your_id_here">Skriv dit Id her</string>
+
+    <string name="edit_resource">Rediger informationer</string>
+</resources>

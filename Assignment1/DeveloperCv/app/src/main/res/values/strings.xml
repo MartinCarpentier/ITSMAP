@@ -14,7 +14,12 @@
     <string name="AndroidLabel">Android</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="NameKey">Name</string>
-    <string name="IdKey">Id</string>
-    <string name="androidKey">Android</string>
+
+    <string name="NameKey" translatable="false">Name</string>
+    <string name="IdKey" translatable="false">Id</string>
+    <string name="androidKey" translatable="false">Android</string>
+
+    <string name="name_hint">Write your name here</string>
+    <string name="write_your_id_here">Write your id here</string>
+    <string name="edit_resource">Edit informations</string>
 </resources>
