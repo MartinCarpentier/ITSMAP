@@ -11,13 +11,13 @@ public class DeveloperInfo implements Parcelable {
     public DeveloperInfo(String name, String id, String android)
     {
         this.name = name;
-        this.id = id;
+        this.id = Integer.valueOf(id);
         this.android = Boolean.valueOf(android);
     }
 
     private String name;
 
-    private String id;
+    private int id;
 
     private boolean android;
 
@@ -29,11 +29,11 @@ public class DeveloperInfo implements Parcelable {
         this.android = android;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class DeveloperInfo implements Parcelable {
 
     protected DeveloperInfo(Parcel in) {
         name = in.readString();
-        id = in.readString();
+        id = in.readInt();
         android = in.readByte() != 0x00;
     }
 
@@ -59,7 +59,7 @@ public class DeveloperInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(id);
+        dest.writeInt(id);
         dest.writeByte((byte) (android ? 0x01 : 0x00));
     }
 

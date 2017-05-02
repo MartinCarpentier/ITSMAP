@@ -45,6 +45,7 @@
     <EditText
         android:id="@+id/editText2"
         android:hint="@string/write_your_id_here"
+        android:inputType="number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"

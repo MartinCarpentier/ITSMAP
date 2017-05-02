@@ -62,7 +62,7 @@ public class EditCvActivity extends AppCompatActivity {
             DeveloperInfo developerInfo = (DeveloperInfo) getIntent().getParcelableExtra("developerInfo");
 
             name = developerInfo.getName();
-            id = developerInfo.getId();
+            id = String.valueOf(developerInfo.getId());
 
             if(developerInfo.isAndroid())
             {

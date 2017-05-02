@@ -50,6 +50,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/editText"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         app:layout_constraintRight_toLeftOf="@+id/RadioButtons"
+        android:inputType="number"
         android:layout_marginRight="8dp" />
     <Button
         android:id="@+id/cancelButton"

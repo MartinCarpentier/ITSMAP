@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             DeveloperInfo developerInfo = (DeveloperInfo) resultIntent.getParcelableExtra("developerResult");
 
             String name = developerInfo.getName();
-            String id = developerInfo.getId();
+            String id = String.valueOf(developerInfo.getId());
             String android = String.valueOf(developerInfo.isAndroid());
 
             nameText.setText(name);
