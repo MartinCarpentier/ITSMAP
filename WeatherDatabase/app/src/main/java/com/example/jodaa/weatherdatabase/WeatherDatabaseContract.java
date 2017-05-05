@@ -6,8 +6,8 @@
 package com.example.jodaa.weatherdatabase;
 import android.provider.BaseColumns;
 
-public final class FeedReaderContract {
-    private FeedReaderContract(){}
+public final class WeatherDatabaseContract {
+    private WeatherDatabaseContract(){}
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +

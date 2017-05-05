@@ -9,20 +9,20 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class FeedReaderDbHelper extends SQLiteOpenHelper {
+public class WeatherDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + FeedReaderContract.FeedEntry.TABLE_NAME + " (" +
-                    FeedReaderContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_TEMP + " TEXT," +
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_TIME + " TEXT)";
+            "CREATE TABLE " + WeatherDatabaseContract.FeedEntry.TABLE_NAME + " (" +
+                    WeatherDatabaseContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
+                    WeatherDatabaseContract.FeedEntry.COLUMN_NAME_TEMP + " TEXT," +
+                    WeatherDatabaseContract.FeedEntry.COLUMN_NAME_TIME + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + WeatherDatabaseContract.FeedEntry.TABLE_NAME;
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "FeedReader.db";
-    public FeedReaderDbHelper(Context context) {
+    public WeatherDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
