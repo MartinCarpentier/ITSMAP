@@ -22,7 +22,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     private static final int VIEW_TYPE_FUTURE_DAY = 1;
 
     private final Context mContext;
-    private String[] mMockedData;
+    private String[] mMockedData = new String[0];
 
     final private ForecastAdapterOnClickHandler mClickHandler;
 
@@ -66,6 +66,12 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public void onBindViewHolder(ForecastAdapterViewHolder holder, int position) {
+
+        if(mCursor == null)
+        {
+            holder.highTempView.setText(mMockedData[position]);
+            return;
+        }
         mCursor.moveToPosition(position);
 
         int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
@@ -75,7 +81,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     @Override
     public int getItemCount() {
-        if (null == mCursor) return 0;
+        if (mCursor == null)
+            return mMockedData.length;
+
         return mCursor.getCount();
     }
 
@@ -84,7 +92,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         private final TextView highTempView;
 
-        ForecastAdapterViewHolder(View view) {
+        ForecastAdapterViewHolder(View view) { 
             super(view);
 
             //iconView = (ImageView) view.findViewById(R.id.weather_icon);
@@ -121,6 +129,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     void mockCursor(String[] mockedData) {
         mCursor = null;
+        mMockedData = mockedData;
         notifyDataSetChanged();
     }
 }

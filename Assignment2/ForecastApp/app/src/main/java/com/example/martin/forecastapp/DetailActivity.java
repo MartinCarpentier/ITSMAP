@@ -1,8 +1,13 @@
 package com.example.martin.forecastapp;
 
-/**
- * Created by mbc on 05-05-2017.
- */
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class DetailActivity {
+public class DetailActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+    }
 }
