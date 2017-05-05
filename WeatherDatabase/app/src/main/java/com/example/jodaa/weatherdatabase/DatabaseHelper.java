@@ -7,7 +7,6 @@ package com.example.jodaa.weatherdatabase;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,8 +14,8 @@ import android.util.Log;
 
 class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "weatherAppDb";
-    private static final int DATABASE_VERSION = 2;
-    static final String TABLE_WEATHER = "tableWeather";
+    private static final int DATABASE_VERSION = 3;
+    public static final String TABLE_WEATHER = "tableWeather";
     private static final String CREATE_TABLE_WEATHER = "CREATE TABLE IF NOT EXISTS " +
             TABLE_WEATHER +
             "(weather_id INTEGER PRIMARY KEY AUTOINCREMENT, weather_temp TEXT NULL, weather_date TEXT NULL)";

@@ -44,8 +44,12 @@ public class MainActivity extends AppCompatActivity {
         context = this;
 
         setupTable();
-        DatabaseHelper dataHelper = new DatabaseHelper(context);
-        SQLiteDatabase db = dataHelper.getReadableDatabase();
+        DataAccess dataAccess = new DataAccess(context);
+
+
+
+        SQLiteDatabase db = dataAccess.dbHelper.getReadableDatabase();
+
 
         db.beginTransaction();
 
