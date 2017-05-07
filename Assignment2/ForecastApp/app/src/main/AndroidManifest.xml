@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"></activity>
+
+        <!-- Our ContentProvider -->
+        <provider
+            android:name=".Data.ForecastProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
 </manifest>

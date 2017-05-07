@@ -77,6 +77,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         int weatherId = mCursor.getInt(MainActivity.INDEX_WEATHER_CONDITION_ID);
         int weatherImageId;
 
+        holder.highTempView.setText(String.valueOf(mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP)));
+
     }
 
     @Override
@@ -92,7 +94,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
         private final TextView highTempView;
 
-        ForecastAdapterViewHolder(View view) { 
+        ForecastAdapterViewHolder(View view) {
             super(view);
 
             //iconView = (ImageView) view.findViewById(R.id.weather_icon);

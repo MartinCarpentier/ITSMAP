@@ -17,6 +17,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.example.martin.forecastapp.Data.ForecastContract;
+
 /**
  * Created by mbc on 05-05-2017.
  */
@@ -29,9 +31,21 @@ public class ForecastFragment extends Fragment implements
     private ProgressBar progressBar;
     private ForecastAdapter forecastAdapter;
 
+    public static final int INDEX_WEATHER_DATE = 0;
+    public static final int INDEX_WEATHER_MAX_TEMP = 1;
+    public static final int INDEX_WEATHER_MIN_TEMP = 2;
+    public static final int COLUMN_FORECAST_ID = 3;
+
     private int mPosition = RecyclerView.NO_POSITION;
 
     private static final int ID_FORECAST_LOADER = 44;
+
+    public static final String[] MAIN_FORECAST_PROJECTION = {
+            ForecastContract.ForecastEntry.COLUMN_DATE,
+            ForecastContract.ForecastEntry.COLUMN_TEMP_MAX,
+            ForecastContract.ForecastEntry.COLUMN_TEMP_MIN,
+            ForecastContract.ForecastEntry.COLUMN_FORECAST_ID,
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,14 +101,30 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri myUri = Uri.parse("http://www.google.com");
+        switch (id) {
 
-        return new CursorLoader(getActivity(),
-                myUri,
-                null,
-                null,
-                null,
-                null);
+            case ID_FORECAST_LOADER:
+                /* URI for all rows of weather data in our weather table */
+                Uri forecastQueryUri = ForecastContract.ForecastEntry.CONTENT_URI;
+                /* Sort order: Ascending by date */
+                String sortOrder = ForecastContract.ForecastEntry.COLUMN_DATE + " ASC";
+                /*
+                 * A SELECTION in SQL declares which rows you'd like to return. In our case, we
+                 * want all weather data from today onwards that is stored in our weather table.
+                 * We created a handy method to do that in our WeatherEntry class.
+                 */
+                String selection = ForecastContract.ForecastEntry.getSqlSelectForTodayOnwards();
+
+                return new CursorLoader(getContext(),
+                        forecastQueryUri,
+                        MAIN_FORECAST_PROJECTION,
+                        selection,
+                        null,
+                        sortOrder);
+
+            default:
+                throw new RuntimeException("Loader Not Implemented: " + id);
+        }
     }
 
     @Override
@@ -103,7 +133,7 @@ public class ForecastFragment extends Fragment implements
         String[] dataString = {"Hello1", "Hello2", "Hello3", "Hello4"};
 
         //forecastAdapter.swapCursor(data);
-        forecastAdapter.mockCursor(dataString);
+        forecastAdapter.swapCursor(data);
 
         stopLoading();
     }
