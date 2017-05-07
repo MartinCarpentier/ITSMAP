@@ -1,9 +1,12 @@
 package com.example.martin.forecastapp;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -14,10 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.martin.forecastapp.Data.ForecastContract;
+
+import java.util.Date;
 
 /**
  * Created by mbc on 05-05-2017.
@@ -30,6 +36,7 @@ public class ForecastFragment extends Fragment implements
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private ForecastAdapter forecastAdapter;
+    private LinearLayoutManager layoutManager;
 
     public static final int INDEX_WEATHER_DATE = 0;
     public static final int INDEX_WEATHER_MAX_TEMP = 1;
@@ -61,7 +68,7 @@ public class ForecastFragment extends Fragment implements
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
 
-        LinearLayoutManager layoutManager =
+        layoutManager =
                 new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -95,9 +102,25 @@ public class ForecastFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(long date) {
+    public void onClick(long weatherId, ImageView weatherIcon) {
+        //Either start activity with date or show in this activity
 
-    }
+        if(MainActivity.mTwoPane)
+        {
+
+        }
+        else
+        {
+            Intent weatherDetailIntent = new Intent(getActivity(), DetailActivity.class);
+            Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(weatherId);
+            weatherDetailIntent.setData(uriForWeatherId);
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), weatherIcon, "WeatherIcon");
+
+            startActivity(weatherDetailIntent, options.toBundle());
+        }
+}
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

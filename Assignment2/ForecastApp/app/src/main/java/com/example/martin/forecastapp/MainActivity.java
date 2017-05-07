@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean mTwoPane;
+    public static boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
     public static final int INDEX_WEATHER_DATE = 0;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             // fragment transaction.
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_wide, new DetailFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.fragment_detail_layout, new DetailFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {

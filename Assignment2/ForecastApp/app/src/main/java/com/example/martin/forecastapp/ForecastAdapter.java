@@ -29,7 +29,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     private Cursor mCursor;
 
     public interface ForecastAdapterOnClickHandler {
-        void onClick(long date);
+        void onClick(long weatherId, ImageView weatherIcon);
     }
 
     public ForecastAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
@@ -67,6 +67,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     @Override
     public void onBindViewHolder(ForecastAdapterViewHolder holder, int position) {
 
+        int viewType = getItemViewType(position);
+
         if(mCursor == null)
         {
             holder.highTempView.setText(mMockedData[position]);
@@ -78,6 +80,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         int weatherImageId;
 
         holder.highTempView.setText(String.valueOf(mCursor.getDouble(MainActivity.INDEX_WEATHER_MAX_TEMP)));
+        holder.lowTempView.setText(String.valueOf(mCursor.getDouble(MainActivity.INDEX_WEATHER_MIN_TEMP)));
 
     }
 
@@ -91,7 +94,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-
+        private final TextView lowTempView;
         private final TextView highTempView;
 
         ForecastAdapterViewHolder(View view) {
@@ -103,7 +106,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
             //highTempView = (TextView) view.findViewById(R.id.high_temperature);
             //lowTempView = (TextView) view.findViewById(R.id.low_temperature);
 
-            highTempView = (TextView)view.findViewById(R.id.list_item_heigh_textview);
+            highTempView = (TextView)view.findViewById(R.id.list_item_high_textview);
+            lowTempView = (TextView)view.findViewById(R.id.list_item_low_textview);
 
             view.setOnClickListener(this);
         }
@@ -119,8 +123,20 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             mCursor.moveToPosition(adapterPosition);
-            long dateInMillis = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
-            mClickHandler.onClick(dateInMillis);
+            long weatherId = mCursor.getLong(MainActivity.INDEX_WEATHER_CONDITION_ID);
+
+            ImageView weatherIcon =  (ImageView)v.findViewById(R.id.weatherIconImage);
+
+            mClickHandler.onClick(weatherId, weatherIcon);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return VIEW_TYPE_TODAY;
+        } else {
+            return VIEW_TYPE_FUTURE_DAY;
         }
     }
 
