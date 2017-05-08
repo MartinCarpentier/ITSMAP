@@ -41,11 +41,16 @@ public class MainActivity extends AppCompatActivity {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
-            if (savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_detail_layout, new DetailFragment(), DETAILFRAGMENT_TAG)
-                        .commit();
-            }
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_detail_layout, fragment)
+                    .commit();
+
         } else {
             mTwoPane = false;
         }
