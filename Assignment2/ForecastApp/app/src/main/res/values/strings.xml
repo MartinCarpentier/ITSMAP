@@ -5,4 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="content_authority">com.example.martin.forecastapp</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="l1992_22_01" >1992-22-01</string>
 </resources>
