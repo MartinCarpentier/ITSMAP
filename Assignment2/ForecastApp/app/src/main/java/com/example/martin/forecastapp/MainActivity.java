@@ -2,17 +2,13 @@ package com.example.martin.forecastapp;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.database.Cursor;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.util.Log;
 
-import com.example.martin.forecastapp.Data.ForecastContract;
+import com.example.martin.forecastapp.data.ForecastContract;
+import com.example.martin.forecastapp.services.WeatherService;
 
 import java.util.Calendar;
 
@@ -31,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        putFakeDataInDatabase();
+        //putFakeDataInDatabase();
 
         if (findViewById(R.id.fragment_detail_layout) != null) {
             // The detail container view will be present only in the large-screen layouts
@@ -51,9 +47,15 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_detail_layout, fragment)
                     .commit();
 
+
+
         } else {
             mTwoPane = false;
         }
+
+        Intent intent = new Intent(MainActivity.this,WeatherService.class);
+        MainActivity.this.startService(intent);
+        Log.i("AutoStart", "started");
 
         //ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
                 //.findFragmentById(R.id.fragment_forecast));
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void putFakeDataInDatabase() {
-        ContentResolver sunshineContentResolver = getApplicationContext().getContentResolver();
+        ContentResolver ForecastContentResolver = getApplicationContext().getContentResolver();
 
         ContentValues[] values = new ContentValues[3];
         values[0] = createContentValue(Calendar.getInstance().getTimeInMillis(), 20.5, 14.3, 933, 412.3, 52.2, 142.3, 1);
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 /* Delete old weather data because we don't need to keep multiple days' data */
-        sunshineContentResolver.bulkInsert(
+        ForecastContentResolver.bulkInsert(
                 ForecastContract.ForecastEntry.CONTENT_URI,
                 values);
     }

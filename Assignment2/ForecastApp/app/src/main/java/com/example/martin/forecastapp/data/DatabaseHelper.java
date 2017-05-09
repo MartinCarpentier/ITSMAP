@@ -1,4 +1,4 @@
-package com.example.martin.forecastapp.Data;
+package com.example.martin.forecastapp.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

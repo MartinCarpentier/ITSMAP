@@ -1,4 +1,4 @@
-package com.example.martin.forecastapp.Utils;
+package com.example.martin.forecastapp.utils;
 
 /**
  * Created by mbc on 05-05-2017.

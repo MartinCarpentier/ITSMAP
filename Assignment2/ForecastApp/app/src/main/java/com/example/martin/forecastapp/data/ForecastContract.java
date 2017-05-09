@@ -1,10 +1,10 @@
-package com.example.martin.forecastapp.Data;
+package com.example.martin.forecastapp.data;
 
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.net.URI;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,9 +48,11 @@ public class ForecastContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static String getSqlSelectForTodayOnwards() {
-            long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
-            return ForecastContract.ForecastEntry.COLUMN_DATE + " >= " + normalizedUtcNow;
+        public static String getSqlSelectForNowOnwards() {
+            //&long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
+
+
+            return ForecastContract.ForecastEntry.COLUMN_DATE + " >= " + Calendar.getInstance().getTimeInMillis();
         }
 
         public static long normalizeDate(long date) {

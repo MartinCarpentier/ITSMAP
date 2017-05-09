@@ -61,12 +61,14 @@
             style="?android:attr/phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:transitionName="highTemperatureTransition"
             android:text="High"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="match_parent"
+            android:transitionName="lowTemperatureTransition"
             android:layout_height="wrap_content"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:text="Low" />
