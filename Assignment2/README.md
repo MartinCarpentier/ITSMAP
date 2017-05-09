@@ -19,17 +19,17 @@
 - [x] The Activity bind to the service when active and retrieve the most up-to-date weather data through two methods, like these:  
   - WeatherInfo getCurrentWeather()  
   - List<WeatherInfo> getPastWeather()  
-- [x] The Service should send out a **local broadcast** when there is new weather data available. The Activity should register for this, and update the UI if needed.
+- [ ] The Service should send out a **local broadcast** when there is new weather data available. The Activity should register for this, and update the UI if needed.
 - [x] The **background service must call the OpenWeatherMap server every 30 minutes** and save the results in the database.
-- [ ] You must have a **custom icon** for your app
+- [X] You must have a **custom icon** for your app
 - [x] You **app name** should be “Weather Aarhus group XX” where XX is your group number.
-- [ ] You *should include LogCat outputs / logging to validate that the service is running*.
-- [ ] **All resources used should be externalized**.
+- [X] You *should include LogCat outputs / logging to validate that the service is running*.
+- [X] **All resources used should be externalized**.
 - [x] Style the app with **your own colors**
 
 ## Bonus Requirements
 
-- [ ] Make the service run **even if the user reboots** the device.
+- [X] Make the service run **even if the user reboots** the device.
 - [x] Additional weather information (check out the API) and visualization
 - [x] Use **different icons to represent the weather situation** (rain, snow, sun, cloudy, etc.)
 - [x] Different *layouts, e.g. for large and small devices*
