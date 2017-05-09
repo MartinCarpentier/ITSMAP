@@ -2,7 +2,6 @@ package com.example.martin.forecastapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,19 +10,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.example.martin.forecastapp.Data.ForecastContract;
-
-import java.util.Date;
+import com.example.martin.forecastapp.data.ForecastContract;
 
 /**
  * Created by mbc on 05-05-2017.
@@ -51,7 +48,7 @@ public class ForecastFragment extends Fragment implements
             ForecastContract.ForecastEntry.COLUMN_DATE,
             ForecastContract.ForecastEntry.COLUMN_TEMP_MAX,
             ForecastContract.ForecastEntry.COLUMN_TEMP_MIN,
-            ForecastContract.ForecastEntry.COLUMN_FORECAST_ID,
+            ForecastContract.ForecastEntry.COLUMN_FORECAST_ID
     };
 
     @Override
@@ -102,7 +99,7 @@ public class ForecastFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(long weatherId, ImageView weatherIcon) {
+    public void onClick(long date, ImageView weatherIcon, TextView high, TextView low) {
         //Either start activity with date or show in this activity
 
         if(MainActivity.mTwoPane)
@@ -112,12 +109,17 @@ public class ForecastFragment extends Fragment implements
         else
         {
             Intent weatherDetailIntent = new Intent(getActivity(), DetailActivity.class);
-            Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(weatherId);
+            Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(date);
             weatherDetailIntent.setData(uriForWeatherId);
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(getActivity(), weatherIcon, "WeatherIcon");
+            Pair<View, String> p1 = Pair.create((View)weatherIcon, "WeatherIcon");
+            Pair<View, String> p2 = Pair.create((View)high, "highTemperatureTransition");
+            Pair<View, String> p3 = Pair.create((View)low, "lowTemperatureTransition");
 
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+
+            //android:transitionName="highTemperatureTransition"
             startActivity(weatherDetailIntent, options.toBundle());
         }
 }
@@ -136,7 +138,7 @@ public class ForecastFragment extends Fragment implements
                  * want all weather data from today onwards that is stored in our weather table.
                  * We created a handy method to do that in our WeatherEntry class.
                  */
-                String selection = ForecastContract.ForecastEntry.getSqlSelectForTodayOnwards();
+                String selection = ForecastContract.ForecastEntry.getSqlSelectForNowOnwards();
 
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
@@ -152,8 +154,6 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        String[] dataString = {"Hello1", "Hello2", "Hello3", "Hello4"};
 
         //forecastAdapter.swapCursor(data);
         forecastAdapter.swapCursor(data);
