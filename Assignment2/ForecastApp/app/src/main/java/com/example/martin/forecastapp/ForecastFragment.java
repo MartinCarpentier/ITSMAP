@@ -112,9 +112,9 @@ public class ForecastFragment extends Fragment implements
             Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(date);
             weatherDetailIntent.setData(uriForWeatherId);
 
-            Pair<View, String> p1 = Pair.create((View)weatherIcon, "WeatherIcon");
-            Pair<View, String> p2 = Pair.create((View)high, "highTemperatureTransition");
-            Pair<View, String> p3 = Pair.create((View)low, "lowTemperatureTransition");
+            Pair<View, String> p1 = Pair.create((View)weatherIcon, getString(R.string.weatherIconTransitionName));
+            Pair<View, String> p2 = Pair.create((View)high, getString(R.string.highTemperatureTransitionName));
+            Pair<View, String> p3 = Pair.create((View)low, getString(R.string.lowTemperatureTransitionName));
 
             ActivityOptionsCompat options = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(getActivity(), p1, p2, p3);

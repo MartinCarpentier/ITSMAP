@@ -39,8 +39,8 @@ public class WeatherService extends Service {
     private static final String BROADCAST_BACKGROUND_SERVICE_RESULT = "100";
     private static final String EXTRA_TASK_RESULT = "101";
     private static Timer requestTimer;
-    //long delay = 30 * 60 * 1000; // 30 min delay in milliseconds
-    long delay = 30 * 1000; // 30 sec delay in milliseconds
+    long delay = 30 * 60 * 1000; // 30 min delay in milliseconds
+    //long delay = 30 * 1000; // 30 sec delay in milliseconds
     LoopRequest task = new LoopRequest();
 
     final private String LOG_TAG_WEATHER_SERVICE = "WeatherService";
