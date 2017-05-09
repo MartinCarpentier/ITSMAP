@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit;
 import static android.text.format.DateUtils.FORMAT_24HOUR;
 
 /**
- * Copied from Udacity Sunshine project
+ * Copied from Udacity Sunshine project, the project is open source
+ * https://github.com/udacity/Sunshine-Version-2
  */
 
 public final class SunshineDateUtils {

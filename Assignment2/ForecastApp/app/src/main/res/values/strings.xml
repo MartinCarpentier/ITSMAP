@@ -1,11 +1,11 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Aarhus Weather app</string>
+    <string name="app_name">Weather Aarhus Group 06</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="content_authority">com.example.martin.forecastapp</string>
-    <string name="wind">Wind</string>
+    <string name="wind">Windspeed</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
     <string name="l1992_22_01" >1992-22-01</string>
@@ -71,5 +71,13 @@
     <string name="condition_962">Hurricane</string>
 
     <string name="condition_unknown">Unknown (<xliff:g id="conditionId">%1$d</xliff:g>)</string>
+    <string name="mockDescription">Clear/ Cloudy</string>
+    <string name="mockLow">Low</string>
+    <string name="mockHigh">High</string>
+    <string name="mockDate">Today 19:00</string>
+    <string name="weatherIconTransitionName">WeatherIcon</string>
+    <string name="highTemperatureTransitionName">highTemperatureTransition</string>
+    <string name="lowTemperatureTransitionName">lowTemperatureTransition</string>
+    <string name="notSet">NaN</string>
 
 </resources>
