@@ -1,5 +1,6 @@
 package com.example.norgaard.bardy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class BarActivity extends AppCompatActivity {
+
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class BarActivity extends AppCompatActivity {
     }
 
     public void onPlaceOrderClicked() {
-
+        Intent intent = new Intent(context, PayActivity.class);
+        startActivity(intent);
     }
 }
