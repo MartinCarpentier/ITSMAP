@@ -17,9 +17,9 @@
             android:id="@+id/weatherIconImage"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:transitionName="WeatherIcon"
+            android:scaleType="fitCenter"
             android:src="@drawable/chancerain"
-            android:scaleType="fitCenter"/>
+            android:transitionName="WeatherIcon" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,15 +34,16 @@
             android:id="@+id/dateViewId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="22-01-1992"
+            android:text="@string/mockDate"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@android:color/darker_gray" />
+
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/list_shortDescriptionText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:text="Clear / Cloudy"/>
+            android:text="@string/mockDescription"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,14 +62,14 @@
             style="?android:attr/phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="High"
+            android:text="@string/mockHigh"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:text="Low" />
+            android:text="@string/mockLow"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
     </LinearLayout>
 </LinearLayout>

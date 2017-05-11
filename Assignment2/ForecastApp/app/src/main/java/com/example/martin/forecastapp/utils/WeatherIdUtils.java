@@ -84,6 +84,7 @@ public class WeatherIdUtils {
 
     }
 
+    //This method is copied from a Udacity project i made called sunshine (Also a weather app)
     public static String getStringForWeatherCondition(Context context, int weatherId) {
         int stringId;
         if (weatherId >= 200 && weatherId <= 232) {
