@@ -8,7 +8,7 @@
     <string name="wind">Windspeed</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
-    <string name="l1992_22_01" >1992-22-01</string>
+    <string name="l1992_22_01">1992-22-01</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
@@ -79,5 +79,6 @@
     <string name="highTemperatureTransitionName">highTemperatureTransition</string>
     <string name="lowTemperatureTransitionName">lowTemperatureTransition</string>
     <string name="notSet">NaN</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
