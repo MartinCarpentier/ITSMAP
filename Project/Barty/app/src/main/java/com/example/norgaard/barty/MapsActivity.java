@@ -38,6 +38,7 @@ public class MapsActivity extends FragmentActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        checkForPermissions();
 
         //Creating an instance of the Google API client
         //Code taken from:
@@ -90,10 +91,10 @@ public class MapsActivity extends FragmentActivity implements
 
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // BARTY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
