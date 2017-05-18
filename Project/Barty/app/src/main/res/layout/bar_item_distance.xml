@@ -29,7 +29,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="Heidis Bier Bar"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/barImage"
         app:layout_constraintTop_toTopOf="parent"

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.norgaard.barty.Models.Bar;
 
 import java.util.ArrayList;
@@ -54,6 +55,10 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
 
         holder.barName.setText(barAtPosition.getBarname());
 
+        //Set baricon
+        Glide.with(mContext)
+                .load(barAtPosition.getBarlogo())
+                .into(holder.barIcon);
     }
 
     @Override
