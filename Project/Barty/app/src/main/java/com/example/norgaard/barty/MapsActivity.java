@@ -1,7 +1,6 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,7 +22,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
@@ -62,7 +62,6 @@ public class MapsActivity extends FragmentActivity implements
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-
                 } else {
 
                     // permission denied, boo! Disable the
@@ -97,8 +96,10 @@ public class MapsActivity extends FragmentActivity implements
             }
 
             LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(currentLocation).title("Marker in Sydney"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+
+            //mMap.addMarker(new MarkerOptions().icon())
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title("You"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 14.0f));
         }
     }
 
@@ -128,7 +129,6 @@ public class MapsActivity extends FragmentActivity implements
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-
         }
     }
 
