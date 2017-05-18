@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "261048188568",
+    "firebase_url": "https://bardy-6435a.firebaseio.com",
+    "project_id": "bardy-6435a",
+    "storage_bucket": "bardy-6435a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261048188568:android:0aed8feda8352b35",
+        "android_client_info": {
+          "package_name": "com.example.norgaard.barty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261048188568-gre0ujo226qpu23090nevk6lh3ca64ro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.norgaard.barty",
+            "certificate_hash": "27473cb383a8d5c8a9bcf7155bc06b5b8c5e6628"
+          }
+        },
+        {
+          "client_id": "261048188568-8h7ds467qtn3gg8meqolardcjc9j2c7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyMTqAgwinJaKVi9z8Nd3_tNWUIcBvo34"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261048188568-8h7ds467qtn3gg8meqolardcjc9j2c7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
