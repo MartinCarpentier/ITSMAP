@@ -1,12 +1,15 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -56,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private RecyclerView recyclerView;
+    private AppBarLayout appBar;
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
@@ -67,6 +71,8 @@ public class MapsActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        appBar = (AppBarLayout)findViewById(R.id.appbar);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -80,8 +86,6 @@ public class MapsActivity extends FragmentActivity implements
 
         checkForPermissions();
 
-
-
         //Creating an instance of the Google API client
         //Code taken from:
         //https://developer.android.com/training/location/retrieve-current.html
@@ -93,6 +97,16 @@ public class MapsActivity extends FragmentActivity implements
                     .build();
         }
 
+        //This part allows us to drag the google maps in the coordinator layout.
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+            @Override
+            public boolean canDrag(AppBarLayout appBarLayout) {
+                return false;
+            }
+        });
+        params.setBehavior(behavior);
     }
 
     @Override
@@ -230,8 +244,11 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onClick(long weatherId, ImageView weatherIcon, TextView high, TextView low) {
+    public void onClick(TextView barname) {
+        Log.d("Stuff", "Stuff");
 
+        Intent intent = new Intent(this, BarSale.class);
+        startActivity(intent);
     }
 
 
@@ -391,11 +408,7 @@ public class MapsActivity extends FragmentActivity implements
                     bars.add(currentBar);
                 }
 
-
-                barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), mapsActivity);
                 barDistanceAdapter.swapData(bars);
-                recyclerView.setAdapter(barDistanceAdapter);
-
             }
 
             @Override

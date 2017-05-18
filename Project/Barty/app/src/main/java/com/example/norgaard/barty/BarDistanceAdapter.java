@@ -30,7 +30,7 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
     private ArrayList<Bar> mBarData = new ArrayList<Bar>();
 
     public interface BarDistanceOnClickHandler {
-        void onClick(long weatherId, ImageView weatherIcon, TextView high, TextView low);
+        void onClick(TextView barname);
     }
 
     public BarDistanceAdapter(@NonNull Context context, BarDistanceOnClickHandler clickHandler) {
@@ -83,7 +83,9 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
 
         @Override
         public void onClick(View v) {
+
             int adapterPosition = getAdapterPosition();
+
             //mCursor.moveToPosition(adapterPosition);
 
             //ImageView weatherIcon =  (ImageView)v.findViewById(R.id.weatherIconImage);
@@ -91,7 +93,7 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
             //TextView low = (TextView)v.findViewById(R.id.list_item_low_textview);
 
             //long date = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
-            //mClickHandler.onClick(date, weatherIcon,high, low);
+            mClickHandler.onClick(barName);
         }
     }
 
