@@ -16,10 +16,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.norgaard.barty.BarSale.BarSale;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
@@ -44,6 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -60,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location mLastLocation;
     private RecyclerView recyclerView;
     private AppBarLayout appBar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
@@ -73,6 +74,10 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
 
         appBar = (AppBarLayout)findViewById(R.id.appbar);
+
+        //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -243,13 +248,7 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    @Override
-    public void onClick(TextView barname) {
-        Log.d("Stuff", "Stuff");
 
-        Intent intent = new Intent(this, BarSale.class);
-        startActivity(intent);
-    }
 
 
     private void startFirebaseDb() {
@@ -422,5 +421,15 @@ public class MapsActivity extends FragmentActivity implements
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         setCurrentLocationMarker();
+    }
+
+    @Override
+    public void onClick(Bar clickedBar) {
+            Log.d("Stuff", "Stuff");
+
+            Intent intent = new Intent(this, BarSale.class);
+
+            intent.putExtra("barname_key", Parcels.wrap(clickedBar));
+            startActivity(intent);
     }
 }
