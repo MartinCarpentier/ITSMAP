@@ -2,10 +2,27 @@ package com.example.norgaard.barty.Data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 public class BartyContentProvider extends ContentProvider {
+
+    public static final int CODE_BARS = 100;
+
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+
+    private static UriMatcher buildUriMatcher() {
+
+        final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = BartyContract.CONTENT_AUTHORITY;
+
+        matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS);
+
+        return matcher;
+    }
+
+    private DatabaseHelper mOpenHelper;
 
     public BartyContentProvider() {
     }
@@ -31,8 +48,8 @@ public class BartyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        // TODO: Implement this to initialize your content provider on startup.
-        return false;
+        mOpenHelper = new DatabaseHelper(getContext());
+        return true;
     }
 
     @Override
