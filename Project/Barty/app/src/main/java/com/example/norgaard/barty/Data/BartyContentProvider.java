@@ -60,7 +60,6 @@ public class BartyContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-
         switch (sUriMatcher.match(uri)) {
             case CODE_BARS:
                 try {
@@ -129,33 +128,15 @@ public class BartyContentProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CODE_BARS_WITH_NAME:
-                String barName = uri.getLastPathSegment();
-
-                String[] barSelection = new String[]{barName};
-                String[] barProjection = new String[]{BartyContract.BarEntry._ID};
-
-                //We are getting the id for the bar
-                 cursor = mOpenHelper.getReadableDatabase().query(
-                        BartyContract.BarEntry.TABLE_NAME_BARS,
-                        MAIN_BAR_PROJECTION,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                        );
-
-                Cursor data = mOpenHelper.getReadableDatabase().rawQuery("select * from " + BartyContract.BarEntry.TABLE_NAME_BARS, null);
-
                 //Get bar primary key
-                long currentBarId = cursor.getInt(0);
+                //long currentBarId = cursor.getInt(0);
 
-                String[] selectionArguments = new String[]{String.valueOf(currentBarId)};
+                //String[] selectionArguments = new String[]{String.valueOf(currentBarId)};
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BasketEntry.TABLE_NAME_BASKET,
                         projection,
-                        BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + " = ? ",
-                        selectionArguments,
+                        null,
+                        null,
                         null,
                         null,
                         null);
@@ -177,7 +158,7 @@ public class BartyContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        //cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }

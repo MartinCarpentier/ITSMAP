@@ -71,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
+    public FirebaseDatabase mFireDb;
     private MapsActivity mapsActivity = this;
 
     private BitmapDescriptor currentLocationBitmapDescriptor;
@@ -119,6 +120,22 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
         params.setBehavior(behavior);
+
+        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
+
+        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
+
+        layoutManager = new LinearLayoutManager(mapsActivity);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setHasFixedSize(true);
+
+        barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
+
+        recyclerView.setAdapter(barDistanceAdapter);
+
+        startFirebaseDb();
     }
 
     @Override
@@ -230,21 +247,7 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
-        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
 
-        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
-        layoutManager = new LinearLayoutManager(mapsActivity);
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setHasFixedSize(true);
-
-        barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
-
-        recyclerView.setAdapter(barDistanceAdapter);
-
-        startFirebaseDb();
     }
 
     @Override
@@ -258,9 +261,15 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void startFirebaseDb() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        DatabaseReference myRef = database.getReference().child("Bars");
+
+        if(mFireDb == null)
+        {
+            mFireDb = FirebaseDatabase.getInstance();
+            mFireDb.setPersistenceEnabled(true);
+        }
+
+
+        DatabaseReference myRef = mFireDb.getReference().child("Bars");
         Query query = myRef.orderByKey();
 
         query.addValueEventListener(new ValueEventListener() {

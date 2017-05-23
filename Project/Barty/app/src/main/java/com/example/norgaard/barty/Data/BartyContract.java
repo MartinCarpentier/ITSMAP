@@ -4,6 +4,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.Calendar;
+
 public class BartyContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.norgaard.barty";
@@ -17,6 +19,13 @@ public class BartyContract {
                 .buildUpon()
                 .appendPath(BarName)
                 .build();
+    }
+
+    public static String getSqlSelectForCurrentBarBasket(long barId) {
+        //&long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
+
+
+        return BasketEntry.COLUMN_FOREIGN_BAR_ID + " = " + barId;
     }
 
     public static class BarEntry implements BaseColumns {

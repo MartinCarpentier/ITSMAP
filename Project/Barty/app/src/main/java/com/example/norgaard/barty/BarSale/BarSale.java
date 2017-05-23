@@ -188,12 +188,14 @@ public class BarSale extends AppCompatActivity implements
                  * want all weather data from today onwards that is stored in our weather table.
                  * We created a handy method to do that in our WeatherEntry class.
                  */
+                String selection = BartyContract.getSqlSelectForCurrentBarBasket(currentbBarId);
+
                 return new CursorLoader(mContext,
                         barQueryUri,
                         BAR_DRINK_BASKET_PROJECTION,
                         null,
                         null,
-                        sortOrder);
+                        null);
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
