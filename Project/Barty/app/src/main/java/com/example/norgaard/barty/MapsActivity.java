@@ -1,9 +1,11 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,6 +72,8 @@ public class MapsActivity extends FragmentActivity implements
     private LinearLayoutManager layoutManager;
     private MapsActivity mapsActivity = this;
     private LatLng mDefaultLocation;
+    ArrayList<Bar> bars;
+    private boolean barsReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,49 +82,51 @@ public class MapsActivity extends FragmentActivity implements
             mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
             mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
         }
-            setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps);
 
-            appBar = (AppBarLayout) findViewById(R.id.appbar);
+        appBar = (AppBarLayout) findViewById(R.id.appbar);
 
-            //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-            mDefaultLocation = new LatLng(10, 10);
+        //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        mDefaultLocation = new LatLng(10, 10);
 
-            //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+        //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
-            CollapsingToolbarLayout collapsingToolbar =
-                    (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-            collapsingToolbar.setTitle("Nearby bars");
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Nearby bars");
 
-            //checkForPermissions();
+        //checkForPermissions();
 
-            //Creating an instance of the Google API client
-            //Code taken from:
-            //https://developers.google.com/maps/documentation/android-api/current-place-tutorial
-            if (mGoogleApiClient == null) {
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .enableAutoManage(this, this)
-                        .addConnectionCallbacks(this)
-                        .addApi(LocationServices.API)
-                        .addApi(Places.GEO_DATA_API)
-                        .addApi(Places.PLACE_DETECTION_API)
-                        .build();
-            }
-
-            //This part allows us to drag the google maps in the coordinator layout.
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
-            AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
-            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-                @Override
-                public boolean canDrag(AppBarLayout appBarLayout) {
-                    return false;
-                }
-            });
-            params.setBehavior(behavior);
+        //Creating an instance of the Google API client
+        //Code taken from:
+        //https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this, this)
+                    .addConnectionCallbacks(this)
+                    .addApi(LocationServices.API)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .build();
         }
+
+        //This part allows us to drag the google maps in the coordinator layout.
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+            @Override
+            public boolean canDrag(AppBarLayout appBarLayout) {
+                return false;
+            }
+        });
+        params.setBehavior(behavior);
+
+
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
@@ -158,6 +166,8 @@ public class MapsActivity extends FragmentActivity implements
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+
     }
 
     // Code from
@@ -238,6 +248,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void startFirebaseDb() {
+        barsReady = false;
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("Bars");
         Query query = myRef.orderByKey();
@@ -246,7 +257,7 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                ArrayList<Bar> bars = new ArrayList<Bar>();
+                bars = new ArrayList<Bar>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     Bar currentBar = new Bar();
@@ -373,9 +384,12 @@ public class MapsActivity extends FragmentActivity implements
                     currentBar.setBarlogo(currentBarLogo);
 
                     bars.add(currentBar);
+                    barsReady = true;
                 }
 
+                setBarMarkers(bars);
                 barDistanceAdapter.swapData(bars);
+                barsReady = true;
             }
 
             @Override
@@ -383,6 +397,24 @@ public class MapsActivity extends FragmentActivity implements
 
             }
         });
+
+        barsReady = true;
+
+    }
+
+    private void setBarMarkers(ArrayList<Bar> bars) {
+
+        while (!barsReady){}
+        LatLng latLng;
+        for (Bar bar : bars) {
+            if (bar.getLocation().getLongitude() == null || bar.getLocation().getLatitude() == null) {
+                continue;
+            }
+            latLng = new LatLng(bar.getLocation().getLatitude(), bar.getLocation().getLongitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(bar.barName));
+        }
     }
 
     public void onLocationChanged(Location location) {
@@ -427,7 +459,6 @@ public class MapsActivity extends FragmentActivity implements
         startActivity(intent);
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (mMap != null) {
@@ -436,4 +467,6 @@ public class MapsActivity extends FragmentActivity implements
             super.onSaveInstanceState(outState);
         }
     }
+
+
 }
