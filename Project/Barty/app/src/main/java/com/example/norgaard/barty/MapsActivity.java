@@ -27,14 +27,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,92 +47,97 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements
-        OnMapReadyCallback, 
-		BarDistanceAdapter.BarDistanceOnClickHandler,
+        OnMapReadyCallback,
+        BarDistanceAdapter.BarDistanceOnClickHandler,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener {
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
+    private float DEFAULT_ZOOM = 13;
     private RecyclerView recyclerView;
+    private Boolean mLocationPermissionGranted;
+    private CameraPosition mCameraPosition;
     private AppBarLayout appBar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
     private MapsActivity mapsActivity = this;
-
-    private BitmapDescriptor currentLocationBitmapDescriptor;
+    private LatLng mDefaultLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        if (savedInstanceState != null) {
+            mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
+            mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
+        }
+            setContentView(R.layout.activity_maps);
 
-        appBar = (AppBarLayout)findViewById(R.id.appbar);
+            appBar = (AppBarLayout) findViewById(R.id.appbar);
 
-        //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+            //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+            mDefaultLocation = new LatLng(10, 10);
 
-        //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
 
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Nearby bars");
+            CollapsingToolbarLayout collapsingToolbar =
+                    (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            collapsingToolbar.setTitle("Nearby bars");
 
-        currentLocationBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.gps_marker_current_location);
+            //checkForPermissions();
 
-        checkForPermissions();
+            //Creating an instance of the Google API client
+            //Code taken from:
+            //https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+            if (mGoogleApiClient == null) {
+                mGoogleApiClient = new GoogleApiClient.Builder(this)
+                        .enableAutoManage(this, this)
+                        .addConnectionCallbacks(this)
+                        .addApi(LocationServices.API)
+                        .addApi(Places.GEO_DATA_API)
+                        .addApi(Places.PLACE_DETECTION_API)
+                        .build();
+            }
 
-        //Creating an instance of the Google API client
-        //Code taken from:
-        //https://developer.android.com/training/location/retrieve-current.html
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
+            //This part allows us to drag the google maps in the coordinator layout.
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+            AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                @Override
+                public boolean canDrag(AppBarLayout appBarLayout) {
+                    return false;
+                }
+            });
+            params.setBehavior(behavior);
         }
 
-        //This part allows us to drag the google maps in the coordinator layout.
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
-        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
-        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-            @Override
-            public boolean canDrag(AppBarLayout appBarLayout) {
-                return false;
-            }
-        });
-        params.setBehavior(behavior);
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                    mLocationPermissionGranted = true;
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    mLocationPermissionGranted = false;
                 }
-                return;
             }
 
             // other 'case' lines to check for other
             // permissions this app might request
         }
+        updateLocationUI();
     }
 
     /**
@@ -144,51 +148,30 @@ public class MapsActivity extends FragmentActivity implements
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (mLastLocation == null) {
-                return;
-            }
+        // Turn on the My Location layer and the related control on the map.
+        updateLocationUI();
 
-            setCurrentLocationMarker();
-        }
+        // Get the current location of the device and set the position of the map.
+        getDeviceLocation();
     }
 
-    private void setCurrentLocationMarker(){
-        LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(currentLocation).title("You").icon(currentLocationBitmapDescriptor));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 14.0f));
-    }
+    // Code from
+    // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+    private void getDeviceLocation() {
 
-    //Code From
-    //https://developer.android.com/training/permissions/requesting.html
-    private void checkForPermissions() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
-                // BARTY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+        if (mCameraPosition != null) {
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+        } else if (mLastLocation != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), DEFAULT_ZOOM));
+        } else {
+            Log.d(MapsActivity.class.toString(), "Current location is null. Using defaults.");
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -219,9 +202,15 @@ public class MapsActivity extends FragmentActivity implements
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 onMapReady(mMap);
             }
+
+
         }
 
-        recyclerView = (RecyclerView)mapsActivity.findViewById(R.id.recyclerBarDistanceView);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
 
         //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
 
@@ -248,9 +237,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-
-
-
     private void startFirebaseDb() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("Bars");
@@ -261,7 +247,7 @@ public class MapsActivity extends FragmentActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 ArrayList<Bar> bars = new ArrayList<Bar>();
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     Bar currentBar = new Bar();
 
@@ -278,15 +264,13 @@ public class MapsActivity extends FragmentActivity implements
 
                     //Handle beers
                     ArrayList<Beer> beers = new ArrayList<Beer>();
-                    for(DataSnapshot jsonBeer: beer.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot jsonBeer : beer.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> beerMap = (HashMap<String, String>)jsonBeer.getValue();
+                            HashMap<String, String> beerMap = (HashMap<String, String>) jsonBeer.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -296,24 +280,20 @@ public class MapsActivity extends FragmentActivity implements
 
                             Beer currentBeer = new Beer(imagewhat, namewhat, Long.valueOf(pricewhat));
                             beers.add(currentBeer);
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
 
                     //Handle cocktails
                     ArrayList<Cocktail> cocktails = new ArrayList<Cocktail>();
-                    for(DataSnapshot snapshot: cocktail.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot snapshot : cocktail.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> cocktailMap = (HashMap<String, String>)snapshot.getValue();
+                            HashMap<String, String> cocktailMap = (HashMap<String, String>) snapshot.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -323,24 +303,20 @@ public class MapsActivity extends FragmentActivity implements
 
                             Cocktail currentCocktail = new Cocktail(imagewhat, namewhat, Long.valueOf(pricewhat));
                             cocktails.add(currentCocktail);
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
 
                     //Handle shots
                     ArrayList<Shots> shots = new ArrayList<Shots>();
-                    for(DataSnapshot snapshot: shot.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot snapshot : shot.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> shotMap = (HashMap<String, String>)snapshot.getValue();
+                            HashMap<String, String> shotMap = (HashMap<String, String>) snapshot.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -350,9 +326,7 @@ public class MapsActivity extends FragmentActivity implements
 
                             Shots currentCocktail = new Shots(imagewhat, namewhat, Long.valueOf(pricewhat));
                             shots.add(currentCocktail);
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
@@ -371,9 +345,8 @@ public class MapsActivity extends FragmentActivity implements
 
                     //Handle location
                     com.example.norgaard.barty.Models.Location currentBarLocation = new com.example.norgaard.barty.Models.Location();
-                    try
-                    {
-                        HashMap<String, String> barLocation = (HashMap<String, String>)location.getValue();
+                    try {
+                        HashMap<String, String> barLocation = (HashMap<String, String>) location.getValue();
 
                         Log.i("Stuff", "Stuff");
 
@@ -382,23 +355,18 @@ public class MapsActivity extends FragmentActivity implements
 
                         currentBarLocation.setLatitude(Double.valueOf(latitude));
                         currentBarLocation.setLongitude(Double.valueOf(longitude));
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Log.e("ErrorHappened", e.toString());
                     }
 
                     currentBar.setLocation(currentBarLocation);
 
                     String currentBarLogo = "";
-                    try
-                    {
+                    try {
                         currentBarLogo = String.valueOf(barLogo.getValue());
 
                         Log.i("Stuff", "Stuff");
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Log.e("ErrorHappened", e.toString());
                     }
 
@@ -417,19 +385,54 @@ public class MapsActivity extends FragmentActivity implements
         });
     }
 
-
     public void onLocationChanged(Location location) {
         mLastLocation = location;
-        setCurrentLocationMarker();
+        getDeviceLocation();
+    }
+
+    // Code from:
+    // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+
+        if (mLocationPermissionGranted) {
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        } else {
+            mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mLastLocation = null;
+        }
     }
 
     @Override
     public void onClick(Bar clickedBar) {
-            Log.d("Stuff", "Stuff");
+        Log.d("Stuff", "Stuff");
 
-            Intent intent = new Intent(this, BarSale.class);
+        Intent intent = new Intent(this, BarSale.class);
 
-            intent.putExtra("barname_key", Parcels.wrap(clickedBar));
-            startActivity(intent);
+        intent.putExtra("barname_key", Parcels.wrap(clickedBar));
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mMap != null) {
+            outState.putParcelable(getString(R.string.key_camera_position), mMap.getCameraPosition());
+            outState.putParcelable(getString(R.string.key_location), mLastLocation);
+            super.onSaveInstanceState(outState);
+        }
     }
 }
