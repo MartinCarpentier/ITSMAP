@@ -1,7 +1,6 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
-
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -81,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
+            mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_location));
             mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
         }
         setContentView(R.layout.activity_maps);
@@ -101,10 +100,8 @@ public class MapsActivity extends FragmentActivity implements
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Nearby bars");
 
-        //checkForPermissions();
-
         //Creating an instance of the Google API client
-        //Code taken from:
+        //Code taken from/inspired by:
         //https://developers.google.com/maps/documentation/android-api/current-place-tutorial
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -126,21 +123,18 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
         params.setBehavior(behavior);
-
-
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                            mLocationPermissionGranted = true;
-                }
-                else{
-                            mLocationPermissionGranted = false;
+                    mLocationPermissionGranted = true;
+                } else {
+                    mLocationPermissionGranted = false;
                 }
             }
 
@@ -168,30 +162,6 @@ public class MapsActivity extends FragmentActivity implements
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
-    }
-
-    //Code From
-    //https://developer.android.com/training/permissions/requesting.html
-    private void checkForPermissions() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            }
-        }
     }
 
     // Code from
@@ -236,8 +206,6 @@ public class MapsActivity extends FragmentActivity implements
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 onMapReady(mMap);
             }
-
-
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
