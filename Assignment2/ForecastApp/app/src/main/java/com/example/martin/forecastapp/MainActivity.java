@@ -3,8 +3,8 @@ package com.example.martin.forecastapp;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.martin.forecastapp.data.ForecastContract;
@@ -46,17 +46,17 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_detail_layout, fragment)
                     .commit();
-
-        } else {
+        }
+        else {
             mTwoPane = false;
         }
 
-        Intent intent = new Intent(MainActivity.this,WeatherService.class);
+        Intent intent = new Intent(MainActivity.this, WeatherService.class);
         MainActivity.this.startService(intent);
         Log.i("AutoStart", "started");
 
         //ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
-                //.findFragmentById(R.id.fragment_forecast));
+        //.findFragmentById(R.id.fragment_forecast));
         //forecastFragment.setUseTodayLayout(!mTwoPane);
     }
 
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ContentValues createContentValue(long dateTimeMillis, double high, double low, int humidity, double pressure
-            , double windSpeed, double windDirection, int forecast_id)
-    {
+            , double windSpeed, double windDirection, int forecast_id) {
         ContentValues forecastValues = new ContentValues();
 
         forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DATE, dateTimeMillis);
