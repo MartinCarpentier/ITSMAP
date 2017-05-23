@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "BartyDatabase";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +26,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         BartyContract.BasketEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         BartyContract.BasketEntry.COLUMN_DRINK_NAME + " TEXT NOT NULL," +
                         BartyContract.BasketEntry.COLUMN_DRINK_PRICE + " REAL NOT NULL," +
-                        BartyContract.BasketEntry.COLUMN_DRINK_QUANTITY + " INTEGER NOT NULL," +
                         BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + " INTEGER NOT NULL," +
                         " FOREIGN KEY (" + BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + ") REFERENCES " +
                         BartyContract.BarEntry.TABLE_NAME_BARS + "(" + BartyContract.BarEntry._ID + "));";

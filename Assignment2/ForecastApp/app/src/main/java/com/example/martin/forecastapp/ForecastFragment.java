@@ -81,7 +81,6 @@ public class ForecastFragment extends Fragment implements
         //TODO: retrieve data from database
         getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
 
-
         return rootView;
     }
 

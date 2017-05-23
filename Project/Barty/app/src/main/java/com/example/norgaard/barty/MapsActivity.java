@@ -58,6 +58,9 @@ public class MapsActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+
+
+
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -71,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
+    public FirebaseDatabase mFireDb;
     private MapsActivity mapsActivity = this;
     private LatLng mDefaultLocation;
     ArrayList<Bar> bars;
@@ -123,6 +127,22 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
         params.setBehavior(behavior);
+
+        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
+
+        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
+
+        layoutManager = new LinearLayoutManager(mapsActivity);
+
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setHasFixedSize(true);
+
+        barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
+
+        recyclerView.setAdapter(barDistanceAdapter);
+
+        startFirebaseDb();
     }
 
     @Override
@@ -207,24 +227,11 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
 
-        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
-        layoutManager = new LinearLayoutManager(mapsActivity);
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setHasFixedSize(true);
-
-        barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
-
-        recyclerView.setAdapter(barDistanceAdapter);
-
-        startFirebaseDb();
     }
 
     @Override
@@ -238,9 +245,16 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void startFirebaseDb() {
+
+        if(mFireDb == null)
+        {
+            mFireDb = FirebaseDatabase.getInstance();
+            mFireDb.setPersistenceEnabled(true);
+        }
+
         barsReady = false;
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Bars");
+        DatabaseReference myRef = mFireDb.getReference().child("Bars");
+		
         Query query = myRef.orderByKey();
 
         query.addValueEventListener(new ValueEventListener() {
@@ -467,7 +481,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClick(Bar clickedBar) {
-        Log.d("Stuff", "Stuff");
+        Log.d("bar was clicked", "Clicked");
 
         Intent intent = new Intent(this, BarSale.class);
 

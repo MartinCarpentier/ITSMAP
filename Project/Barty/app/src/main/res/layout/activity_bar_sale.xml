@@ -38,4 +38,43 @@
 
 
     </android.support.design.widget.TabLayout>
+
+    <FrameLayout
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="8dp"
+
+        app:layout_constraintRight_toRightOf="@+id/tabanim_tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="75dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_height="match_parent"
+            android:elevation="16dp"
+            android:src="@android:color/transparent" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center|top"
+            android:elevation="16dp"
+            android:src="@drawable/ic_buyicon"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/currentDrinkPriceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="16dp"
+            android:elevation="16dp"
+            android:text="15$"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
