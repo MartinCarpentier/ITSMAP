@@ -257,7 +257,7 @@ public class MapsActivity extends FragmentActivity implements
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                bars = new ArrayList<Bar>();
+                bars = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     Bar currentBar = new Bar();
