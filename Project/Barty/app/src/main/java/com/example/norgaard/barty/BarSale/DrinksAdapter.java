@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.norgaard.barty.BarDistanceAdapter;
-import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
 
@@ -46,7 +45,6 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.activity_drink_item, parent, false);
 
-        Log.d("STUFF HAPPENS", "TESTEST");
         view.setFocusable(true);
 
         return new DrinksAdapter.DrinksAdapterViewHolder(view);
@@ -59,6 +57,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
         Glide.with(mContext)
                 .load(drink.getImageURL())
                 .into(holder.drinkImage);
+
+        holder.drinkName.setText(drink.getName());
+        //holder.drinkPrice.setText(String.valueOf(drink.getPrice()));
     }
 
     @Override
@@ -69,11 +70,16 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
     class DrinksAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView drinkImage;
+        TextView drinkName;
+        TextView drinkPrice;
 
         DrinksAdapterViewHolder(View view) {
             super(view);
 
             drinkImage = (ImageView)view.findViewById(R.id.drinkImage);
+            drinkName = (TextView)view.findViewById(R.id.drinkName);
+            //drinkPrice = (TextView)view.findViewById(R.id.drinkPrice);
+
 
             view.setOnClickListener(this);
         }
@@ -82,6 +88,10 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             DrinkBase clickedDrink = mDrinkData.get(adapterPosition);
+
+            Toast.makeText(v.getContext(),
+                    "OnClick drink click",
+                    Toast.LENGTH_SHORT).show();
 
             //mCursor.moveToPosition(adapterPosition);
 
