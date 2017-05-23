@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
  */
 
 public class ForecastProvider extends ContentProvider {
+
     public static final int CODE_WEATHER = 100;
     public static final int CODE_WEATHER_WITH_DATE = 101;
 
@@ -68,7 +69,6 @@ public class ForecastProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
 
             case CODE_WEATHER_WITH_DATE: {
-
 
                 String date = uri.getLastPathSegment();
 
@@ -143,7 +143,9 @@ public class ForecastProvider extends ContentProvider {
          * passing "1" for the selection will delete all rows and return the number of rows
          * deleted, which is what the caller of this method expects.
          */
-        if (null == selection) selection = "1";
+        if (null == selection) {
+            selection = "1";
+        }
 
         switch (sUriMatcher.match(uri)) {
 
@@ -172,8 +174,7 @@ public class ForecastProvider extends ContentProvider {
         return 0;
     }
 
-    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values)
-    {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         switch (sUriMatcher.match(uri)) {
@@ -192,7 +193,8 @@ public class ForecastProvider extends ContentProvider {
                         }
                     }
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
 
