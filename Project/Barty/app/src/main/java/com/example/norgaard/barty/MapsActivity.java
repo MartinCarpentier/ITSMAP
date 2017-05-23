@@ -1,11 +1,13 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
-import android.content.Context;
+
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.norgaard.barty.BarSale.BarSale;
+import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
@@ -46,7 +49,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -135,10 +137,10 @@ public class MapsActivity extends FragmentActivity implements
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                } else {
-
-                    mLocationPermissionGranted = false;
+                            mLocationPermissionGranted = true;
+                }
+                else{
+                            mLocationPermissionGranted = false;
                 }
             }
 
@@ -166,8 +168,30 @@ public class MapsActivity extends FragmentActivity implements
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+    }
 
+    //Code From
+    //https://developer.android.com/training/permissions/requesting.html
+    private void checkForPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+        }
     }
 
     // Code from
@@ -219,7 +243,6 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
 
         //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
@@ -292,6 +315,7 @@ public class MapsActivity extends FragmentActivity implements
                             Beer currentBeer = new Beer(imagewhat, namewhat, Long.valueOf(pricewhat));
                             beers.add(currentBeer);
                         } catch (Exception e) {
+
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
@@ -315,6 +339,7 @@ public class MapsActivity extends FragmentActivity implements
                             Cocktail currentCocktail = new Cocktail(imagewhat, namewhat, Long.valueOf(pricewhat));
                             cocktails.add(currentCocktail);
                         } catch (Exception e) {
+
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
@@ -338,10 +363,10 @@ public class MapsActivity extends FragmentActivity implements
                             Shots currentCocktail = new Shots(imagewhat, namewhat, Long.valueOf(pricewhat));
                             shots.add(currentCocktail);
                         } catch (Exception e) {
+
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
-
 
                     //Bar currentBar = new Gson().fromJson(child.getValue().toString(), Bar.class);
                     //Bar currentBar2 = child.getValue(Bar.class);
@@ -367,6 +392,7 @@ public class MapsActivity extends FragmentActivity implements
                         currentBarLocation.setLatitude(Double.valueOf(latitude));
                         currentBarLocation.setLongitude(Double.valueOf(longitude));
                     } catch (Exception e) {
+
                         Log.e("ErrorHappened", e.toString());
                     }
 
@@ -377,7 +403,9 @@ public class MapsActivity extends FragmentActivity implements
                         currentBarLogo = String.valueOf(barLogo.getValue());
 
                         Log.i("Stuff", "Stuff");
+
                     } catch (Exception e) {
+
                         Log.e("ErrorHappened", e.toString());
                     }
 
@@ -386,8 +414,8 @@ public class MapsActivity extends FragmentActivity implements
                     bars.add(currentBar);
                     barsReady = true;
                 }
-
                 setBarMarkers(bars);
+                insertBarsIntoDatabase(bars);
                 barDistanceAdapter.swapData(bars);
                 barsReady = true;
             }
@@ -404,7 +432,8 @@ public class MapsActivity extends FragmentActivity implements
 
     private void setBarMarkers(ArrayList<Bar> bars) {
 
-        while (!barsReady){}
+        while (!barsReady) {
+        }
         LatLng latLng;
         for (Bar bar : bars) {
             if (bar.getLocation().getLongitude() == null || bar.getLocation().getLatitude() == null) {
@@ -415,6 +444,26 @@ public class MapsActivity extends FragmentActivity implements
                     .position(latLng)
                     .title(bar.barName));
         }
+    }
+
+    private void insertBarsIntoDatabase(ArrayList<Bar> bars) {
+        ContentValues[] values = Utilities.createContentValuesForWeatherInfos(bars);
+
+        //Insert values into db
+        ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+
+        barCuntentResolver.bulkInsert(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                values);
+
+        Cursor cursor = barCuntentResolver.query(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                null,
+                null,
+                null,
+                null);
+
+        Log.d("stuff", "asoid");
     }
 
     public void onLocationChanged(Location location) {
@@ -467,6 +516,4 @@ public class MapsActivity extends FragmentActivity implements
             super.onSaveInstanceState(outState);
         }
     }
-
-
 }
