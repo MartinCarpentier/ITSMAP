@@ -87,10 +87,10 @@ public class MapsActivity extends FragmentActivity implements
 
         appBar = (AppBarLayout) findViewById(R.id.appbar);
 
-        //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        // Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         mDefaultLocation = new LatLng(10, 10);
 
-        //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
+        // toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -100,9 +100,9 @@ public class MapsActivity extends FragmentActivity implements
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Nearby bars");
 
-        //Creating an instance of the Google API client
-        //Code taken from/inspired by:
-        //https://developers.google.com/maps/documentation/android-api/current-place-tutorial
+        // Creating an instance of the Google API client
+        // Code taken from/inspired by:
+        // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
@@ -113,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements
                     .build();
         }
 
-        //This part allows us to drag the google maps in the coordinator layout.
+        // This part allows us to drag the google maps in the coordinator layout.
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
         AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
         behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
@@ -152,7 +152,6 @@ public class MapsActivity extends FragmentActivity implements
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -164,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements
         getDeviceLocation();
     }
 
-    // Code from
+    // Code taken from/inspired by:
     // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
     private void getDeviceLocation() {
 
@@ -179,24 +178,24 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
-    //Code from:
-    //https://developer.android.com/training/location/retrieve-current.html
+    // Code taken from/inspired by:
+    // https://developer.android.com/training/location/retrieve-current.html
     @Override
     protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
 
-    //Code from:
-    //https://developer.android.com/training/location/retrieve-current.html
+    // Code taken from/inspired by:
+    // https://developer.android.com/training/location/retrieve-current.html
     @Override
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
 
-    //Code from:
-    //https://developer.android.com/training/location/retrieve-current.html
+    // Code taken from/inspired by:
+    // https://developer.android.com/training/location/retrieve-current.html
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -439,7 +438,7 @@ public class MapsActivity extends FragmentActivity implements
         getDeviceLocation();
     }
 
-    // Code from:
+    // Code taken from/inspired by:
     // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
     private void updateLocationUI() {
         if (mMap == null) {
