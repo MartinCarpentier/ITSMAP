@@ -1,5 +1,7 @@
 package com.example.norgaard.barty.BarSale;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,6 +32,7 @@ import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.Models.Drinks;
 import com.example.norgaard.barty.R;
+import com.example.norgaard.barty.Utilities;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -48,19 +51,23 @@ public class BarSale extends AppCompatActivity implements
     public DrinksAdapter drinksAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
+    public ArrayList<DrinkBase> drinks;
+    private long currentbBarId;
     private Context mContext = this;
+    private String logStuff = BarSale.class.toString();
 
     private static final int ID_BAR_LOADER = 44;
 
     public static final String[] BAR_DRINK_BASKET_PROJECTION = {
             BartyContract.BasketEntry.COLUMN_DRINK_NAME,
-            BartyContract.BasketEntry.COLUMN_DRINK_QUANTITY,
             BartyContract.BasketEntry.COLUMN_DRINK_PRICE,
+            BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID
     };
 
     public static final int COLUMN_DRINK_NAME = 0;
-    public static final int COLUMN_DRINK_QUANTITY = 1;
-    public static final int COLUMN_DRINK_PRICE = 2;
+    public static final int COLUMN_DRINK_PRICE = 1;
+    public static final int COLUMN_FOREIGN_BAR_ID = 2;
+
 
     private TextView currentDrinkPriceText;
 
@@ -149,6 +156,21 @@ public class BarSale extends AppCompatActivity implements
 
     @Override
     public void onClick(DrinkBase drink) {
+
+            ContentValues value = Utilities.createContentValuesForDrink(drink, currentbBarId);
+
+            //Insert values into db
+            ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+
+
+
+            barCuntentResolver.insert(
+                    BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                    value);
+
+            Log.d("stuff", "asoid");
+
+
         getSupportLoaderManager().restartLoader(ID_BAR_LOADER, null, this);
     }
 
@@ -181,16 +203,25 @@ public class BarSale extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         double totalPrice = 0;
-        data.moveToFirst();
-
-        for(int i = 0; i < data.getCount(); i++)
+        drinks = new ArrayList<DrinkBase>();
+        if(data.getCount() != 0)
         {
-            double drinkPrice = data.getFloat(COLUMN_DRINK_NAME);
-            int drinkQuantity = data.getInt(COLUMN_DRINK_QUANTITY);
+            data.moveToFirst();
+            currentbBarId = data.getLong(COLUMN_FOREIGN_BAR_ID);
 
-            totalPrice += drinkPrice * drinkQuantity;
+            for(int i = 0; i < data.getCount(); i++)
+            {
+                String drinkName = data.getString(COLUMN_DRINK_NAME);
+                double drinkPrice = data.getFloat(COLUMN_DRINK_PRICE);
+                DrinkBase drink = new DrinkBase();
+                drink.setPrice(((long) drinkPrice));
+                drink.setName(drinkName);
 
-            data.moveToNext();
+                drinks.add(drink);
+                totalPrice += drinkPrice;
+
+                data.moveToNext();
+            }
         }
 
         currentDrinkPriceText.setText(String.valueOf(totalPrice));

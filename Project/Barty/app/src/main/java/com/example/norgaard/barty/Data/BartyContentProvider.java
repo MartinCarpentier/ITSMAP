@@ -12,12 +12,19 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
+import com.example.norgaard.barty.MapsActivity;
+
 public class BartyContentProvider extends ContentProvider {
 
     public static final int CODE_BARS = 100;
     public static final int CODE_BARS_WITH_NAME = 101;
+    public static final int CODE_BASKET = 102;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+
+    public static final String[] MAIN_BAR_PROJECTION = {
+            BartyContract.BarEntry.COLUMN_BAR_NAME
+    };
 
     private static UriMatcher buildUriMatcher() {
 
@@ -25,7 +32,8 @@ public class BartyContentProvider extends ContentProvider {
         final String authority = BartyContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS);
-        matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS_WITH_NAME);
+        matcher.addURI(authority, BartyContract.PATH_BARS + "/*", CODE_BARS_WITH_NAME);
+        matcher.addURI(authority, BartyContract.PATH_BASKET, CODE_BASKET);
 
         return matcher;
     }
@@ -52,14 +60,21 @@ public class BartyContentProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
-        long drinkId = 0; // Will be used later.
-        int barId = Integer.parseInt(uri.getLastPathSegment());
 
         switch (sUriMatcher.match(uri)) {
             case CODE_BARS:
                 try {
                     db.beginTransaction();
-                    drinkId = db.insert(BartyContract.BasketEntry.TABLE_NAME_BASKET, null, values);
+                    long barid = db.insert(BartyContract.BarEntry.TABLE_NAME_BARS, null, values);
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                return null;
+            case CODE_BASKET:
+                try {
+                    db.beginTransaction();
+                    long basketId = db.insert(BartyContract.BasketEntry.TABLE_NAME_BASKET, null, values);
                     db.setTransactionSuccessful();
                 } finally {
                     db.endTransaction();
@@ -114,10 +129,28 @@ public class BartyContentProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CODE_BARS_WITH_NAME:
-                String date = uri.getLastPathSegment();
+                String barName = uri.getLastPathSegment();
 
-                String[] selectionArguments = new String[]{date};
+                String[] barSelection = new String[]{barName};
+                String[] barProjection = new String[]{BartyContract.BarEntry._ID};
 
+                //We are getting the id for the bar
+                 cursor = mOpenHelper.getReadableDatabase().query(
+                        BartyContract.BarEntry.TABLE_NAME_BARS,
+                        MAIN_BAR_PROJECTION,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                        );
+
+                Cursor data = mOpenHelper.getReadableDatabase().rawQuery("select * from " + BartyContract.BarEntry.TABLE_NAME_BARS, null);
+
+                //Get bar primary key
+                long currentBarId = cursor.getInt(0);
+
+                String[] selectionArguments = new String[]{String.valueOf(currentBarId)};
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BasketEntry.TABLE_NAME_BASKET,
                         projection,

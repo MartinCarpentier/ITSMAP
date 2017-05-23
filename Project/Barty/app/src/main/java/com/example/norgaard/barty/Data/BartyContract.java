@@ -40,7 +40,6 @@ public class BartyContract {
         public static final String TABLE_NAME_BASKET = "Basket";
         public static final String COLUMN_FOREIGN_BAR_ID = "BarForeignId";
         public static final String COLUMN_DRINK_NAME = "DrinkName";
-        public static final String COLUMN_DRINK_QUANTITY = "DrinkQuantity";
         public static final String COLUMN_DRINK_PRICE = "DrinksPrice";
     }
 }

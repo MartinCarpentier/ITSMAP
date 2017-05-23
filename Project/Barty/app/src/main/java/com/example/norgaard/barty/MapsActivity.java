@@ -438,7 +438,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClick(Bar clickedBar) {
-        Log.d("Stuff", "Stuff");
+        Log.d("bar was clicked", "Clicked");
 
         Intent intent = new Intent(this, BarSale.class);
 
