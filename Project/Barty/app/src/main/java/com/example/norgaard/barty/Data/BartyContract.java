@@ -1,5 +1,6 @@
 package com.example.norgaard.barty.Data;
 
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -9,6 +10,14 @@ public class BartyContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_BARS = "bars";
     public static final String PATH_BASKET = "basket";
+
+    public static Uri getUriForSpecificBar(String BarName)
+    {
+        return BarEntry.CONTENT_URI_BARS
+                .buildUpon()
+                .appendPath(BarName)
+                .build();
+    }
 
     public static class BarEntry implements BaseColumns {
 

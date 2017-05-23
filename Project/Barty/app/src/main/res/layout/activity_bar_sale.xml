@@ -53,7 +53,7 @@
             android:layout_width="75dp"
             android:focusable="true"
             android:clickable="true"
-            android:layout_height="75dp"
+            android:layout_height="match_parent"
             android:elevation="16dp"
             android:src="@android:color/transparent" />
 

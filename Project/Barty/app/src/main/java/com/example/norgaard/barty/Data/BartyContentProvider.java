@@ -6,11 +6,16 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 
 public class BartyContentProvider extends ContentProvider {
 
     public static final int CODE_BARS = 100;
+    public static final int CODE_BARS_WITH_NAME = 101;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -20,6 +25,7 @@ public class BartyContentProvider extends ContentProvider {
         final String authority = BartyContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS);
+        matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS_WITH_NAME);
 
         return matcher;
     }
@@ -55,8 +61,7 @@ public class BartyContentProvider extends ContentProvider {
                     db.beginTransaction();
                     drinkId = db.insert(BartyContract.BasketEntry.TABLE_NAME_BASKET, null, values);
                     db.setTransactionSuccessful();
-                }
-                finally {
+                } finally {
                     db.endTransaction();
                 }
                 return null;
@@ -81,8 +86,7 @@ public class BartyContentProvider extends ContentProvider {
                         }
                     }
                     db.setTransactionSuccessful();
-                }
-                finally {
+                } finally {
                     db.endTransaction();
                 }
 
@@ -109,6 +113,22 @@ public class BartyContentProvider extends ContentProvider {
         Cursor cursor;
 
         switch (sUriMatcher.match(uri)) {
+            case CODE_BARS_WITH_NAME:
+                String date = uri.getLastPathSegment();
+
+                String[] selectionArguments = new String[]{date};
+
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        BartyContract.BasketEntry.TABLE_NAME_BASKET,
+                        projection,
+                        BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + " = ? ",
+                        selectionArguments,
+                        null,
+                        null,
+                        null);
+
+                break;
+
             case CODE_BARS:
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BarEntry.TABLE_NAME_BARS,
@@ -133,4 +153,6 @@ public class BartyContentProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
+
+
 }

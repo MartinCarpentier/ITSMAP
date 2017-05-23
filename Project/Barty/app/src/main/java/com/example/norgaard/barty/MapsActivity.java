@@ -58,6 +58,9 @@ public class MapsActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
+
+
+
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
