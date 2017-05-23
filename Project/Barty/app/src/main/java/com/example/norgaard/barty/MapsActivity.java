@@ -248,11 +248,9 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-
-
-
     private void startFirebaseDb() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
         DatabaseReference myRef = database.getReference().child("Bars");
         Query query = myRef.orderByKey();
 
