@@ -427,6 +427,7 @@ public class MapsActivity extends FragmentActivity implements
         startActivity(intent);
     }
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (mMap != null) {
