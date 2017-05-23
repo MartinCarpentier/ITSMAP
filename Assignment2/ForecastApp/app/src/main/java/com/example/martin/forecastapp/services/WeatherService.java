@@ -18,13 +18,11 @@ import com.example.martin.forecastapp.data.ForecastContract;
 import com.example.martin.forecastapp.models.WeatherInfo;
 import com.example.martin.forecastapp.utils.Utilities;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +67,8 @@ public class WeatherService extends Service {
             requestTimer = new Timer();
             Date executionDate = new Date(); // no params = now
             requestTimer.scheduleAtFixedRate(task, executionDate, delay);
-        } else {
+        }
+        else {
             Log.d(LOG_TAG_WEATHER_SERVICE, "Background service onStartCommand is already started");
         }
 
@@ -77,11 +76,11 @@ public class WeatherService extends Service {
     }
 
     private class LoopRequest extends TimerTask {
+
         public void run() {
             volleyJsonObjectRequest();
         }
     }
-
 
     private void broadcastTaskResult(String s) {
         Log.d(LOG_TAG_WEATHER_SERVICE, "Background service broadcastTaskResult()");
@@ -125,7 +124,6 @@ public class WeatherService extends Service {
                         try {
                             weatherArray = response.getJSONArray("list");
 
-
                             List<WeatherInfo> weatherInfo = new ArrayList<WeatherInfo>();
                             if (weatherArray != null) {
                                 for (int i = 0; i < weatherArray.length(); i++) {
@@ -146,17 +144,15 @@ public class WeatherService extends Service {
                             ForecastContentResolver.bulkInsert(
                                     ForecastContract.ForecastEntry.CONTENT_URI,
                                     values);
-
-                        } catch (JSONException e) {
+                        }
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-
             }
         });
 

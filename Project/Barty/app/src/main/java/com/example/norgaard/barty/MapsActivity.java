@@ -1,9 +1,11 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.norgaard.barty.BarSale.BarSale;
+import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
@@ -405,7 +408,23 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void insertBarsIntoDatabase(ArrayList<Bar> bars) {
-        ContentValues contentValues = bars;
+        ContentValues[] values = Utilities.createContentValuesForWeatherInfos(bars);
+
+        //Insert values into db
+        ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+
+        barCuntentResolver.bulkInsert(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                values);
+
+        Cursor cursor = barCuntentResolver.query(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                null,
+                null,
+                null,
+                null);
+
+        Log.d("stuff", "asoid");
     }
 
     public void onLocationChanged(Location location) {
