@@ -20,9 +20,6 @@ import java.util.ArrayList;
 
 public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.BarDistanceAdapterViewHolder> {
 
-    private static final int VIEW_TYPE_TODAY = 0;
-    private static final int VIEW_TYPE_FUTURE_DAY = 1;
-
     private final Context mContext;
 
     final private BarDistanceOnClickHandler mClickHandler;
@@ -30,7 +27,7 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
     private ArrayList<Bar> mBarData = new ArrayList<Bar>();
 
     public interface BarDistanceOnClickHandler {
-        void onClick(long weatherId, ImageView weatherIcon, TextView high, TextView low);
+        void onClick(Bar clickedBar);
     }
 
     public BarDistanceAdapter(@NonNull Context context, BarDistanceOnClickHandler clickHandler) {
@@ -40,7 +37,6 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
 
     @Override
     public BarDistanceAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int layoutId;
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.bar_item_distance, parent, false);
 
@@ -75,15 +71,18 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
         BarDistanceAdapterViewHolder(View view) {
             super(view);
 
-            distance = (TextView)view.findViewById(R.id.barDistanceText);
-            barName = (TextView)view.findViewById(R.id.barNameListText);
-            barIcon = (ImageView)view.findViewById(R.id.barImage);
+            distance = (TextView) view.findViewById(R.id.barDistanceText);
+            barName = (TextView) view.findViewById(R.id.barNameListText);
+            barIcon = (ImageView) view.findViewById(R.id.barImage);
 
+            view.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
+            Bar clickedBar = mBarData.get(adapterPosition);
+
             //mCursor.moveToPosition(adapterPosition);
 
             //ImageView weatherIcon =  (ImageView)v.findViewById(R.id.weatherIconImage);
@@ -91,16 +90,7 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
             //TextView low = (TextView)v.findViewById(R.id.list_item_low_textview);
 
             //long date = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
-            //mClickHandler.onClick(date, weatherIcon,high, low);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return VIEW_TYPE_TODAY;
-        } else {
-            return VIEW_TYPE_FUTURE_DAY;
+            mClickHandler.onClick(clickedBar);
         }
     }
 

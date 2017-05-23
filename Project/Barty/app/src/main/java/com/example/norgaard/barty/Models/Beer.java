@@ -12,8 +12,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@IgnoreExtraProperties
-public class Beer implements Parcelable
+@org.parceler.Parcel
+public class Beer extends DrinkBase
 {
     public String imageURL;
     public String name;
@@ -31,27 +31,6 @@ public class Beer implements Parcelable
         price = Price;
     }
 
-    public final static Parcelable.Creator<Beer> CREATOR = new Creator<Beer>() {
-
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Beer createFromParcel(Parcel in) {
-            Beer instance = new Beer();
-            //instance.imageURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            instance.price = ((long) in.readValue((Integer.class.getClassLoader())));
-            return instance;
-        }
-
-        public Beer[] newArray(int size) {
-            return (new Beer[size]);
-        }
-
-    }
-            ;
 
     public String getImageURL() {
         return imageURL;
@@ -75,16 +54,6 @@ public class Beer implements Parcelable
 
     public void setPrice(long price) {
         this.price = price;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(imageURL);
-        dest.writeValue(name);
-        dest.writeValue(price);
-    }
-
-    public int describeContents() {
-        return 0;
     }
 
 }

@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_detail_layout, fragment)
                     .commit();
 
-
-
         } else {
             mTwoPane = false;
         }

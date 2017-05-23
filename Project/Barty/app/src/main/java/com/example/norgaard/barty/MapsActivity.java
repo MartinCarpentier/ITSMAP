@@ -1,22 +1,23 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.norgaard.barty.BarSale.BarSale;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
@@ -41,6 +42,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -56,6 +59,8 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private RecyclerView recyclerView;
+    private AppBarLayout appBar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
@@ -67,6 +72,12 @@ public class MapsActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        appBar = (AppBarLayout)findViewById(R.id.appbar);
+
+        //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+        //toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -80,8 +91,6 @@ public class MapsActivity extends FragmentActivity implements
 
         checkForPermissions();
 
-
-
         //Creating an instance of the Google API client
         //Code taken from:
         //https://developer.android.com/training/location/retrieve-current.html
@@ -93,6 +102,16 @@ public class MapsActivity extends FragmentActivity implements
                     .build();
         }
 
+        //This part allows us to drag the google maps in the coordinator layout.
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+            @Override
+            public boolean canDrag(AppBarLayout appBarLayout) {
+                return false;
+            }
+        });
+        params.setBehavior(behavior);
     }
 
     @Override
@@ -229,10 +248,7 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-    @Override
-    public void onClick(long weatherId, ImageView weatherIcon, TextView high, TextView low) {
 
-    }
 
 
     private void startFirebaseDb() {
@@ -391,11 +407,7 @@ public class MapsActivity extends FragmentActivity implements
                     bars.add(currentBar);
                 }
 
-
-                barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), mapsActivity);
                 barDistanceAdapter.swapData(bars);
-                recyclerView.setAdapter(barDistanceAdapter);
-
             }
 
             @Override
@@ -409,5 +421,15 @@ public class MapsActivity extends FragmentActivity implements
     public void onLocationChanged(Location location) {
         mLastLocation = location;
         setCurrentLocationMarker();
+    }
+
+    @Override
+    public void onClick(Bar clickedBar) {
+            Log.d("Stuff", "Stuff");
+
+            Intent intent = new Intent(this, BarSale.class);
+
+            intent.putExtra("barname_key", Parcels.wrap(clickedBar));
+            startActivity(intent);
     }
 }

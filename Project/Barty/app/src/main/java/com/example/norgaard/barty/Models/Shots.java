@@ -10,7 +10,8 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Shots implements Parcelable
+@org.parceler.Parcel
+public class Shots extends DrinkBase
 {
 
     public String imageURL;
@@ -29,27 +30,6 @@ public class Shots implements Parcelable
         name = Name;
         price = Price;
     }
-
-    public final static Parcelable.Creator<Shots> CREATOR = new Creator<Shots>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Shots createFromParcel(Parcel in) {
-            Shots instance = new Shots();
-            instance.imageURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            instance.price = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            return instance;
-        }
-
-        public Shots[] newArray(int size) {
-            return (new Shots[size]);
-        }
-
-    }
-            ;
 
     public String getImageURL() {
         return imageURL;
@@ -74,15 +54,4 @@ public class Shots implements Parcelable
     public void setPrice(long price) {
         this.price = price;
     }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(imageURL);
-        dest.writeValue(name);
-        dest.writeValue(price);
-    }
-
-    public int describeContents() {
-        return 0;
-    }
-
 }
