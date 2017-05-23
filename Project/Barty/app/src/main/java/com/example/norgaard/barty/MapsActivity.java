@@ -1,8 +1,11 @@
 package com.example.norgaard.barty;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.norgaard.barty.BarSale.BarSale;
+import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
@@ -48,11 +52,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements
-        OnMapReadyCallback, 
-		BarDistanceAdapter.BarDistanceOnClickHandler,
+        OnMapReadyCallback,
+        BarDistanceAdapter.BarDistanceOnClickHandler,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener {
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
@@ -73,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        appBar = (AppBarLayout)findViewById(R.id.appbar);
+        appBar = (AppBarLayout) findViewById(R.id.appbar);
 
         //Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
 
@@ -84,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Nearby bars");
 
         currentLocationBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.mipmap.gps_marker_current_location);
@@ -123,7 +127,8 @@ public class MapsActivity extends FragmentActivity implements
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                } else {
+                }
+                else {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -158,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
-    private void setCurrentLocationMarker(){
+    private void setCurrentLocationMarker() {
         LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         mMap.addMarker(new MarkerOptions().position(currentLocation).title("You").icon(currentLocationBitmapDescriptor));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 14.0f));
@@ -178,7 +183,8 @@ public class MapsActivity extends FragmentActivity implements
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
-            } else {
+            }
+            else {
 
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
@@ -221,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
-        recyclerView = (RecyclerView)mapsActivity.findViewById(R.id.recyclerBarDistanceView);
+        recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
 
         //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
 
@@ -248,9 +254,6 @@ public class MapsActivity extends FragmentActivity implements
 
     }
 
-
-
-
     private void startFirebaseDb() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("Bars");
@@ -261,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 ArrayList<Bar> bars = new ArrayList<Bar>();
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
 
                     Bar currentBar = new Bar();
 
@@ -278,15 +281,13 @@ public class MapsActivity extends FragmentActivity implements
 
                     //Handle beers
                     ArrayList<Beer> beers = new ArrayList<Beer>();
-                    for(DataSnapshot jsonBeer: beer.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot jsonBeer : beer.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> beerMap = (HashMap<String, String>)jsonBeer.getValue();
+                            HashMap<String, String> beerMap = (HashMap<String, String>) jsonBeer.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -297,23 +298,20 @@ public class MapsActivity extends FragmentActivity implements
                             Beer currentBeer = new Beer(imagewhat, namewhat, Long.valueOf(pricewhat));
                             beers.add(currentBeer);
                         }
-                        catch (Exception e)
-                        {
+                        catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
 
                     //Handle cocktails
                     ArrayList<Cocktail> cocktails = new ArrayList<Cocktail>();
-                    for(DataSnapshot snapshot: cocktail.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot snapshot : cocktail.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> cocktailMap = (HashMap<String, String>)snapshot.getValue();
+                            HashMap<String, String> cocktailMap = (HashMap<String, String>) snapshot.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -324,23 +322,20 @@ public class MapsActivity extends FragmentActivity implements
                             Cocktail currentCocktail = new Cocktail(imagewhat, namewhat, Long.valueOf(pricewhat));
                             cocktails.add(currentCocktail);
                         }
-                        catch (Exception e)
-                        {
+                        catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
 
                     //Handle shots
                     ArrayList<Shots> shots = new ArrayList<Shots>();
-                    for(DataSnapshot snapshot: shot.getChildren())
-                    {
-                        try
-                        {
+                    for (DataSnapshot snapshot : shot.getChildren()) {
+                        try {
                             //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
                             //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
-                            HashMap<String, String> shotMap = (HashMap<String, String>)snapshot.getValue();
+                            HashMap<String, String> shotMap = (HashMap<String, String>) snapshot.getValue();
 
                             Log.i("Stuff", "Stuff");
 
@@ -351,12 +346,10 @@ public class MapsActivity extends FragmentActivity implements
                             Shots currentCocktail = new Shots(imagewhat, namewhat, Long.valueOf(pricewhat));
                             shots.add(currentCocktail);
                         }
-                        catch (Exception e)
-                        {
+                        catch (Exception e) {
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
-
 
                     //Bar currentBar = new Gson().fromJson(child.getValue().toString(), Bar.class);
                     //Bar currentBar2 = child.getValue(Bar.class);
@@ -371,9 +364,8 @@ public class MapsActivity extends FragmentActivity implements
 
                     //Handle location
                     com.example.norgaard.barty.Models.Location currentBarLocation = new com.example.norgaard.barty.Models.Location();
-                    try
-                    {
-                        HashMap<String, String> barLocation = (HashMap<String, String>)location.getValue();
+                    try {
+                        HashMap<String, String> barLocation = (HashMap<String, String>) location.getValue();
 
                         Log.i("Stuff", "Stuff");
 
@@ -383,22 +375,19 @@ public class MapsActivity extends FragmentActivity implements
                         currentBarLocation.setLatitude(Double.valueOf(latitude));
                         currentBarLocation.setLongitude(Double.valueOf(longitude));
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Log.e("ErrorHappened", e.toString());
                     }
 
                     currentBar.setLocation(currentBarLocation);
 
                     String currentBarLogo = "";
-                    try
-                    {
+                    try {
                         currentBarLogo = String.valueOf(barLogo.getValue());
 
                         Log.i("Stuff", "Stuff");
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Log.e("ErrorHappened", e.toString());
                     }
 
@@ -407,6 +396,7 @@ public class MapsActivity extends FragmentActivity implements
                     bars.add(currentBar);
                 }
 
+                insertBarsIntoDatabase(bars);
                 barDistanceAdapter.swapData(bars);
             }
 
@@ -417,6 +407,25 @@ public class MapsActivity extends FragmentActivity implements
         });
     }
 
+    private void insertBarsIntoDatabase(ArrayList<Bar> bars) {
+        ContentValues[] values = Utilities.createContentValuesForWeatherInfos(bars);
+
+        //Insert values into db
+        ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+
+        barCuntentResolver.bulkInsert(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                values);
+
+        Cursor cursor = barCuntentResolver.query(
+                BartyContract.BarEntry.CONTENT_URI_BARS,
+                null,
+                null,
+                null,
+                null);
+
+        Log.d("stuff", "asoid");
+    }
 
     public void onLocationChanged(Location location) {
         mLastLocation = location;
@@ -425,11 +434,11 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClick(Bar clickedBar) {
-            Log.d("Stuff", "Stuff");
+        Log.d("Stuff", "Stuff");
 
-            Intent intent = new Intent(this, BarSale.class);
+        Intent intent = new Intent(this, BarSale.class);
 
-            intent.putExtra("barname_key", Parcels.wrap(clickedBar));
-            startActivity(intent);
+        intent.putExtra("barname_key", Parcels.wrap(clickedBar));
+        startActivity(intent);
     }
 }
