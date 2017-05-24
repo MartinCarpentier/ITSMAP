@@ -51,6 +51,9 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dk.danskebank.mobilepay.sdk.Country;
+import dk.danskebank.mobilepay.sdk.MobilePay;
+
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         BarDistanceAdapter.BarDistanceOnClickHandler,
@@ -85,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements
         }
         setContentView(R.layout.activity_maps);
 
+
+        MobilePay.getInstance().init("APPDK0000000000", Country.DENMARK);
         appBar = (AppBarLayout) findViewById(R.id.appbar);
 
         // Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);

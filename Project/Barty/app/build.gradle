@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
     compile 'com.google.android.gms:play-services:10.2.4'
     testCompile 'junit:junit:4.12'
+    compile files('libs/mobilepay-appswitch-1.8.1.jar')
 }
 
 
