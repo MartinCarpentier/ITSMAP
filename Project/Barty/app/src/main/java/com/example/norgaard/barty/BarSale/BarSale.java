@@ -136,6 +136,10 @@ public class BarSale extends AppCompatActivity implements
                     Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
                     startActivityForResult(paymentIntent,MOBILEPAY_REQUEST_CODE);
                 }
+                else{
+                    Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
+                    startActivity(intent);
+                }
 
 
                 return true;
