@@ -87,8 +87,6 @@ public class MapsActivity extends FragmentActivity implements
             mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
         }
         setContentView(R.layout.activity_maps);
-
-
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
 
 

@@ -1,7 +1,6 @@
 package com.example.norgaard.barty.BarSale;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
