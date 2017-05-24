@@ -1,6 +1,5 @@
 package com.example.norgaard.barty.BarSale;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -43,12 +42,10 @@ public class BarSale extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_sale);
 
-
         Intent intent = getIntent();
         currentBar = (Bar) Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
         Log.d("Barsale", "Current bar is " + currentBar.getBarname());
-
 
         setTitle(currentBar.getBarname());
 
@@ -69,8 +66,6 @@ public class BarSale extends AppCompatActivity implements
         recyclerView.setAdapter(drinksAdapter);
 
         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
-
-
     }
 
     private void setTabs() {
@@ -98,7 +93,6 @@ public class BarSale extends AppCompatActivity implements
                     case "Shots":
                         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getShots()));
                         break;
-
                 }
             }
 
@@ -129,18 +123,16 @@ public class BarSale extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_favorite:
                 boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
-                if (isMobilePayInstalled){
+                if (isMobilePayInstalled) {
                     Payment payment = new Payment();
                     payment.setProductPrice(new BigDecimal(5.0));
                     payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
                     Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
-                    startActivityForResult(paymentIntent,MOBILEPAY_REQUEST_CODE);
-                }
-                else{
+                    startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
+                } else {
                     Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
                     startActivity(intent);
                 }
-
 
                 return true;
             default:
@@ -152,6 +144,4 @@ public class BarSale extends AppCompatActivity implements
     public void onClick(DrinkBase drink) {
 
     }
-
-
 }
