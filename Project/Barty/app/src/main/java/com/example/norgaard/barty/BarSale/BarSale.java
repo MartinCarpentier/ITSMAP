@@ -82,14 +82,11 @@ public class BarSale extends AppCompatActivity implements
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getText().toString()) {
                     case "Cocktail":
-
                         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getCocktails()));
-
                         break;
                     case "Beer":
                         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
                         break;
-
                     case "Shots":
                         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getShots()));
                         break;
@@ -122,6 +119,13 @@ public class BarSale extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
+                Intent intentOpenBasket = new Intent(this, PointOfSale.class );
+
+                // putExtra values that the POS needs here
+
+                
+
+
                 boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
                 if (isMobilePayInstalled) {
                     Payment payment = new Payment();
