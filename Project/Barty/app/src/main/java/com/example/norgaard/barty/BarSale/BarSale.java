@@ -35,7 +35,6 @@ public class BarSale extends AppCompatActivity implements
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
     private MenuView.ItemView menu;
-    private int MOBILEPAY_REQUEST_CODE = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +113,6 @@ public class BarSale extends AppCompatActivity implements
 
     // Code taken from/inspired by:
     // https://stackoverflow.com/questions/7479992/handling-a-menu-item-click-event-android
-    // https://github.com/MobilePayDev/MobilePay-AppSwitch-SDK/wiki/Getting-started-on-Android
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

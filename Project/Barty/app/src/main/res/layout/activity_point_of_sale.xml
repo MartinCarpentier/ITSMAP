@@ -6,4 +6,42 @@
     android:layout_height="match_parent"
     tools:context="com.example.norgaard.barty.BarSale.PointOfSale">
 
+    <RadioGroup
+        android:layout_width="361dp"
+        android:layout_height="193dp"
+        tools:layout_editor_absoluteX="7dp"
+        tools:layout_editor_absoluteY="209dp"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/radioBtnMobilePay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/radioBtnPayment2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/radioBtnPayment3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnGoToPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="money, betch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
