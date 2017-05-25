@@ -123,21 +123,7 @@ public class BarSale extends AppCompatActivity implements
 
                 // putExtra values that the POS needs here
 
-                
-
-
-                boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
-                if (isMobilePayInstalled) {
-                    Payment payment = new Payment();
-                    payment.setProductPrice(new BigDecimal(5.0));
-                    payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
-                    Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
-                    startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
-                } else {
-                    Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
-                    startActivity(intent);
-                }
-
+                startActivity(intentOpenBasket);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
