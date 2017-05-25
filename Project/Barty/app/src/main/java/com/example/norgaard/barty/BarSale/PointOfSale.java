@@ -37,6 +37,7 @@ public class PointOfSale extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
 
         paymentMethodsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         paymentMethods.setAdapter(paymentMethodsArrayAdapter);
         goToPayment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

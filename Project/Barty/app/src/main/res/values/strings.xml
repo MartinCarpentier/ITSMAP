@@ -8,4 +8,5 @@
     <string name="key_camera_position">camera_position</string>
     <string name="key_mobilepay_test_merchant">APPDK0000000000</string>
     <string name="proceed_to_payment">Proceed to Payment</string>
+    <string name="choose_payment_method">Choose payment method</string>
 </resources>
