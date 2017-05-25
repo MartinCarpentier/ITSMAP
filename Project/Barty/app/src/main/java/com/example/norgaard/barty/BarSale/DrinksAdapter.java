@@ -18,10 +18,6 @@ import com.example.norgaard.barty.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by marti on 19-05-2017.
- */
-
 public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdapterViewHolder> {
 
     private final Context mContext;
@@ -75,10 +71,9 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
         DrinksAdapterViewHolder(View view) {
             super(view);
 
-            drinkImage = (ImageView)view.findViewById(R.id.drinkImage);
-            drinkName = (TextView)view.findViewById(R.id.drinkName);
+            drinkImage = (ImageView) view.findViewById(R.id.drinkImage);
+            drinkName = (TextView) view.findViewById(R.id.drinkName);
             //drinkPrice = (TextView)view.findViewById(R.id.drinkPrice);
-
 
             view.setOnClickListener(this);
         }
