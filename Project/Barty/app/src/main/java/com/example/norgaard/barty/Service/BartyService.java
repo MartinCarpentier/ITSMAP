@@ -40,7 +40,7 @@ public class BartyService extends Service {
             Log.d(LOG_TAG, LOG_MESSAGE_START + "service started");
             isServiceStarted = true;
 
-            // Do stuff 
+            // Do stuff
         }
         else {
             Log.d(LOG_TAG, LOG_MESSAGE_START + "already started");

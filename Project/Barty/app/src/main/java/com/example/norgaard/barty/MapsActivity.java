@@ -248,10 +248,7 @@ public class MapsActivity extends FragmentActivity implements
 
     private void startFirebaseDb() {
 
-        if (mFireDb == null) {
-            mFireDb = FirebaseDatabase.getInstance();
-            mFireDb.setPersistenceEnabled(true);
-        }
+        mFireDb = FirebaseDatabase.getInstance();
 
         barsReady = false;
         DatabaseReference myRef = mFireDb.getReference().child("Bars");
