@@ -2,9 +2,11 @@
 <resources>
     <color name="colorPrimary">#373737</color>
     <color name="colorPrimaryDark">#616161</color>
-    <color name="colorAccent">#795548</color>
+    <color name="colorAccent">#8d8d8d</color>
     <color name="favoriteDrink">#fff59d</color>
     <color name="buyDrink">#7cb342</color>
     <color name="colorBackground">#616161</color>
     <color name="colorTextHeaders">#aeaeae</color>
+    <color name="tabSelected">#fafafa</color>
+    <color name="tabNotSelected">#8d8d8d</color>
 </resources>
