@@ -20,9 +20,7 @@ public class BartyService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.d(LOG_TAG, LOG_MESSAGE_START + "onBind()");
-
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class BartyService extends Service {
     @Override
     public void onDestroy() {
         Log.d(LOG_TAG, LOG_MESSAGE_START + "onDestroy");
-
+        isServiceStarted = false;
         super.onDestroy();
     }
 }
