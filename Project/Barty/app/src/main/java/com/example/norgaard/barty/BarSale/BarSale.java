@@ -6,11 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-<<<<<<< HEAD
-=======
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
@@ -27,20 +22,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-=======
-import com.example.norgaard.barty.BarDistanceAdapter;
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Utilities;
-<<<<<<< HEAD
-=======
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.GoogleMap;
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 
 import org.parceler.Parcels;
 
@@ -55,10 +41,7 @@ public class BarSale extends AppCompatActivity implements
     public DrinksAdapter drinksAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
-<<<<<<< HEAD
     private MenuView.ItemView menu;
-=======
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
     public ArrayList<DrinkBase> drinks;
     private long currentbBarId;
     private Context mContext = this;
@@ -80,10 +63,6 @@ public class BarSale extends AppCompatActivity implements
 
 
     private TextView currentDrinkPriceText;
-<<<<<<< HEAD
-=======
-    private MenuView.ItemView menu;
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,16 +71,10 @@ public class BarSale extends AppCompatActivity implements
 
         Intent intent = getIntent();
         currentBar = (Bar) Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
-<<<<<<< HEAD
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
 
         currentDrinkPriceText = (TextView)findViewById(R.id.currentDrinkPriceText);
 
-=======
-        currentDrinkPriceText = (TextView) findViewById(R.id.currentDrinkPriceText);
-
-        menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
->>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
         Log.d("Barsale", "Current bar is " + currentBar.getBarname());
 
         setTitle(currentBar.getBarname());
