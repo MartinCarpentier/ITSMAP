@@ -7,16 +7,17 @@ import android.util.Log;
 
 public class BartyService extends Service {
 
-    public static final String SERVICE = "SERVICE";
-    public static final String BARTY_SERVICE = "BartyService";
+    // For logging purposes
+    public static final String LOG_MESSAGE_START = "BartyService";
+    public static final String SERVICE_LOG_TAG = "SERVICE_LOG_TAG";
 
     public BartyService() {
-        Log.d(SERVICE, BARTY_SERVICE + " in Constructor");
+        Log.d(SERVICE_LOG_TAG, LOG_MESSAGE_START + " in Constructor");
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(SERVICE, BARTY_SERVICE + " in onBind()");
+        Log.d(SERVICE_LOG_TAG, LOG_MESSAGE_START + " in onBind()");
 
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
@@ -24,21 +25,21 @@ public class BartyService extends Service {
 
     @Override
     public void onCreate() {
-        Log.d(SERVICE, BARTY_SERVICE + " in onCreate()");
+        Log.d(SERVICE_LOG_TAG, LOG_MESSAGE_START + " in onCreate()");
 
         super.onCreate();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(SERVICE, BARTY_SERVICE + " in onStartCommand()");
+        Log.d(SERVICE_LOG_TAG, LOG_MESSAGE_START + " in onStartCommand()");
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
-        Log.d(SERVICE, BARTY_SERVICE + " in onDestroy");
+        Log.d(SERVICE_LOG_TAG, LOG_MESSAGE_START + " in onDestroy");
 
         super.onDestroy();
     }
