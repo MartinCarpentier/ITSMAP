@@ -1,5 +1,6 @@
 package com.example.norgaard.barty.BarSale;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.example.norgaard.barty.R;
 
@@ -22,6 +24,7 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     private Button goToPayment;
     private int MOBILEPAY_REQUEST_CODE = 999;
     private Spinner paymentMethods;
+    private String selectedPaymentMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +48,39 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
         goToPayment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                // https://github.com/MobilePayDev/MobilePay-AppSwitch-SDK/wiki/Getting-started-on-Android
-                boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
-                if (isMobilePayInstalled) {
-                    Payment payment = new Payment();
-                    payment.setProductPrice(new BigDecimal(5.0));
-                    payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
-                    Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
-                    startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
-                } else {
-                    Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
-                    startActivity(intent);
+                switch (selectedPaymentMethod) {
+                    case "MobilePay":
+                        initMobilePayPayment();
+                        break;
+                    case "Visa":
+                        //Do visa stuff
+                        break;
+                    case "Mastercard":
+                        //Do mastercard stuff
+                        break;
                 }
             }
         });
     }
 
+    // https://github.com/MobilePayDev/MobilePay-AppSwitch-SDK/wiki/Getting-started-on-Android
+    private void initMobilePayPayment() {
+        boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
+        if (isMobilePayInstalled) {
+            Payment payment = new Payment();
+            payment.setProductPrice(new BigDecimal(5.0));
+            payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
+            Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
+            startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
+        } else {
+            Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        selectedPaymentMethod = (String) parent.getItemAtPosition(position);
     }
 
     @Override
