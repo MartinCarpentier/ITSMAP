@@ -48,4 +48,5 @@ public class Bar
         this.location = location;
     }
 
+
 }

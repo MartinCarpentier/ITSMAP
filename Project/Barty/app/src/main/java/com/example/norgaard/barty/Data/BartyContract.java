@@ -1,7 +1,10 @@
 package com.example.norgaard.barty.Data;
 
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
+
+import java.util.Calendar;
 
 public class BartyContract {
 
@@ -9,6 +12,21 @@ public class BartyContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_BARS = "bars";
     public static final String PATH_BASKET = "basket";
+
+    public static Uri getUriForSpecificBar(String BarName)
+    {
+        return BarEntry.CONTENT_URI_BARS
+                .buildUpon()
+                .appendPath(BarName)
+                .build();
+    }
+
+    public static String getSqlSelectForCurrentBarBasket(long barId) {
+        //&long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
+
+
+        return BasketEntry.COLUMN_FOREIGN_BAR_ID + " = " + barId;
+    }
 
     public static class BarEntry implements BaseColumns {
 
@@ -31,7 +49,6 @@ public class BartyContract {
         public static final String TABLE_NAME_BASKET = "Basket";
         public static final String COLUMN_FOREIGN_BAR_ID = "BarForeignId";
         public static final String COLUMN_DRINK_NAME = "DrinkName";
-        public static final String COLUMN_DRINK_QUANTITY = "DrinkQuantity";
         public static final String COLUMN_DRINK_PRICE = "DrinksPrice";
     }
 }
