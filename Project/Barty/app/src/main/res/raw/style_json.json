@@ -1,5 +1,6 @@
 [
   {
+    "comment": "Code from: https://developers.google.com/maps/documentation/android-api/styling",
     "featureType": "all",
     "elementType": "geometry",
     "stylers": [
