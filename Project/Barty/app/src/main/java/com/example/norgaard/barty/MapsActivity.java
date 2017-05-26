@@ -61,9 +61,6 @@ public class MapsActivity extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-
-
-
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -92,7 +89,6 @@ public class MapsActivity extends FragmentActivity implements
         }
         setContentView(R.layout.activity_maps);
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
-
 
         appBar = (AppBarLayout) findViewById(R.id.appbar);
 
@@ -158,7 +154,8 @@ public class MapsActivity extends FragmentActivity implements
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
-                } else {
+                }
+                else {
                     mLocationPermissionGranted = false;
                 }
             }
@@ -194,9 +191,11 @@ public class MapsActivity extends FragmentActivity implements
 
         if (mCameraPosition != null) {
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else if (mLastLocation != null) {
+        }
+        else if (mLastLocation != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), DEFAULT_ZOOM));
-        } else {
+        }
+        else {
             Log.d(MapsActivity.class.toString(), "Current location is null. Using defaults.");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -232,11 +231,9 @@ public class MapsActivity extends FragmentActivity implements
             }
         }
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
@@ -251,15 +248,14 @@ public class MapsActivity extends FragmentActivity implements
 
     private void startFirebaseDb() {
 
-        if(mFireDb == null)
-        {
+        if (mFireDb == null) {
             mFireDb = FirebaseDatabase.getInstance();
             mFireDb.setPersistenceEnabled(true);
         }
 
         barsReady = false;
         DatabaseReference myRef = mFireDb.getReference().child("Bars");
-		
+
         Query query = myRef.orderByKey();
 
         query.addValueEventListener(new ValueEventListener() {
@@ -283,7 +279,7 @@ public class MapsActivity extends FragmentActivity implements
                     currentBar.setBarname(barname);
 
                     //Setting id
-                    long id = (long)child.child("id").getValue();
+                    long id = (long) child.child("id").getValue();
                     currentBar.setId(id);
 
                     //Handle beers
@@ -302,7 +298,8 @@ public class MapsActivity extends FragmentActivity implements
 
                             Beer currentBeer = new Beer(imagewhat, namewhat, Long.valueOf(pricewhat));
                             beers.add(currentBeer);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
 
                             Log.e("ErrorHappened", e.toString());
                         }
@@ -324,7 +321,8 @@ public class MapsActivity extends FragmentActivity implements
 
                             Cocktail currentCocktail = new Cocktail(imagewhat, namewhat, Long.valueOf(pricewhat));
                             cocktails.add(currentCocktail);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
 
                             Log.e("ErrorHappened", e.toString());
                         }
@@ -346,7 +344,8 @@ public class MapsActivity extends FragmentActivity implements
 
                             Shots currentCocktail = new Shots(imagewhat, namewhat, Long.valueOf(pricewhat));
                             shots.add(currentCocktail);
-                        } catch (Exception e) {
+                        }
+                        catch (Exception e) {
 
                             Log.e("ErrorHappened", e.toString());
                         }
@@ -373,7 +372,8 @@ public class MapsActivity extends FragmentActivity implements
 
                         currentBarLocation.setLatitude(Double.valueOf(latitude));
                         currentBarLocation.setLongitude(Double.valueOf(longitude));
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
 
                         Log.e("ErrorHappened", e.toString());
                     }
@@ -383,8 +383,8 @@ public class MapsActivity extends FragmentActivity implements
                     String currentBarLogo = "";
                     try {
                         currentBarLogo = String.valueOf(barLogo.getValue());
-
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e) {
 
                         Log.e("ErrorHappened", e.toString());
                     }
@@ -407,7 +407,6 @@ public class MapsActivity extends FragmentActivity implements
         });
 
         barsReady = true;
-
     }
 
     private void setBarMarkers(ArrayList<Bar> bars) {
@@ -462,7 +461,8 @@ public class MapsActivity extends FragmentActivity implements
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
-        } else {
+        }
+        else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -471,7 +471,8 @@ public class MapsActivity extends FragmentActivity implements
         if (mLocationPermissionGranted) {
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        } else {
+        }
+        else {
             mMap.setMyLocationEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mLastLocation = null;
