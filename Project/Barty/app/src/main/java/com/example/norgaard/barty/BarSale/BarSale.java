@@ -4,9 +4,11 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,6 +22,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.norgaard.barty.Data.BartyContract;
@@ -85,7 +90,16 @@ public class BarSale extends AppCompatActivity implements
 
         //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
 
-        layoutManager = new GridLayoutManager(this, 2);
+        int columnAmount;
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            columnAmount = 4;
+        }
+        else
+        {
+            columnAmount = 2;
+        }
+
+        layoutManager = new GridLayoutManager(this, columnAmount);
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -188,8 +202,6 @@ public class BarSale extends AppCompatActivity implements
             drinkCursor.moveToFirst();
             drinkQuantity = drinkCursor.getInt(BarSale.COLUMN_DRINK_QUANTITY)+1;
         }
-
-
 
         //Create values to insert into db
         ContentValues value = Utilities.createContentValuesForDrink(drink, currentBar.id, drinkQuantity);

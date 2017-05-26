@@ -248,15 +248,11 @@ public class MapsActivity extends FragmentActivity implements
 
     private void startFirebaseDb() {
 
-        if(mFireDb == null)
-        {
-            mFireDb = FirebaseDatabase.getInstance();
-            mFireDb.setPersistenceEnabled(true);
-        }
+        mFireDb = FirebaseDatabase.getInstance();
 
         barsReady = false;
         DatabaseReference myRef = mFireDb.getReference().child("Bars");
-		
+
         Query query = myRef.orderByKey();
 
         query.addValueEventListener(new ValueEventListener() {
@@ -280,7 +276,7 @@ public class MapsActivity extends FragmentActivity implements
                     currentBar.setBarname(barname);
 
                     //Setting id
-                    long id = (long)child.child("id").getValue();
+                    long id = (long) child.child("id").getValue();
                     currentBar.setId(id);
 
                     //Handle beers
