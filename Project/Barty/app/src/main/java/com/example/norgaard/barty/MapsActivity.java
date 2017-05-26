@@ -90,8 +90,7 @@ public class MapsActivity extends FragmentActivity implements
         }
         setContentView(R.layout.activity_maps);
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
-
-
+        
         appBar = (AppBarLayout) findViewById(R.id.appbar);
 
         // Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);

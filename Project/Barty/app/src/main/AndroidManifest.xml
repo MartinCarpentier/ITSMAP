@@ -38,17 +38,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		
-        <activity android:name=".BarSale.BarSale"
-            android:parentActivityName=".MapsActivity"/>
+
+        <activity
+            android:name=".BarSale.BarSale"
+            android:parentActivityName=".MapsActivity" />
 
 
         <provider
             android:name=".Data.BartyContentProvider"
             android:authorities="com.example.norgaard.barty"
-            android:exported="false">
-            android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="false"></provider>
 
         <activity android:name=".BarSale.PointOfSale"></activity>
     </application>
