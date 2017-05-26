@@ -51,6 +51,9 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dk.danskebank.mobilepay.sdk.Country;
+import dk.danskebank.mobilepay.sdk.MobilePay;
+
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
         BarDistanceAdapter.BarDistanceOnClickHandler,
@@ -88,6 +91,8 @@ public class MapsActivity extends FragmentActivity implements
             mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
         }
         setContentView(R.layout.activity_maps);
+        MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
+
 
         appBar = (AppBarLayout) findViewById(R.id.appbar);
 
@@ -277,6 +282,10 @@ public class MapsActivity extends FragmentActivity implements
                     String barname = child.getKey().toString();
                     currentBar.setBarname(barname);
 
+                    //Setting id
+                    long id = (long)child.child("id").getValue();
+                    currentBar.setId(id);
+
                     //Handle beers
                     ArrayList<Beer> beers = new ArrayList<Beer>();
                     for (DataSnapshot jsonBeer : beer.getChildren()) {
@@ -286,8 +295,6 @@ public class MapsActivity extends FragmentActivity implements
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
                             HashMap<String, String> beerMap = (HashMap<String, String>) jsonBeer.getValue();
-
-                            Log.i("Stuff", "Stuff");
 
                             String imagewhat = beerMap.get("ImageURL");
                             String namewhat = beerMap.get("Name");
@@ -311,8 +318,6 @@ public class MapsActivity extends FragmentActivity implements
 
                             HashMap<String, String> cocktailMap = (HashMap<String, String>) snapshot.getValue();
 
-                            Log.i("Stuff", "Stuff");
-
                             String imagewhat = cocktailMap.get("ImageURL");
                             String namewhat = cocktailMap.get("Name");
                             String pricewhat = String.valueOf(cocktailMap.get("Price"));
@@ -334,8 +339,6 @@ public class MapsActivity extends FragmentActivity implements
                             //Beer stuff = jsonBeer.getValue(Beer.class);
 
                             HashMap<String, String> shotMap = (HashMap<String, String>) snapshot.getValue();
-
-                            Log.i("Stuff", "Stuff");
 
                             String imagewhat = shotMap.get("ImageURL");
                             String namewhat = shotMap.get("Name");
@@ -365,8 +368,6 @@ public class MapsActivity extends FragmentActivity implements
                     try {
                         HashMap<String, String> barLocation = (HashMap<String, String>) location.getValue();
 
-                        Log.i("Stuff", "Stuff");
-
                         String longitude = String.valueOf(barLocation.get("Longitude"));
                         String latitude = String.valueOf(barLocation.get("Latitude"));
 
@@ -382,8 +383,6 @@ public class MapsActivity extends FragmentActivity implements
                     String currentBarLogo = "";
                     try {
                         currentBarLogo = String.valueOf(barLogo.getValue());
-
-                        Log.i("Stuff", "Stuff");
 
                     } catch (Exception e) {
 

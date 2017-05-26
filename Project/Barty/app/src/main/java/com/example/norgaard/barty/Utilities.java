@@ -22,11 +22,12 @@ public class Utilities {
         return contentValues;
     }
 
-    public static ContentValues createContentValuesForDrink(DrinkBase drink, long barId) {
+    public static ContentValues createContentValuesForDrink(DrinkBase drink, long barId, int drinkQuantity) {
         ContentValues value = new ContentValues();
         value.put(BartyContract.BasketEntry.COLUMN_DRINK_NAME, drink.getName());
         value.put(BartyContract.BasketEntry.COLUMN_DRINK_PRICE, drink.getPrice());
         value.put(BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID, barId);
+        value.put(BartyContract.BasketEntry.COLUMN_DRINK_QUANTITY, drinkQuantity);
 
         return value;
     }

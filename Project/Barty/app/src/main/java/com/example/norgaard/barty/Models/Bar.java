@@ -13,6 +13,8 @@ public class Bar
 
     public Drinks drinks;
 
+    public long id;
+
     public Location location;
 
 
@@ -48,5 +50,8 @@ public class Bar
         this.location = location;
     }
 
+    public long getId() {return id;}
+
+    public void setId(long id){this.id = id;}
 
 }

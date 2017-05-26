@@ -13,12 +13,9 @@ public class BartyContract {
     public static final String PATH_BARS = "bars";
     public static final String PATH_BASKET = "basket";
 
-    public static Uri getUriForSpecificBar(String BarName)
+    public static Uri getUriForSpecificBar(long id)
     {
-        return BarEntry.CONTENT_URI_BARS
-                .buildUpon()
-                .appendPath(BarName)
-                .build();
+        return ContentUris.withAppendedId(BasketEntry.CONTENT_URI_BASKET, id);
     }
 
     public static String getSqlSelectForCurrentBarBasket(long barId) {
@@ -37,6 +34,7 @@ public class BartyContract {
 
         public static final String TABLE_NAME_BARS = "Bars";
         public static final String COLUMN_BAR_NAME = "BarName";
+        public static final String COLUMN_BAR_ONLINE_ID = "BarOnlineId";
     }
 
     public static class BasketEntry implements BaseColumns {
@@ -50,5 +48,6 @@ public class BartyContract {
         public static final String COLUMN_FOREIGN_BAR_ID = "BarForeignId";
         public static final String COLUMN_DRINK_NAME = "DrinkName";
         public static final String COLUMN_DRINK_PRICE = "DrinksPrice";
+        public static final String COLUMN_DRINK_QUANTITY = "DrinksQuantity";
     }
 }
