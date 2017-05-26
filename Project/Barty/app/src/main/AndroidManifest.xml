@@ -43,6 +43,7 @@
             android:name=".BarSale.BarSale"
             android:parentActivityName=".MapsActivity" />
 
+
         <provider
             android:name=".Data.BartyContentProvider"
             android:authorities="com.example.norgaard.barty"

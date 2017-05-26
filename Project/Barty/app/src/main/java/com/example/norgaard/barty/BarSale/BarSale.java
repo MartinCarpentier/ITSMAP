@@ -6,6 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+<<<<<<< HEAD
+=======
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
@@ -22,11 +27,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import com.example.norgaard.barty.BarDistanceAdapter;
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Utilities;
+<<<<<<< HEAD
+=======
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.GoogleMap;
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 
 import org.parceler.Parcels;
 
@@ -34,14 +48,17 @@ import java.util.ArrayList;
 
 public class BarSale extends AppCompatActivity implements
         DrinksAdapter.DrinksOnClickHandler,
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private TextView testView;
     private RecyclerView recyclerView;
     public DrinksAdapter drinksAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
+<<<<<<< HEAD
     private MenuView.ItemView menu;
+=======
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
     public ArrayList<DrinkBase> drinks;
     private long currentbBarId;
     private Context mContext = this;
@@ -52,15 +69,21 @@ public class BarSale extends AppCompatActivity implements
     public static final String[] BAR_DRINK_BASKET_PROJECTION = {
             BartyContract.BasketEntry.COLUMN_DRINK_NAME,
             BartyContract.BasketEntry.COLUMN_DRINK_PRICE,
-            BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID
+            BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID,
+            BartyContract.BasketEntry.COLUMN_DRINK_QUANTITY
     };
 
     public static final int COLUMN_DRINK_NAME = 0;
     public static final int COLUMN_DRINK_PRICE = 1;
     public static final int COLUMN_FOREIGN_BAR_ID = 2;
+    public static final int COLUMN_DRINK_QUANTITY = 3;
 
 
     private TextView currentDrinkPriceText;
+<<<<<<< HEAD
+=======
+    private MenuView.ItemView menu;
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +92,16 @@ public class BarSale extends AppCompatActivity implements
 
         Intent intent = getIntent();
         currentBar = (Bar) Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
+<<<<<<< HEAD
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
 
         currentDrinkPriceText = (TextView)findViewById(R.id.currentDrinkPriceText);
 
+=======
+        currentDrinkPriceText = (TextView) findViewById(R.id.currentDrinkPriceText);
+
+        menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
+>>>>>>> 4b5b1b60231a33417d079a7bb2b460f4e1d11978
         Log.d("Barsale", "Current bar is " + currentBar.getBarname());
 
         setTitle(currentBar.getBarname());
@@ -148,7 +177,7 @@ public class BarSale extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                Intent intentOpenBasket = new Intent(this, PointOfSale.class );
+                Intent intentOpenBasket = new Intent(this, PointOfSale.class);
 
                 // putExtra values that the POS needs here
 
@@ -162,19 +191,40 @@ public class BarSale extends AppCompatActivity implements
     @Override
     public void onClick(DrinkBase drink) {
 
-            ContentValues value = Utilities.createContentValuesForDrink(drink, currentbBarId);
+        ContentResolver barContentResolver = getApplicationContext().getContentResolver();
 
-            //Insert values into db
-            ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+        //Find the clicked drink
+        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBar.getId() + " AND " +
+                BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
+
+        String[] drinkArgs = new String[] {drink.getName()};
+        Cursor drinkCursor = barContentResolver.query(BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                BarSale.BAR_DRINK_BASKET_PROJECTION,
+                drinkSelection,
+                drinkArgs,
+                null
+                );
+
+        int drinkQuantity;
+        if(drinkCursor.getCount() == 0)
+        {
+            drinkQuantity = 1;
+        }
+        else
+        {
+            drinkCursor.moveToFirst();
+            drinkQuantity = drinkCursor.getInt(BarSale.COLUMN_DRINK_QUANTITY)+1;
+        }
 
 
 
-            barCuntentResolver.insert(
-                    BartyContract.BasketEntry.CONTENT_URI_BASKET,
-                    value);
+        //Create values to insert into db
+        ContentValues value = Utilities.createContentValuesForDrink(drink, currentBar.id, drinkQuantity);
 
-            Log.d("stuff", "asoid");
-
+        //Insert values into db
+        barContentResolver.insert(
+                BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                value);
 
         getSupportLoaderManager().restartLoader(ID_BAR_LOADER, null, this);
     }
@@ -184,16 +234,8 @@ public class BarSale extends AppCompatActivity implements
         switch (id) {
 
             case ID_BAR_LOADER:
-                /* URI for all rows of weather data in our weather table */
-                Uri barQueryUri = BartyContract.getUriForSpecificBar(currentBar.getBarname());
-                /* Sort order: Ascending by date */
-                String sortOrder = BartyContract.BasketEntry.COLUMN_DRINK_PRICE + " ASC";
-                /*
-                 * A SELECTION in SQL declares which rows you'd like to return. In our case, we
-                 * want all weather data from today onwards that is stored in our weather table.
-                 * We created a handy method to do that in our WeatherEntry class.
-                 */
-                String selection = BartyContract.getSqlSelectForCurrentBarBasket(currentbBarId);
+
+                Uri barQueryUri = BartyContract.getUriForSpecificBar(currentBar.getId());
 
                 return new CursorLoader(mContext,
                         barQueryUri,
@@ -211,21 +253,20 @@ public class BarSale extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         double totalPrice = 0;
         drinks = new ArrayList<DrinkBase>();
-        if(data.getCount() != 0)
-        {
+        if (data.getCount() != 0) {
             data.moveToFirst();
-            currentbBarId = data.getLong(COLUMN_FOREIGN_BAR_ID);
 
-            for(int i = 0; i < data.getCount(); i++)
-            {
+            for (int i = 0; i < data.getCount(); i++) {
                 String drinkName = data.getString(COLUMN_DRINK_NAME);
                 double drinkPrice = data.getFloat(COLUMN_DRINK_PRICE);
+                long drinkQuantity = data.getLong(COLUMN_DRINK_QUANTITY);
                 DrinkBase drink = new DrinkBase();
                 drink.setPrice(((long) drinkPrice));
                 drink.setName(drinkName);
+                drink.drinkQuantity = drinkQuantity;
 
                 drinks.add(drink);
-                totalPrice += drinkPrice;
+                totalPrice += drinkPrice*drinkQuantity;
 
                 data.moveToNext();
             }
