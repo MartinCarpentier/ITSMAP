@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorTextHeaders"
     android:layout_height="match_parent">
 
     <!-- Copied from https://gist.github.com/dadino/d0b3acba08163749ee9c -->
@@ -18,7 +18,7 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorTextHeaders"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"

@@ -11,6 +11,8 @@ public class DrinkBase {
 
     public long price;
 
+    public long drinkQuantity;
+
     public String getImageURL() {
         return imageURL;
     }

@@ -6,18 +6,12 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-
-import com.example.norgaard.barty.MapsActivity;
 
 public class BartyContentProvider extends ContentProvider {
 
     public static final int CODE_BARS = 100;
-    public static final int CODE_BARS_WITH_NAME = 101;
+    public static final int CODE_BASKET_FOR_BAR = 101;
     public static final int CODE_BASKET = 102;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -32,7 +26,7 @@ public class BartyContentProvider extends ContentProvider {
         final String authority = BartyContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS);
-        matcher.addURI(authority, BartyContract.PATH_BARS + "/*", CODE_BARS_WITH_NAME);
+        matcher.addURI(authority, BartyContract.PATH_BASKET + "/*", CODE_BASKET_FOR_BAR);
         matcher.addURI(authority, BartyContract.PATH_BASKET, CODE_BASKET);
 
         return matcher;
@@ -127,20 +121,33 @@ public class BartyContentProvider extends ContentProvider {
         Cursor cursor;
 
         switch (sUriMatcher.match(uri)) {
-            case CODE_BARS_WITH_NAME:
-                //Get bar primary key
-                //long currentBarId = cursor.getInt(0);
+            case CODE_BASKET_FOR_BAR:
+                //Get bar foreign key
+                long currentBarId = Long.valueOf(uri.getLastPathSegment());
 
-                //String[] selectionArguments = new String[]{String.valueOf(currentBarId)};
+                String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=?";
+                String[] drinkArgs = new String[] {String.valueOf(currentBarId)};
+
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BasketEntry.TABLE_NAME_BASKET,
                         projection,
-                        null,
-                        null,
+                        drinkSelection,
+                        drinkArgs,
                         null,
                         null,
                         null);
 
+                break;
+
+            case CODE_BASKET:
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        BartyContract.BasketEntry.TABLE_NAME_BASKET,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
                 break;
 
             case CODE_BARS:
