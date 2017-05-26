@@ -46,6 +46,7 @@ public class BarSale extends AppCompatActivity implements
     public DrinksAdapter drinksAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
+    private MenuView.ItemView menu;
     public ArrayList<DrinkBase> drinks;
     private long currentbBarId;
     private Context mContext = this;
@@ -67,7 +68,6 @@ public class BarSale extends AppCompatActivity implements
 
 
     private TextView currentDrinkPriceText;
-    private MenuView.ItemView menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,10 @@ public class BarSale extends AppCompatActivity implements
 
         Intent intent = getIntent();
         currentBar = (Bar) Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
-        currentDrinkPriceText = (TextView) findViewById(R.id.currentDrinkPriceText);
-
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
+
+        currentDrinkPriceText = (TextView)findViewById(R.id.currentDrinkPriceText);
+
         Log.d("Barsale", "Current bar is " + currentBar.getBarname());
 
         setTitle(currentBar.getBarname());
