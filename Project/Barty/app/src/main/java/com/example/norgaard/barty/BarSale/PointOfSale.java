@@ -1,16 +1,13 @@
 package com.example.norgaard.barty.BarSale;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import com.example.norgaard.barty.R;
 
@@ -53,10 +50,10 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                         initMobilePayPayment();
                         break;
                     case "Visa":
-                        //Do visa stuff
+                        initStripe(cardType.VISA);
                         break;
                     case "Mastercard":
-                        //Do mastercard stuff
+                        initStripe(cardType.MASTERCARD);
                         break;
                 }
             }
@@ -76,6 +73,15 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
             Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
             startActivity(intent);
         }
+    }
+
+    private void initStripe(cardType type){
+
+    }
+
+    private enum cardType{
+        MASTERCARD,
+        VISA
     }
 
     @Override
