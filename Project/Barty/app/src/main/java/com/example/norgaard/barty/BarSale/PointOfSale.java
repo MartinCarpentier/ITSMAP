@@ -3,7 +3,9 @@ package com.example.norgaard.barty.BarSale;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.model.Payment;
 
-public class PointOfSale extends AppCompatActivity {
+public class PointOfSale extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button goToPayment;
     private int MOBILEPAY_REQUEST_CODE = 999;
@@ -26,15 +28,16 @@ public class PointOfSale extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_of_sale);
         goToPayment = (Button) findViewById(R.id.btnGoToPayment);
-
+        paymentMethods = (Spinner) findViewById(R.id.spinnerPaymentMethod);
+        paymentMethods.setOnItemSelectedListener(this);
 
         // Code taken from/inspired  by:
         // https://developer.android.com/guide/topics/ui/controls/spinner.html
-        paymentMethods = (Spinner) findViewById(R.id.spinnerPaymentMethod);
         ArrayAdapter<CharSequence> paymentMethodsArrayAdapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.payment_methods,
                 android.R.layout.simple_spinner_item);
+
 
         paymentMethodsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -56,5 +59,15 @@ public class PointOfSale extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
