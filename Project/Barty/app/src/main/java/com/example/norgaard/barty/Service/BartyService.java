@@ -36,18 +36,6 @@ public class BartyService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        Log.d(LOG_TAG, "onBind()");
-        return null;
-    }
-
-    @Override
-    public void onCreate() {
-        Log.d(LOG_TAG, "onCreate()");
-        super.onCreate();
-    }
-
-    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(LOG_TAG, "onStartCommand()");
 
@@ -80,6 +68,18 @@ public class BartyService extends Service {
         }
 
         return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.d(LOG_TAG, "onBind()");
+        return null;
+    }
+
+    @Override
+    public void onCreate() {
+        Log.d(LOG_TAG, "onCreate()");
+        super.onCreate();
     }
 
     @Override
