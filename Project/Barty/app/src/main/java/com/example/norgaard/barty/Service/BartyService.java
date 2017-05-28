@@ -5,6 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -17,13 +24,50 @@ public class BartyService extends Service {
 
     // Timer
     private LoopRequest loopRequest;
-    private long delay = 2 * 1000;
+    private long delay = 10 * 1000;
     private static Timer timer;
 
+    // Service
     private boolean isServiceStarted;
+    private FirebaseDatabase firebase;
 
     public BartyService() {
         Log.d(LOG_TAG, "Constructor invoked");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(LOG_TAG, "onStartCommand()");
+
+        if (isServiceStarted == false && intent != null) {
+            Log.d(LOG_TAG, "Service started");
+            isServiceStarted = true;
+
+            timer = new Timer();
+            Date date = new Date();
+            loopRequest = new LoopRequest();
+            timer.scheduleAtFixedRate(loopRequest, date, delay);
+
+            firebase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebase.getReference().child("Orders");
+            Query query = databaseReference.orderByKey();
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(LOG_TAG, "onDataChange()");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(LOG_TAG, "onCancelled()");
+                }
+            });
+        }
+        else {
+            Log.d(LOG_TAG, "Service already started");
+        }
+
+        return START_STICKY;
     }
 
     @Override
@@ -39,27 +83,6 @@ public class BartyService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(LOG_TAG, "onStartCommand()");
-
-        if (isServiceStarted == false && intent != null) {
-            Log.d(LOG_TAG, "Service started");
-            isServiceStarted = true;
-
-            loopRequest = new LoopRequest();
-            timer = new Timer();
-            //timer.cancel();
-            Date date = new Date();
-            timer.scheduleAtFixedRate(loopRequest, date, delay);
-        }
-        else {
-            Log.d(LOG_TAG, "Service already started");
-        }
-
-        return START_STICKY;
-    }
-
-    @Override
     public void onDestroy() {
         Log.d(LOG_TAG, "onDestroy");
         isServiceStarted = false;
@@ -68,9 +91,12 @@ public class BartyService extends Service {
 
     private class LoopRequest extends TimerTask {
 
+        private String time;
+
         @Override
         public void run() {
-            Log.d(LOG_TAG, "Run method has been called! " + Calendar.getInstance().getTime().toString());
+            time = Calendar.getInstance().getTime().toString();
+            Log.d(LOG_TAG, "Run method invoked at: " + time + ".");
         }
     }
 }
