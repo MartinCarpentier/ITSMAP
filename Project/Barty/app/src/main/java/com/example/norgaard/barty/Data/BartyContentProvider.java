@@ -39,8 +39,23 @@ public class BartyContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Implement this to handle requests to delete one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        int deletedId;
+        switch (sUriMatcher.match(uri)) {
+
+            case CODE_BASKET:
+                try {
+                    db.beginTransaction();
+                    deletedId = db.delete(BartyContract.BasketEntry.TABLE_NAME_BASKET, selection, selectionArgs);
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                return deletedId;
+            default:
+                return 0;
+        }
+
     }
 
     @Override
@@ -135,7 +150,7 @@ public class BartyContentProvider extends ContentProvider {
                         drinkArgs,
                         null,
                         null,
-                        null);
+                        sortOrder);
 
                 break;
 
