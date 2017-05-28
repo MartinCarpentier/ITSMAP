@@ -14,7 +14,7 @@ public class BartyService extends Service {
     private boolean isServiceStarted;
 
     public BartyService() {
-        Log.d(LOG_TAG, LOG_MESSAGE_START + "Constructor");
+        Log.d(LOG_TAG, LOG_MESSAGE_START + "constructor");
     }
 
     @Override
