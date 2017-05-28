@@ -8,7 +8,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -22,9 +22,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.norgaard.barty.Data.BartyContract;
@@ -41,16 +38,17 @@ public class BarSale extends AppCompatActivity implements
         DrinksAdapter.DrinksOnClickHandler,
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private TextView testView;
     private RecyclerView recyclerView;
     public DrinksAdapter drinksAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
     private MenuView.ItemView menu;
     public ArrayList<DrinkBase> drinks;
-    private long currentbBarId;
     private Context mContext = this;
-    private String logStuff = BarSale.class.toString();
+    private String logTag = BarSale.class.getSimpleName();
+    private TextView barText;
+
+    static final int CHECKOUT_COUNTER_RESULT = 1;
 
     private static final int ID_BAR_LOADER = 44;
 
@@ -67,21 +65,25 @@ public class BarSale extends AppCompatActivity implements
     public static final int COLUMN_DRINK_QUANTITY = 3;
 
 
-    private TextView currentDrinkPriceText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_sale);
 
-        Intent intent = getIntent();
-        currentBar = (Bar) Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
+        if(savedInstanceState != null)
+        {
+            currentBar = Parcels.unwrap(savedInstanceState.getParcelable("barname_key"));
+        }
+        else
+        {
+
+            currentBar = Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
+        }
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
 
-        currentDrinkPriceText = (TextView)findViewById(R.id.currentDrinkPriceText);
+        Log.d(logTag, "Current bar is " + currentBar.getBarname());
 
-        Log.d("Barsale", "Current bar is " + currentBar.getBarname());
-
+        barText = (TextView)findViewById(R.id.totalPriceBar);
         setTitle(currentBar.getBarname());
 
         setTabs();
@@ -152,6 +154,13 @@ public class BarSale extends AppCompatActivity implements
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("barname_key", Parcels.wrap(currentBar));
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.selected_bar_menu, menu);
@@ -166,9 +175,11 @@ public class BarSale extends AppCompatActivity implements
             case R.id.action_favorite:
                 Intent intentOpenBasket = new Intent(this, PointOfSale.class);
 
+                intentOpenBasket.setData(BartyContract.getUriForSpecificBar(currentBar.getId()));
+
                 // putExtra values that the POS needs here
 
-                startActivity(intentOpenBasket);
+                startActivityForResult(intentOpenBasket, CHECKOUT_COUNTER_RESULT);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -257,11 +268,20 @@ public class BarSale extends AppCompatActivity implements
             }
         }
 
-        currentDrinkPriceText.setText(String.valueOf(totalPrice));
+        barText.setText(String.valueOf(totalPrice));
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CHECKOUT_COUNTER_RESULT) {
+            //Here we make sure to always reset checkout basket amount when returning from the checkout counter
+            getSupportLoaderManager().restartLoader(ID_BAR_LOADER, null, this);
+        }
     }
 }

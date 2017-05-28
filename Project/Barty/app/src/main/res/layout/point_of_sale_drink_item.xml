@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/drinkNamePOS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Flaming Lamborghini"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/removeFabButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/buyDrink"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/deleteDrink"
+            app:elevation="@dimen/cardview_default_radius"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_remove_white_48px" />
+
+        <TextView
+            android:id="@+id/amountOfDrinks"
+            style="?android:attr/phoneNumber"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="20"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addFabButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@color/deleteDrink"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/buyDrink"
+            app:elevation="@dimen/cardview_default_radius"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_add_white_48px" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/drinkPricePOS"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="1000$"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+</LinearLayout>
