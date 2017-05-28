@@ -197,7 +197,8 @@ public class MapsActivity extends FragmentActivity implements
             if (!success) {
                 Log.e("asd", "Style parsing failed.");
             }
-        } catch (Resources.NotFoundException e) {
+        }
+        catch (Resources.NotFoundException e) {
             Log.e("asd", "Can't find style. Error: ", e);
         }
     }
