@@ -24,7 +24,7 @@ public class BartyService extends Service {
 
     // Timer
     private LoopRequest loopRequest;
-    private long delay = 2 * 1000;
+    private long delay = 10 * 1000;
     private static Timer timer;
 
     // Service
