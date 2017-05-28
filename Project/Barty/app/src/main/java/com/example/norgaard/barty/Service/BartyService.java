@@ -63,7 +63,7 @@ public class BartyService extends Service {
             firebase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebase.getReference().child("Orders");
             Query query = databaseReference.orderByKey();
-            query.addValueEventListener(new ValueEventListener() {
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d(LOG_TAG, "onDataChange()");
