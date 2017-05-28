@@ -19,7 +19,7 @@ import dk.danskebank.mobilepay.sdk.model.Payment;
 public class PointOfSale extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button goToPayment;
-    private int MOBILEPAY_REQUEST_CODE = 999;
+    private int MOBILEPAY_REQUEST_CODE = 666;
     private Spinner paymentMethods;
     private String selectedPaymentMethod;
 
@@ -37,7 +37,6 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                 this,
                 R.array.payment_methods,
                 android.R.layout.simple_spinner_item);
-
 
         paymentMethodsArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -69,17 +68,18 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
             payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
             Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
             startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
-        } else {
+        }
+        else {
             Intent intent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
             startActivity(intent);
         }
     }
 
-    private void initStripe(cardType type){
+    private void initStripe(cardType type) {
         // Initiate Stripe
     }
 
-    private enum cardType{
+    private enum cardType {
         MASTERCARD,
         VISA
     }

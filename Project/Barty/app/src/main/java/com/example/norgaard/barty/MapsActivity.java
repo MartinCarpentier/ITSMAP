@@ -28,6 +28,7 @@ import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
 import com.example.norgaard.barty.Models.Drinks;
 import com.example.norgaard.barty.Models.Shots;
+import com.example.norgaard.barty.Service.BartyService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -91,20 +92,14 @@ public class MapsActivity extends FragmentActivity implements
         }
         setContentView(R.layout.activity_maps);
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
-
         appBar = (AppBarLayout) findViewById(R.id.appbar);
-
-        // Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         mDefaultLocation = new LatLng(10, 10);
 
-        // toolbar.setLogo(R.drawable.cast_ic_mini_controller_pause_large);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("Nearby bars");
 
         // Creating an instance of the Google API client
@@ -132,18 +127,15 @@ public class MapsActivity extends FragmentActivity implements
         params.setBehavior(behavior);
 
         recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
-
-        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
         layoutManager = new LinearLayoutManager(mapsActivity);
-
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setHasFixedSize(true);
-
         barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
-
         recyclerView.setAdapter(barDistanceAdapter);
+
+        Intent intent = new Intent(MapsActivity.this, BartyService.class);
+        MapsActivity.this.startService(intent);
+        Log.d(MapsActivity.class.toString(), "Started " + BartyService.class.toString());
 
         startFirebaseDb();
     }
@@ -197,7 +189,8 @@ public class MapsActivity extends FragmentActivity implements
             if (!success) {
                 Log.e("asd", "Style parsing failed.");
             }
-        } catch (Resources.NotFoundException e) {
+        }
+        catch (Resources.NotFoundException e) {
             Log.e("asd", "Can't find style. Error: ", e);
         }
     }
