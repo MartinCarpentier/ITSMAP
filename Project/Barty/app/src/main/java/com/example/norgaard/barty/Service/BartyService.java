@@ -5,6 +5,13 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -22,6 +29,7 @@ public class BartyService extends Service {
 
     // Service
     private boolean isServiceStarted;
+    private FirebaseDatabase firebase;
 
     public BartyService() {
         Log.d(LOG_TAG, "Constructor invoked");
@@ -51,6 +59,21 @@ public class BartyService extends Service {
             Date date = new Date();
             loopRequest = new LoopRequest();
             timer.scheduleAtFixedRate(loopRequest, date, delay);
+
+            firebase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebase.getReference().child("Orders");
+            Query query = databaseReference.orderByKey();
+            query.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d(LOG_TAG, "onDataChange()");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d(LOG_TAG, "onCancelled()");
+                }
+            });
         }
         else {
             Log.d(LOG_TAG, "Service already started");
