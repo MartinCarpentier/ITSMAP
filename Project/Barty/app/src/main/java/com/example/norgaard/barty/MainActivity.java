@@ -13,10 +13,8 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.nearby.connection.Connections;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -36,10 +34,7 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
-
         firebaseAuth = FirebaseAuth.getInstance();
 
         // The following is heavily inspired by
@@ -71,7 +66,6 @@ public class MainActivity extends FragmentActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
     }
 
     @Override
@@ -100,18 +94,16 @@ public class MainActivity extends FragmentActivity {
             GoogleSignInAccount acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct);
 
-
         } else {
             // Signed out, show unauthenticated UI.
             Toast.makeText(this.getApplicationContext(), R.string.info_not_signed_in_key, Toast.LENGTH_SHORT).show();
-
         }
     }
 
     private void updateUser(FirebaseUser user) {
 
         if (user == null){
-            currentUser.setText("Guest");
+            currentUser.setText(R.string.info_not_logged_in_key);
         }
         else {
             currentUser.setText(user.getDisplayName());
@@ -137,15 +129,12 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(MainActivity.this, R.string.info_auth_failed_key,
                                     Toast.LENGTH_SHORT).show();
                             updateUser(null);
                         }
-
                         // ...
                     }
                 });
     }
 }
-
-
