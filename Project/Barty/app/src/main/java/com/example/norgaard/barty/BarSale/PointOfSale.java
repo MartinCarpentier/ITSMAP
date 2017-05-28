@@ -19,7 +19,7 @@ import dk.danskebank.mobilepay.sdk.model.Payment;
 public class PointOfSale extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button goToPayment;
-    private int MOBILEPAY_REQUEST_CODE = 999;
+    private int MOBILEPAY_REQUEST_CODE = 666;
     private Spinner paymentMethods;
     private String selectedPaymentMethod;
 
