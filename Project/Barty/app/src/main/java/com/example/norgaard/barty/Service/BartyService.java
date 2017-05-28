@@ -46,10 +46,9 @@ public class BartyService extends Service {
             Log.d(LOG_TAG, "Service started");
             isServiceStarted = true;
 
-            loopRequest = new LoopRequest();
             timer = new Timer();
-            //timer.cancel();
             Date date = new Date();
+            loopRequest = new LoopRequest();
             timer.scheduleAtFixedRate(loopRequest, date, delay);
         }
         else {
@@ -68,9 +67,12 @@ public class BartyService extends Service {
 
     private class LoopRequest extends TimerTask {
 
+        private String time;
+
         @Override
         public void run() {
-            Log.d(LOG_TAG, "Run method has been called! " + Calendar.getInstance().getTime().toString());
+            time = Calendar.getInstance().getTime().toString();
+            Log.d(LOG_TAG, "Run method invoked at: " + time + ".");
         }
     }
 }
