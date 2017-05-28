@@ -20,6 +20,7 @@ public class BartyService extends Service {
     private long delay = 2 * 1000;
     private static Timer timer;
 
+    // Service
     private boolean isServiceStarted;
 
     public BartyService() {
