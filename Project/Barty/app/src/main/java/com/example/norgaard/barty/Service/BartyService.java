@@ -26,7 +26,6 @@ public class BartyService extends Service {
     @Override
     public void onCreate() {
         Log.d(LOG_TAG, LOG_MESSAGE_START + "onCreate()");
-
         super.onCreate();
     }
 
