@@ -76,7 +76,7 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     }
 
     private void initStripe(cardType type){
-
+        // Initiate Stripe
     }
 
     private enum cardType{
