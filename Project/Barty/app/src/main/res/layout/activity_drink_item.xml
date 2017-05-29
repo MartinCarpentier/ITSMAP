@@ -42,20 +42,20 @@
 
                     <TextView
                         android:id="@+id/drinkName"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="3.01"
                         android:padding="16dp"
+                        android:text="Pina Colada"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
-                        android:text="Pina Colada"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/drinkPriceBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="1"
                         android:padding="16dp"
                         android:text="20"
                         android:textColor="#FFFFFF"
