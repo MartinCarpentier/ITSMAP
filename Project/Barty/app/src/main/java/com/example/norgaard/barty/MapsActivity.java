@@ -100,7 +100,10 @@ public class MapsActivity extends FragmentActivity implements
         mapFragment.getMapAsync(this);
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Nearby bars");
+        collapsingToolbar.setTitle(getString(R.string.nearby_bars));
+        int colorId = ContextCompat.getColor(getApplicationContext(), R.color.cardview_light_background);
+        collapsingToolbar.setExpandedTitleColor(colorId);
+        collapsingToolbar.setCollapsedTitleTextColor(colorId);
 
         // Creating an instance of the Google API client
         // Code taken from/inspired by:
