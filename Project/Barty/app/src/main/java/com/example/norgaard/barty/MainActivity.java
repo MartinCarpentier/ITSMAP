@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,10 +14,8 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.awareness.state.Weather;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.nearby.connection.Connections;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -31,17 +30,15 @@ public class MainActivity extends FragmentActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth firebaseAuth;
     private TextView currentUser;
+    private Button btnNoThanks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
-
         firebaseAuth = FirebaseAuth.getInstance();
-
+        btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);
         // The following is heavily inspired by
         // https://developers.google.com/identity/sign-in/android/sign-in
 
@@ -55,10 +52,13 @@ public class MainActivity extends FragmentActivity {
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        // DO something if stuff fails
+                        Log.d(this.getClass().getSimpleName(), getString(R.string.error_google_api_failed_connection_key));
+                        Toast.makeText(MainActivity.this,
+                                getString(R.string.error_google_api_failed_connection_key),
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -72,6 +72,13 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+        btnNoThanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent proceedWithoutLogin = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(proceedWithoutLogin);
+            }
+        });
     }
 
     @Override
@@ -100,18 +107,16 @@ public class MainActivity extends FragmentActivity {
             GoogleSignInAccount acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct);
 
-
         } else {
             // Signed out, show unauthenticated UI.
             Toast.makeText(this.getApplicationContext(), R.string.info_not_signed_in_key, Toast.LENGTH_SHORT).show();
-
         }
     }
 
     private void updateUser(FirebaseUser user) {
 
         if (user == null){
-            currentUser.setText("Guest");
+            currentUser.setText(R.string.info_not_logged_in_key);
         }
         else {
             currentUser.setText(user.getDisplayName());
@@ -137,15 +142,12 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(MainActivity.this, R.string.info_auth_failed_key,
                                     Toast.LENGTH_SHORT).show();
                             updateUser(null);
                         }
-
                         // ...
                     }
                 });
     }
 }
-
-
