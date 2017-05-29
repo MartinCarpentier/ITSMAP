@@ -21,9 +21,15 @@ import android.widget.TextView;
 
 import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.DrinkBase;
+import com.example.norgaard.barty.Models.OrderDrink;
 import com.example.norgaard.barty.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.model.Payment;
@@ -151,8 +157,28 @@ public class PointOfSale extends AppCompatActivity implements
         if (requestCode == MOBILEPAY_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                clearDatabase();
 
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("/Orders");
+
+                Map<String, OrderDrink> order = new HashMap<String, OrderDrink>();
+                UUID id = UUID.randomUUID();
+
+                posAdapter.cursor.moveToFirst();
+                for (int i = 0; i < posAdapter.cursor.getCount(); i++) {
+                    String drinkName = posAdapter.cursor.getString(PointOfSale.COLUMN_DRINK_NAME);
+                    long drinkPrice = posAdapter.cursor.getLong(PointOfSale.COLUMN_DRINK_PRICE);
+                    int drinkQuantity = posAdapter.cursor.getInt(PointOfSale.COLUMN_DRINK_QUANTITY);
+
+                    OrderDrink value = new OrderDrink(id, drinkName, drinkQuantity, drinkName, "derp");
+                    order.put(drinkName + "_" + drinkPrice + "_" + drinkQuantity, value);
+
+                    posAdapter.cursor.moveToNext();
+                }
+
+                ref.setValue(order);
+
+                clearDatabase();
                 //TODO: HANDLE order here
             }
         }
