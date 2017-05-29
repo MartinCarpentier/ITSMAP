@@ -293,10 +293,6 @@ public class MapsActivity extends FragmentActivity implements
                     ArrayList<Beer> beers = new ArrayList<Beer>();
                     for (DataSnapshot jsonBeer : beer.getChildren()) {
                         try {
-                            //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
-                            //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
-                            //Beer stuff = jsonBeer.getValue(Beer.class);
-
                             HashMap<String, String> beerMap = (HashMap<String, String>) jsonBeer.getValue();
 
                             String imagewhat = beerMap.get("ImageURL");
@@ -316,9 +312,6 @@ public class MapsActivity extends FragmentActivity implements
                     ArrayList<Cocktail> cocktails = new ArrayList<Cocktail>();
                     for (DataSnapshot snapshot : cocktail.getChildren()) {
                         try {
-                            //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
-                            //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
-                            //Beer stuff = jsonBeer.getValue(Beer.class);
 
                             HashMap<String, String> cocktailMap = (HashMap<String, String>) snapshot.getValue();
 
@@ -339,10 +332,6 @@ public class MapsActivity extends FragmentActivity implements
                     ArrayList<Shots> shots = new ArrayList<Shots>();
                     for (DataSnapshot snapshot : shot.getChildren()) {
                         try {
-                            //JSONObject currentBeer = new JSONObject(jsonBeer.getValue().toString());
-                            //Beer stuff = new Gson().fromJson(jsonBeer.getValue().toString(), Beer.class);
-                            //Beer stuff = jsonBeer.getValue(Beer.class);
-
                             HashMap<String, String> shotMap = (HashMap<String, String>) snapshot.getValue();
 
                             String imagewhat = shotMap.get("ImageURL");
@@ -357,9 +346,6 @@ public class MapsActivity extends FragmentActivity implements
                             Log.e("ErrorHappened", e.toString());
                         }
                     }
-
-                    //Bar currentBar = new Gson().fromJson(child.getValue().toString(), Bar.class);
-                    //Bar currentBar2 = child.getValue(Bar.class);
 
                     Log.i("OnDataChange", child.getValue().toString());
                     Drinks drinks = new Drinks();

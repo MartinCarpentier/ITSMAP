@@ -19,9 +19,6 @@ public class BartyContract {
     }
 
     public static String getSqlSelectForCurrentBarBasket(long barId) {
-        //&long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
-
-
         return BasketEntry.COLUMN_FOREIGN_BAR_ID + " = " + barId;
     }
 

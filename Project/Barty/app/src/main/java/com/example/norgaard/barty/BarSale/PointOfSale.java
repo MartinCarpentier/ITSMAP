@@ -32,15 +32,12 @@ import java.math.BigDecimal;
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.model.Payment;
 
-public class PointOfSale extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+public class PointOfSale extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
         PointOfSaleAdapter.PointOnSaleOnClickHandler{
 
     private CardView mobilePay;
-    private Button goToPayment;
     private int MOBILEPAY_REQUEST_CODE = 666;
-    private Spinner paymentMethods;
-    private String selectedPaymentMethod;
     private Context mContext = this;
     private PointOfSale pos = this;
     private Uri currentBarUri;
@@ -63,13 +60,13 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     public static final int COLUMN_FOREIGN_BAR_ID = 2;
     public static final int COLUMN_DRINK_QUANTITY = 3;
 
+    public PointOfSale() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_of_sale);
-        //goToPayment = (Button) findViewById(R.id.btnGoToPayment);
-        //paymentMethods = (Spinner) findViewById(R.id.spinnerPaymentMethod);
-        //paymentMethods.setOnItemSelectedListener(this);
 
         Intent currentIntent = getIntent();
         currentBarUri = currentIntent.getData();
@@ -82,25 +79,6 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                 android.R.layout.simple_spinner_item);
 
         totalPriceText = (TextView)findViewById(R.id.totalPricePOS);
-
-
-        //paymentMethods.setAdapter(paymentMethodsArrayAdapter);
-        /*goToPayment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                switch (selectedPaymentMethod) {
-                    case "MobilePay":
-                        initMobilePayPayment();
-                        break;
-                    case "Visa":
-                        initStripe(cardType.VISA);
-                        break;
-                    case "Mastercard":
-                        initStripe(cardType.MASTERCARD);
-                        break;
-                }
-            }
-        });*/
 
         recyclerView = (RecyclerView) findViewById(R.id.posRecyclerView);
 
@@ -174,13 +152,29 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedPaymentMethod = (String) parent.getItemAtPosition(position);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MOBILEPAY_REQUEST_CODE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                clearDatabase();
+
+                //TODO: HANDLE order here
+            }
+        }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    private void clearDatabase()
+    {
+        ContentResolver barCuntentResolver = mContext.getContentResolver();
 
+        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "= ?";
+
+        String[] drinkArgs = new String[] {currentBarUri.getLastPathSegment()};
+
+        barCuntentResolver.delete(
+                BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                drinkSelection,
+                drinkArgs);
     }
 
     @Override
