@@ -50,10 +50,13 @@ public class MainActivity extends FragmentActivity {
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        // DO something if stuff fails
+                        Log.d(this.getClass().getSimpleName(), getString(R.string.error_google_api_failed_connection_key));
+                        Toast.makeText(MainActivity.this,
+                                getString(R.string.error_google_api_failed_connection_key),
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
