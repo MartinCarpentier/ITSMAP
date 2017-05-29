@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -17,30 +16,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.DrinkBase;
+import com.example.norgaard.barty.Models.OrderDrink;
 import com.example.norgaard.barty.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.model.Payment;
 
-public class PointOfSale extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+public class PointOfSale extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        PointOfSaleAdapter.PointOnSaleOnClickHandler{
+        PointOfSaleAdapter.PointOnSaleOnClickHandler {
 
     private CardView mobilePay;
-    private Button goToPayment;
     private int MOBILEPAY_REQUEST_CODE = 666;
-    private Spinner paymentMethods;
-    private String selectedPaymentMethod;
     private Context mContext = this;
     private PointOfSale pos = this;
     private Uri currentBarUri;
@@ -63,13 +63,13 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     public static final int COLUMN_FOREIGN_BAR_ID = 2;
     public static final int COLUMN_DRINK_QUANTITY = 3;
 
+    public PointOfSale() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_point_of_sale);
-        //goToPayment = (Button) findViewById(R.id.btnGoToPayment);
-        //paymentMethods = (Spinner) findViewById(R.id.spinnerPaymentMethod);
-        //paymentMethods.setOnItemSelectedListener(this);
 
         Intent currentIntent = getIntent();
         currentBarUri = currentIntent.getData();
@@ -81,39 +81,13 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                 R.array.payment_methods,
                 android.R.layout.simple_spinner_item);
 
-        totalPriceText = (TextView)findViewById(R.id.totalPricePOS);
-
-
-        //paymentMethods.setAdapter(paymentMethodsArrayAdapter);
-        /*goToPayment.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                switch (selectedPaymentMethod) {
-                    case "MobilePay":
-                        initMobilePayPayment();
-                        break;
-                    case "Visa":
-                        initStripe(cardType.VISA);
-                        break;
-                    case "Mastercard":
-                        initStripe(cardType.MASTERCARD);
-                        break;
-                }
-            }
-        });*/
-
+        totalPriceText = (TextView) findViewById(R.id.totalPricePOS);
         recyclerView = (RecyclerView) findViewById(R.id.posRecyclerView);
-
         layoutManager = new LinearLayoutManager(this);
-
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setHasFixedSize(true);
-
         getSupportLoaderManager().initLoader(ID_BASKET_LOADER, null, this);
-
         posAdapter = new PointOfSaleAdapter(this, this);
-
         recyclerView.setAdapter(posAdapter);
 
         ItemTouchHelper.SimpleCallback simpleCallback =
@@ -127,15 +101,22 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         //do things
-                        ContentResolver barCuntentResolver = mContext.getContentResolver();
+                        ContentResolver barContentResolver = mContext.getContentResolver();
 
-                        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBarUri.getLastPathSegment() + " AND " +
-                                BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
+                        String drinkSelection =
+                                BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID +
+                                        "=" +
+                                        currentBarUri.getLastPathSegment() +
+                                        " AND " + BartyContract.BasketEntry.COLUMN_DRINK_NAME +
+                                        " = ?";
 
-                        PointOfSaleAdapter.PointOfSaleViewHolder posViewHolder = (PointOfSaleAdapter.PointOfSaleViewHolder)viewHolder;
-                        String[] drinkArgs = new String[] {posViewHolder.drinkName.getText().toString()};
+                        PointOfSaleAdapter.PointOfSaleViewHolder posViewHolder =
+                                (PointOfSaleAdapter.PointOfSaleViewHolder) viewHolder;
 
-                        barCuntentResolver.delete(
+                        String[] drinkArgs
+                                = new String[]{posViewHolder.drinkName.getText().toString()};
+
+                        barContentResolver.delete(
                                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                                 drinkSelection,
                                 drinkArgs);
@@ -147,14 +128,13 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        mobilePay = (CardView)findViewById(R.id.mobilePayButton);
+        mobilePay = (CardView) findViewById(R.id.mobilePayButton);
         mobilePay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pos.initMobilePayPayment();
             }
         });
-
     }
 
     // https://github.com/MobilePayDev/MobilePay-AppSwitch-SDK/wiki/Getting-started-on-Android
@@ -174,30 +154,54 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedPaymentMethod = (String) parent.getItemAtPosition(position);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MOBILEPAY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference ref = database.getReference("/Orders/" + Calendar.getInstance().getTimeInMillis());
+
+                Map<String, OrderDrink> order = new HashMap<String, OrderDrink>();
+                UUID id = UUID.randomUUID();
+
+                posAdapter.cursor.moveToFirst();
+                for (int i = 0; i < posAdapter.cursor.getCount(); i++) {
+                    String drinkName = posAdapter.cursor.getString(PointOfSale.COLUMN_DRINK_NAME);
+                    long drinkPrice = posAdapter.cursor.getLong(PointOfSale.COLUMN_DRINK_PRICE);
+                    int drinkQuantity = posAdapter.cursor.getInt(PointOfSale.COLUMN_DRINK_QUANTITY);
+
+                    OrderDrink value = new OrderDrink(id, drinkName, drinkQuantity, drinkName, "pending");
+                    order.put(drinkName + "_" + drinkPrice + "_" + drinkQuantity, value);
+
+                    posAdapter.cursor.moveToNext();
+                }
+
+                ref.setValue(order);
+                clearDatabase();
+            }
+        }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    private void clearDatabase() {
+        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "= ?";
+        String[] drinkArgs = new String[]{currentBarUri.getLastPathSegment()};
+        barCuntentResolver.delete(
+                BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                drinkSelection,
+                drinkArgs);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
-
             case ID_BASKET_LOADER:
-
                 String sortOrder = BartyContract.BasketEntry.COLUMN_DRINK_NAME + " ASC";
-
                 return new CursorLoader(mContext,
                         currentBarUri,
                         BASKET_DRINK_BASKET_PROJECTION,
                         null,
                         null,
                         sortOrder);
-
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
         }
@@ -219,7 +223,7 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                 drink.setName(drinkName);
                 drink.drinkQuantity = drinkQuantity;
 
-                totalPrice += drinkPrice*drinkQuantity;
+                totalPrice += drinkPrice * drinkQuantity;
 
                 data.moveToNext();
             }
@@ -232,31 +236,33 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         posAdapter.swapData(null);
-
     }
 
     @Override
     public void onAddOrDelete(ContentValues values) {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver barContentResolver = mContext.getContentResolver();
 
-            barCuntentResolver.insert(
-                    BartyContract.BasketEntry.CONTENT_URI_BASKET,
-                    values);
-
+        barContentResolver.insert(
+                BartyContract.BasketEntry.CONTENT_URI_BASKET,
+                values);
 
         getSupportLoaderManager().restartLoader(ID_BASKET_LOADER, null, this);
     }
 
     @Override
     public void onDelete(String drinkName) {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver barContentResolver = mContext.getContentResolver();
 
-        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBarUri.getLastPathSegment() + " AND " +
-                BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
+        String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID +
+                "=" +
+                currentBarUri.getLastPathSegment() +
+                " AND " +
+                BartyContract.BasketEntry.COLUMN_DRINK_NAME +
+                " = ?";
 
-        String[] drinkArgs = new String[] {drinkName};
+        String[] drinkArgs = new String[]{drinkName};
 
-        barCuntentResolver.delete(
+        barContentResolver.delete(
                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                 drinkSelection,
                 drinkArgs);

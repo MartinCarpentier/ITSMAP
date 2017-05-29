@@ -77,3 +77,8 @@ captures/
 
 # Keystore files
 *.jks
+
+# Firebase 
+.idea
+**/node_modules/*
+**/.firebaserc
