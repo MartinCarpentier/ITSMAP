@@ -127,7 +127,7 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         //do things
-                        ContentResolver barCuntentResolver = mContext.getContentResolver();
+                        ContentResolver barContentResolver = mContext.getContentResolver();
 
                         String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBarUri.getLastPathSegment() + " AND " +
                                 BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
@@ -135,7 +135,7 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
                         PointOfSaleAdapter.PointOfSaleViewHolder posViewHolder = (PointOfSaleAdapter.PointOfSaleViewHolder)viewHolder;
                         String[] drinkArgs = new String[] {posViewHolder.drinkName.getText().toString()};
 
-                        barCuntentResolver.delete(
+                        barContentResolver.delete(
                                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                                 drinkSelection,
                                 drinkArgs);
@@ -237,9 +237,9 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onAddOrDelete(ContentValues values) {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver barContentResolver = mContext.getContentResolver();
 
-            barCuntentResolver.insert(
+            barContentResolver.insert(
                     BartyContract.BasketEntry.CONTENT_URI_BASKET,
                     values);
 
@@ -249,14 +249,14 @@ public class PointOfSale extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onDelete(String drinkName) {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver barContentResolver = mContext.getContentResolver();
 
         String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBarUri.getLastPathSegment() + " AND " +
                 BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
 
         String[] drinkArgs = new String[] {drinkName};
 
-        barCuntentResolver.delete(
+        barContentResolver.delete(
                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                 drinkSelection,
                 drinkArgs);
