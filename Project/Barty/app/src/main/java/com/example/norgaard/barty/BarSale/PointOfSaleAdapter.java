@@ -29,7 +29,7 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
 
     private final Context mContext;
 
-    private Cursor cursor = null;
+    public Cursor cursor = null;
 
     PointOnSaleOnClickHandler mClickHandler;
 
