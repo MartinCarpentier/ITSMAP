@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -155,11 +156,9 @@ public class PointOfSale extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MOBILEPAY_REQUEST_CODE) {
-            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("/Orders");
+                DatabaseReference ref = database.getReference("/Orders/" + Calendar.getInstance().getTimeInMillis());
 
                 Map<String, OrderDrink> order = new HashMap<String, OrderDrink>();
                 UUID id = UUID.randomUUID();
@@ -177,9 +176,7 @@ public class PointOfSale extends AppCompatActivity implements
                 }
 
                 ref.setValue(order);
-
                 clearDatabase();
-                //TODO: HANDLE order here
             }
         }
     }

@@ -8,13 +8,13 @@ public class OrderDrink {
     public String state;
     public int quantity;
     public String name;
-    public UUID id;
+    public String id;
 
     public OrderDrink(UUID id, String name, int quantity, String barName, String state) {
+        this.id = id.toString().substring(0,id.toString().length()/2);
         this.quantity = quantity;
         this.barName = barName;
         this.state = state;
         this.name = name;
-        this.id = id;
     }
 }
