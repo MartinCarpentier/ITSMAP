@@ -169,7 +169,7 @@ public class PointOfSale extends AppCompatActivity implements
                     long drinkPrice = posAdapter.cursor.getLong(PointOfSale.COLUMN_DRINK_PRICE);
                     int drinkQuantity = posAdapter.cursor.getInt(PointOfSale.COLUMN_DRINK_QUANTITY);
 
-                    OrderDrink value = new OrderDrink(id, drinkName, drinkQuantity, drinkName, "derp");
+                    OrderDrink value = new OrderDrink(id, drinkName, drinkQuantity, drinkName, "pending");
                     order.put(drinkName + "_" + drinkPrice + "_" + drinkQuantity, value);
 
                     posAdapter.cursor.moveToNext();
