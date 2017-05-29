@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Barty</string>
     <string name="title_activity_maps">Barty</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="key_location">location</string>
     <string name="key_camera_position">camera_position</string>
@@ -16,4 +14,6 @@
     <string name="error_google_api_failed_connection_key">GoogleAPIClient builder failed to connect</string>
     <string name="txtBox_logged_in_as">Logged in as:</string>
     <string name="txtBox_no_thanks">No thanks</string>
+    <string name="defaultCheckoutCounter">1000$</string>
+    <string name="total_price">Total price</string>
 </resources>
