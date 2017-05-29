@@ -14,4 +14,6 @@
     <string name="info_not_logged_in_key">Not logged in</string>
     <string name="info_auth_failed_key">Authentication failed.</string>
     <string name="error_google_api_failed_connection_key">GoogleAPIClient builder failed to connect</string>
+    <string name="txtBox_logged_in_as">Logged in as:</string>
+    <string name="txtBox_no_thanks">No thanks</string>
 </resources>

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class MainActivity extends FragmentActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth firebaseAuth;
     private TextView currentUser;
+    private Button btnNoThanks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
         firebaseAuth = FirebaseAuth.getInstance();
-
+        btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);
         // The following is heavily inspired by
         // https://developers.google.com/identity/sign-in/android/sign-in
 
@@ -67,6 +69,14 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
+
+        btnNoThanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent proceedWithoutLogin = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(proceedWithoutLogin);
             }
         });
     }
