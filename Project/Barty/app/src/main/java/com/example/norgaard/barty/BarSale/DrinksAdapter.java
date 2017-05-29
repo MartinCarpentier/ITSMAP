@@ -54,7 +54,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
                 .into(holder.drinkImage);
 
         holder.drinkName.setText(drink.getName());
-        //holder.drinkPrice.setText(String.valueOf(drink.getPrice()));
+        holder.drinkPrice.setText(String.valueOf(drink.getPrice()));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
 
             drinkImage = (ImageView) view.findViewById(R.id.drinkImage);
             drinkName = (TextView) view.findViewById(R.id.drinkName);
-            //drinkPrice = (TextView)view.findViewById(R.id.drinkPrice);
+            drinkPrice = (TextView)view.findViewById(R.id.drinkPriceBar);
 
             view.setOnClickListener(this);
         }

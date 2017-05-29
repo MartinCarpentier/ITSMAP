@@ -76,6 +76,6 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="1000$"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 </LinearLayout>
