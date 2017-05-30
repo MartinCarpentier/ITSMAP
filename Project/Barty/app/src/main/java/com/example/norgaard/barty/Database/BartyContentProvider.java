@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.Data;
+package com.example.norgaard.barty.Database;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;

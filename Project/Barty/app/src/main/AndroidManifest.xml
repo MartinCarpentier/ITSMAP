@@ -29,21 +29,21 @@
         android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".Activities.Maps.MapsActivity"
             android:label="@string/title_activity_maps">
             android:parentActivityName=".MapsActivity" />
 
         </activity>
         <activity
-            android:name=".BarSale.BarSale"
-            android:parentActivityName=".MapsActivity"/>
+            android:name=".Activities.Catalog.CatalogActivity"
+            android:parentActivityName=".Activities.Maps.MapsActivity"/>
 
         <provider
-            android:name=".Data.BartyContentProvider"
+            android:name=".Database.BartyContentProvider"
             android:authorities="com.example.norgaard.barty"
             android:exported="false"/>
 
-        <activity android:name=".BarSale.PointOfSale"/>
+        <activity android:name=".Activities.Checkout.CheckoutActivity"/>
 
         <service
             android:name=".Service.BartyService"
@@ -51,7 +51,7 @@
             android:exported="true"></service>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.Login.LoginActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

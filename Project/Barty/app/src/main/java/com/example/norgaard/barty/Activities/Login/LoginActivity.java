@@ -1,4 +1,4 @@
-package com.example.norgaard.barty;
+package com.example.norgaard.barty.Activities.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.norgaard.barty.Activities.Maps.MapsActivity;
+import com.example.norgaard.barty.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class MainActivity extends FragmentActivity {
+public class LoginActivity extends FragmentActivity {
 
     private static final int RC_SIGN_IN = 101;
     private GoogleApiClient mGoogleApiClient;
@@ -56,7 +58,7 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                         Log.d(this.getClass().getSimpleName(), getString(R.string.error_google_api_failed_connection_key));
-                        Toast.makeText(MainActivity.this,
+                        Toast.makeText(LoginActivity.this,
                                 getString(R.string.error_google_api_failed_connection_key),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -142,7 +144,7 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, R.string.info_auth_failed_key,
+                            Toast.makeText(LoginActivity.this, R.string.info_auth_failed_key,
                                     Toast.LENGTH_SHORT).show();
                             updateUser(null);
                         }

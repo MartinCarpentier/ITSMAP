@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.BarSale;
+package com.example.norgaard.barty.Activities.Catalog;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -18,11 +18,11 @@ import com.example.norgaard.barty.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdapterViewHolder> {
+public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.DrinksAdapterViewHolder> {
 
     private final Context mContext;
 
-    final private DrinksAdapter.DrinksOnClickHandler mClickHandler;
+    final private CatalogAdapter.DrinksOnClickHandler mClickHandler;
 
     private ArrayList<DrinkBase> mDrinkData = new ArrayList<DrinkBase>();
 
@@ -31,23 +31,23 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
         void onClick(DrinkBase drink);
     }
 
-    public DrinksAdapter(@NonNull Context context, DrinksAdapter.DrinksOnClickHandler clickHandler) {
+    public CatalogAdapter(@NonNull Context context, CatalogAdapter.DrinksOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
 
     @Override
-    public DrinksAdapter.DrinksAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CatalogAdapter.DrinksAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.activity_drink_item, parent, false);
 
         view.setFocusable(true);
 
-        return new DrinksAdapter.DrinksAdapterViewHolder(view);
+        return new CatalogAdapter.DrinksAdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DrinksAdapter.DrinksAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(CatalogAdapter.DrinksAdapterViewHolder holder, int position) {
         DrinkBase drink = mDrinkData.get(position);
 
         Glide.with(mContext)

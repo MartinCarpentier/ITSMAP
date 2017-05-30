@@ -38,7 +38,7 @@
                 android:layout_height="match_parent"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways"
-                tools:context="com.example.norgaard.barty.MapsActivity" />
+                tools:context=".Activities.Maps.MapsActivity" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

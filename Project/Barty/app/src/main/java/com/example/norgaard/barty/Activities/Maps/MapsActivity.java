@@ -1,4 +1,4 @@
-package com.example.norgaard.barty;
+package com.example.norgaard.barty.Activities.Maps;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -22,14 +22,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.norgaard.barty.BarSale.BarSale;
-import com.example.norgaard.barty.Data.BartyContract;
+import com.example.norgaard.barty.Activities.Catalog.CatalogActivity;
+import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
 import com.example.norgaard.barty.Models.Drinks;
 import com.example.norgaard.barty.Models.Shots;
+import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Service.BartyService;
+import com.example.norgaard.barty.Utilities.ContentValueCreator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -60,7 +62,7 @@ import dk.danskebank.mobilepay.sdk.MobilePay;
 
 public class MapsActivity extends FragmentActivity implements
         OnMapReadyCallback,
-        BarDistanceAdapter.BarDistanceOnClickHandler,
+        MapsAdapter.BarDistanceOnClickHandler,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -75,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements
     private CameraPosition mCameraPosition;
     private AppBarLayout appBar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    public BarDistanceAdapter barDistanceAdapter;
+    public MapsAdapter mapsAdapter;
     private LinearLayoutManager layoutManager;
     public FirebaseDatabase mFireDb;
     private MapsActivity mapsActivity = this;
@@ -135,8 +137,8 @@ public class MapsActivity extends FragmentActivity implements
         layoutManager = new LinearLayoutManager(mapsActivity);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        barDistanceAdapter = new BarDistanceAdapter(getApplicationContext(), this);
-        recyclerView.setAdapter(barDistanceAdapter);
+        mapsAdapter = new MapsAdapter(getApplicationContext(), this);
+        recyclerView.setAdapter(mapsAdapter);
 
         Intent intent = new Intent(MapsActivity.this, BartyService.class);
         MapsActivity.this.startService(intent);
@@ -394,7 +396,7 @@ public class MapsActivity extends FragmentActivity implements
                 }
                 setBarMarkers(bars);
                 insertBarsIntoDatabase(bars);
-                barDistanceAdapter.swapData(bars);
+                mapsAdapter.swapData(bars);
                 barsReady = true;
             }
 
@@ -424,7 +426,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void insertBarsIntoDatabase(ArrayList<Bar> bars) {
-        ContentValues[] values = Utilities.createContentValuesForWeatherInfos(bars);
+        ContentValues[] values = ContentValueCreator.createContentValuesForBars(bars);
 
         //Insert values into db
         ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
@@ -481,7 +483,7 @@ public class MapsActivity extends FragmentActivity implements
     public void onClick(Bar clickedBar) {
         Log.d("bar was clicked", "Clicked");
 
-        Intent intent = new Intent(this, BarSale.class);
+        Intent intent = new Intent(this, CatalogActivity.class);
 
         intent.putExtra("barname_key", Parcels.wrap(clickedBar));
         startActivity(intent);

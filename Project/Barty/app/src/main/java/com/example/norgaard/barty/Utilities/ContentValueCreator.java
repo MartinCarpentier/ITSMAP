@@ -1,16 +1,16 @@
-package com.example.norgaard.barty;
+package com.example.norgaard.barty.Utilities;
 
 import android.content.ContentValues;
 
-import com.example.norgaard.barty.Data.BartyContract;
+import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 
 import java.util.ArrayList;
 
-public class Utilities {
+public class ContentValueCreator {
 
-    public static ContentValues[] createContentValuesForWeatherInfos(ArrayList<Bar> bars) {
+    public static ContentValues[] createContentValuesForBars(ArrayList<Bar> bars) {
         ContentValues[] contentValues = new ContentValues[bars.size()];
 
         for (int i = 0; i < bars.size(); i++) {
@@ -22,7 +22,7 @@ public class Utilities {
         return contentValues;
     }
 
-    public static ContentValues createContentValuesForDrink(DrinkBase drink, long barId, int drinkQuantity) {
+    public static ContentValues createContentValuesForDrinks(DrinkBase drink, long barId, int drinkQuantity) {
         ContentValues value = new ContentValues();
         value.put(BartyContract.BasketEntry.COLUMN_DRINK_NAME, drink.getName());
         value.put(BartyContract.BasketEntry.COLUMN_DRINK_PRICE, drink.getPrice());
