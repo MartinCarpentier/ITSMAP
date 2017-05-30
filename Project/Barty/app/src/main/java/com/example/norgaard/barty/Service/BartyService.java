@@ -48,6 +48,8 @@ public class BartyService extends Service {
             loopRequest = new LoopRequest();
             timer.scheduleAtFixedRate(loopRequest, date, delay);
 
+            //Check if there is pending orders
+
             firebase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebase.getReference().child("Orders");
             Query query = databaseReference.orderByKey();

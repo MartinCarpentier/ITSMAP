@@ -34,6 +34,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + ") ON CONFLICT REPLACE);";
 
         //This is a stored procedure, that helps with inserting another drink into db
+        final String SQL_CREATE_ORDER_TABLE =
+                "CREATE TABLE " + BartyContract.OrderEntry.TABLE_NAME_BASKET + " (" +
+                        BartyContract.BarEntry.COLUMN_BAR_NAME + " TEXT NOT NULL," +
+                        BartyContract.BarEntry.COLUMN_BAR_ONLINE_ID + " INTEGER PRIMARY KEY," +
+                        "UNIQUE (" + BartyContract.BarEntry.COLUMN_BAR_NAME + ") ON CONFLICT REPLACE);";
+
 
         db.execSQL(SQL_CREATE_BAR_TABLE);
         db.execSQL(SQL_CREATE_BASKET_TABLE);
