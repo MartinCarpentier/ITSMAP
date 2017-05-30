@@ -27,6 +27,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
     private ArrayList<DrinkBase> mDrinkData = new ArrayList<DrinkBase>();
 
     public interface DrinksOnClickHandler {
+
         void onClick(DrinkBase drink);
     }
 
@@ -73,7 +74,7 @@ public class DrinksAdapter extends RecyclerView.Adapter<DrinksAdapter.DrinksAdap
 
             drinkImage = (ImageView) view.findViewById(R.id.drinkImage);
             drinkName = (TextView) view.findViewById(R.id.drinkName);
-            drinkPrice = (TextView)view.findViewById(R.id.drinkPriceBar);
+            drinkPrice = (TextView) view.findViewById(R.id.drinkPriceBar);
 
             view.setOnClickListener(this);
         }

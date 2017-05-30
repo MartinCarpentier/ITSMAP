@@ -1,16 +1,10 @@
 package com.example.norgaard.barty.Models;
 
-/**
- * Created by marti on 19-05-2017.
- */
-
 public class DrinkBase {
+
     public String imageURL;
-
     public String name;
-
     public long price;
-
     public long drinkQuantity;
 
     public String getImageURL() {

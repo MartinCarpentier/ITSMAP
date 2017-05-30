@@ -1,22 +1,13 @@
 package com.example.norgaard.barty.Models;
 
-/**
- * Created by mbc on 16-05-2017.
- */
-
 @org.parceler.Parcel
 public class Bar
 {
     public String barName;
-
     public String barlogo;
-
     public Drinks drinks;
-
     public long id;
-
     public Location location;
-
 
     public String getBarlogo() {
         return barlogo;

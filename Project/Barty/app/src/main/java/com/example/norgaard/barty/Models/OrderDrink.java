@@ -11,7 +11,7 @@ public class OrderDrink {
     public String id;
 
     public OrderDrink(UUID id, String name, int quantity, String barName, String state) {
-        this.id = id.toString().substring(0,id.toString().length()/2);
+        this.id = id.toString().substring(0, id.toString().length() / 2);
         this.quantity = quantity;
         this.barName = barName;
         this.state = state;
