@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="login_string">Log ind for at få adgang til nogle fede funktioner!</string>
     <string name="app_name">Barty</string>
     <string name="title_activity_maps">Barty</string>
     <string name="key_location">lokation</string>
     <string name="key_camera_position">kamera_position</string>
-    <string name="key_mobilepay_test_merchant" translatable="false">APPDK0000000000</string>
     <string name="proceed_to_payment">Forsæt til betaling</string>
     <string name="choose_payment_method">Vælg betalingsmetode</string>
     <string name="info_not_signed_in_key">Ups.. Du er ikke logget ind!</string>
