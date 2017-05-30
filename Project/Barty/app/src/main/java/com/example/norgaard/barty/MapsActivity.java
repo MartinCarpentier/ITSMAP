@@ -75,7 +75,6 @@ public class MapsActivity extends FragmentActivity implements
     private CameraPosition mCameraPosition;
     private AppBarLayout appBar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    //private ProgressBar progressBar;
     public BarDistanceAdapter barDistanceAdapter;
     private LinearLayoutManager layoutManager;
     public FirebaseDatabase mFireDb;

@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -64,55 +63,39 @@ public class BarSale extends AppCompatActivity implements
     public static final int COLUMN_FOREIGN_BAR_ID = 2;
     public static final int COLUMN_DRINK_QUANTITY = 3;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_sale);
 
-        if(savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             currentBar = Parcels.unwrap(savedInstanceState.getParcelable("barname_key"));
         }
-        else
-        {
+        else {
 
             currentBar = Parcels.unwrap(getIntent().getParcelableExtra("barname_key"));
         }
         menu = (MenuView.ItemView) findViewById(R.id.action_favorite);
-
         Log.d(logTag, "Current bar is " + currentBar.getBarname());
-
-        barText = (TextView)findViewById(R.id.totalPriceBar);
+        barText = (TextView) findViewById(R.id.totalPriceBar);
         setTitle(currentBar.getBarname());
-
         setTabs();
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerDrinksView);
 
-        //progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
         int columnAmount;
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             columnAmount = 4;
         }
-        else
-        {
+        else {
             columnAmount = 2;
         }
 
         layoutManager = new GridLayoutManager(this, columnAmount);
-
         recyclerView.setLayoutManager(layoutManager);
-
         recyclerView.setHasFixedSize(true);
-
         drinksAdapter = new DrinksAdapter(this, this);
-
         getSupportLoaderManager().initLoader(ID_BAR_LOADER, null, this);
-
         recyclerView.setAdapter(drinksAdapter);
-
         drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
     }
 
@@ -195,23 +178,21 @@ public class BarSale extends AppCompatActivity implements
         String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=" + currentBar.getId() + " AND " +
                 BartyContract.BasketEntry.COLUMN_DRINK_NAME + " = ?";
 
-        String[] drinkArgs = new String[] {drink.getName()};
+        String[] drinkArgs = new String[]{drink.getName()};
         Cursor drinkCursor = barContentResolver.query(BartyContract.BasketEntry.CONTENT_URI_BASKET,
                 BarSale.BAR_DRINK_BASKET_PROJECTION,
                 drinkSelection,
                 drinkArgs,
                 null
-                );
+        );
 
         int drinkQuantity;
-        if(drinkCursor.getCount() == 0)
-        {
+        if (drinkCursor.getCount() == 0) {
             drinkQuantity = 1;
         }
-        else
-        {
+        else {
             drinkCursor.moveToFirst();
-            drinkQuantity = drinkCursor.getInt(BarSale.COLUMN_DRINK_QUANTITY)+1;
+            drinkQuantity = drinkCursor.getInt(BarSale.COLUMN_DRINK_QUANTITY) + 1;
         }
 
         //Create values to insert into db
@@ -262,7 +243,7 @@ public class BarSale extends AppCompatActivity implements
                 drink.drinkQuantity = drinkQuantity;
 
                 drinks.add(drink);
-                totalPrice += drinkPrice*drinkQuantity;
+                totalPrice += drinkPrice * drinkQuantity;
 
                 data.moveToNext();
             }
