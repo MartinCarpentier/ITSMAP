@@ -30,6 +30,7 @@
 
         <activity
             android:name=".Activities.Checkout.CheckoutActivity"
+            android:label="@string/cart"
             android:parentActivityName=".Activities.Catalog.CatalogActivity">
         </activity>
 
