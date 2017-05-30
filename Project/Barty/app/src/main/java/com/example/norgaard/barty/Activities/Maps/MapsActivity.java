@@ -429,13 +429,13 @@ public class MapsActivity extends FragmentActivity implements
         ContentValues[] values = ContentValueCreator.createContentValuesForBars(bars);
 
         //Insert values into db
-        ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
 
-        barCuntentResolver.bulkInsert(
+        contentResolver.bulkInsert(
                 BartyContract.BarEntry.CONTENT_URI_BARS,
                 values);
 
-        Cursor cursor = barCuntentResolver.query(
+        Cursor cursor = contentResolver.query(
                 BartyContract.BarEntry.CONTENT_URI_BARS,
                 null,
                 null,
