@@ -53,6 +53,19 @@
             android:enabled="true"
             android:exported="true"></service>
 
+        <activity
+            android:name=".Activities.Login.LoginActivity"
+            android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name=".Service.NewOrderBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.intent.action.USER_ACTION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
