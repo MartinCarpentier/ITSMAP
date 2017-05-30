@@ -25,22 +25,15 @@
 
         <activity
             android:name=".Activities.Catalog.CatalogActivity"
-            android:parentActivityName=".Activities.Maps.MapsActivity">
+            android:parentActivityName=".Activities.Maps.MapsActivity"
+            android:launchMode="singleTop">
         </activity>
 
         <activity
             android:name=".Activities.Checkout.CheckoutActivity"
             android:label="@string/cart"
-            android:parentActivityName=".Activities.Catalog.CatalogActivity">
-        </activity>
-
-        <activity
-            android:name=".Activities.Login.LoginActivity"
-            android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:parentActivityName=".Activities.Catalog.CatalogActivity"
+            >
         </activity>
 
         <provider
@@ -51,7 +44,7 @@
         <service
             android:name=".Service.BartyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="false" />
 
         <activity
             android:name=".Activities.Login.LoginActivity"
