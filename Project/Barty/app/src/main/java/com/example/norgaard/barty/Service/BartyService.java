@@ -14,6 +14,7 @@ import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Order;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Utilities.ContentValueCreator;
+import com.example.norgaard.barty.Utilities.NotificationID;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -196,7 +197,7 @@ public class BartyService extends Service {
                         .setContentText("Show this id " + currentOrder);
 
         // Sets an ID for the notification
-        int mNotificationId = Integer.valueOf(currentOrder);
+        int mNotificationId = NotificationID.getID();
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
