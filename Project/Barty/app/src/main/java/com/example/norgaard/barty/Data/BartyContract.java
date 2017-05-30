@@ -4,8 +4,6 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import java.util.Calendar;
-
 public class BartyContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.norgaard.barty";
@@ -13,8 +11,7 @@ public class BartyContract {
     public static final String PATH_BARS = "bars";
     public static final String PATH_BASKET = "basket";
 
-    public static Uri getUriForSpecificBar(long id)
-    {
+    public static Uri getUriForSpecificBar(long id) {
         return ContentUris.withAppendedId(BasketEntry.CONTENT_URI_BASKET, id);
     }
 

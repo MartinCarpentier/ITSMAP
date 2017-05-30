@@ -1,40 +1,31 @@
 package com.example.norgaard.barty.BarSale;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.norgaard.barty.Data.BartyContract;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Utilities;
 
-/**
- * Created by marti on 28-05-2017.
- */
-
-public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.PointOfSaleViewHolder>{
+public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.PointOfSaleViewHolder> {
 
     private final Context mContext;
-
     public Cursor cursor = null;
-
     PointOnSaleOnClickHandler mClickHandler;
 
     public interface PointOnSaleOnClickHandler {
+
         void onAddOrDelete(ContentValues values);
+
         void onDelete(String drinkName);
     }
 
@@ -64,19 +55,19 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
 
         holder.drinkName.setText(drinkName);
         holder.quantity.setText(String.valueOf(quantity));
-        holder.totalPrice.setText(String.valueOf(price*quantity));
+        holder.totalPrice.setText(String.valueOf(price * quantity));
         holder.singleDrinkPrice = price;
         holder.barId = barId;
     }
 
     @Override
     public int getItemCount() {
-        if(cursor == null)
+        if (cursor == null) {
             return 0;
+        }
 
         return cursor.getCount();
     }
-
 
     class PointOfSaleViewHolder extends RecyclerView.ViewHolder {
 
@@ -93,8 +84,8 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
             quantity = (TextView) view.findViewById(R.id.amountOfDrinks);
             totalPrice = (TextView) view.findViewById(R.id.drinkPricePOS);
 
-            FloatingActionButton add = (FloatingActionButton)view.findViewById(R.id.addFabButton);
-            FloatingActionButton remove = (FloatingActionButton)view.findViewById(R.id.removeFabButton);
+            FloatingActionButton add = (FloatingActionButton) view.findViewById(R.id.addFabButton);
+            FloatingActionButton remove = (FloatingActionButton) view.findViewById(R.id.removeFabButton);
 
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,9 +95,9 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
                     DrinkBase drink = new DrinkBase();
 
                     drink.setName(drinkName.getText().toString());
-                    drink.setPrice((long)singleDrinkPrice);
+                    drink.setPrice((long) singleDrinkPrice);
 
-                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString())+1);
+                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString()) + 1);
 
                     mClickHandler.onAddOrDelete(values);
                 }
@@ -118,20 +109,16 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
                     DrinkBase drink = new DrinkBase();
 
                     drink.setName(drinkName.getText().toString());
-                    drink.setPrice((long)singleDrinkPrice);
+                    drink.setPrice((long) singleDrinkPrice);
 
-                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString())-1);
+                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString()) - 1);
 
-
-                    if(Integer.valueOf(quantity.getText().toString())-1 == 0)
-                    {
+                    if (Integer.valueOf(quantity.getText().toString()) - 1 == 0) {
                         mClickHandler.onDelete(drink.getName());
                     }
-                    else
-                    {
+                    else {
                         mClickHandler.onAddOrDelete(values);
                     }
-
                 }
             });
         }

@@ -14,10 +14,6 @@ import com.example.norgaard.barty.Models.Bar;
 
 import java.util.ArrayList;
 
-/**
- * Created by marti on 14-05-2017.
- */
-
 public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.BarDistanceAdapterViewHolder> {
 
     private final Context mContext;
@@ -39,18 +35,14 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
     public BarDistanceAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.bar_item_distance, parent, false);
-
         view.setFocusable(true);
-
         return new BarDistanceAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(BarDistanceAdapterViewHolder holder, int position) {
         Bar barAtPosition = mBarData.get(position);
-
         holder.barName.setText(barAtPosition.getBarname());
-
         //Set baricon
         Glide.with(mContext)
                 .load(barAtPosition.getBarlogo())

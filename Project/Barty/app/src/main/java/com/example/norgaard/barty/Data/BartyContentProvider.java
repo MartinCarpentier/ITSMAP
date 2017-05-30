@@ -48,14 +48,14 @@ public class BartyContentProvider extends ContentProvider {
                     db.beginTransaction();
                     deletedId = db.delete(BartyContract.BasketEntry.TABLE_NAME_BASKET, selection, selectionArgs);
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
                 return deletedId;
             default:
                 return 0;
         }
-
     }
 
     @Override
@@ -75,7 +75,8 @@ public class BartyContentProvider extends ContentProvider {
                     db.beginTransaction();
                     long barid = db.insert(BartyContract.BarEntry.TABLE_NAME_BARS, null, values);
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
                 return null;
@@ -84,7 +85,8 @@ public class BartyContentProvider extends ContentProvider {
                     db.beginTransaction();
                     long basketId = db.insert(BartyContract.BasketEntry.TABLE_NAME_BASKET, null, values);
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
                 return null;
@@ -109,7 +111,8 @@ public class BartyContentProvider extends ContentProvider {
                         }
                     }
                     db.setTransactionSuccessful();
-                } finally {
+                }
+                finally {
                     db.endTransaction();
                 }
 
@@ -141,7 +144,7 @@ public class BartyContentProvider extends ContentProvider {
                 long currentBarId = Long.valueOf(uri.getLastPathSegment());
 
                 String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "=?";
-                String[] drinkArgs = new String[] {String.valueOf(currentBarId)};
+                String[] drinkArgs = new String[]{String.valueOf(currentBarId)};
 
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BasketEntry.TABLE_NAME_BASKET,
@@ -180,8 +183,6 @@ public class BartyContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        //cursor.setNotificationUri(getContext().getContentResolver(), uri);
-
         return cursor;
     }
 
@@ -189,6 +190,4 @@ public class BartyContentProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
-
-
 }
