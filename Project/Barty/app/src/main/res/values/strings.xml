@@ -17,6 +17,7 @@
     <string name="txtBox_logged_in_as">Logged in as:</string>
     <string name="txtBox_no_thanks">No thanks</string>
     <string name="nearby_bars">Nearby bars</string>
+    <string name="orderId" translatable="false">86715c57-8840-4a6f-af5f-07ee89107ece</string>
 </resources>
 
 

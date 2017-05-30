@@ -143,7 +143,7 @@ public class CheckoutActivity extends AppCompatActivity implements
         if (isMobilePayInstalled) {
             Payment payment = new Payment();
             payment.setProductPrice(new BigDecimal(totalPriceText.getText().toString()));
-            payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
+            payment.setOrderId(getString(R.string.orderId));
             Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
             startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
         }
@@ -158,7 +158,9 @@ public class CheckoutActivity extends AppCompatActivity implements
         if (requestCode == MOBILEPAY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("/Orders/" + Calendar.getInstance().getTimeInMillis());
+
+                String orderTag = String.valueOf(Calendar.getInstance().getTimeInMillis());
+                DatabaseReference ref = database.getReference("/Orders/" + orderTag);
 
                 Map<String, OrderDrink> order = new HashMap<String, OrderDrink>();
                 UUID id = UUID.randomUUID();
@@ -176,11 +178,25 @@ public class CheckoutActivity extends AppCompatActivity implements
                 }
 
                 ref.setValue(order);
+
+                saveOrderInDb(orderTag);
+
                 clearDatabase();
 
                 getSupportLoaderManager().restartLoader(ID_BASKET_LOADER, null, this);
             }
         }
+    }
+
+    private void saveOrderInDb(String orderTag) {
+        ContentResolver barContentResolver = mContext.getContentResolver();
+
+
+
+        barContentResolver.insert(
+                BartyContract.OrderEntry.CONTENT_URI_ORDER,
+                values);
+
     }
 
     private void clearDatabase() {
