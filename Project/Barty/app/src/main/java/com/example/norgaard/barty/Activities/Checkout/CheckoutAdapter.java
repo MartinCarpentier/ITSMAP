@@ -37,7 +37,7 @@ public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.PointO
     @Override
     public CheckoutAdapter.PointOfSaleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.point_of_sale_drink_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.checkout_item, parent, false);
 
         view.setFocusable(true);
 

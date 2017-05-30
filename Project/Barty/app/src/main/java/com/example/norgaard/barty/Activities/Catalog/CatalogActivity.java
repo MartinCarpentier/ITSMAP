@@ -67,7 +67,7 @@ public class CatalogActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_sale);
+        setContentView(R.layout.activity_catalog);
 
         if (savedInstanceState != null) {
             currentBar = Parcels.unwrap(savedInstanceState.getParcelable("barname_key"));

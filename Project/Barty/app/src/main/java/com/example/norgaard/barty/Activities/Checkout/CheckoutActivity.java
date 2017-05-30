@@ -69,7 +69,7 @@ public class CheckoutActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_point_of_sale);
+        setContentView(R.layout.activity_checkout);
 
         Intent currentIntent = getIntent();
         currentBarUri = currentIntent.getData();

@@ -37,7 +37,7 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
         firebaseAuth = FirebaseAuth.getInstance();
         btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);

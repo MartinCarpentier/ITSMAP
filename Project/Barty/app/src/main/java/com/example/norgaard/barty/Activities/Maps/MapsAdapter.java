@@ -34,7 +34,7 @@ public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.BarDistanceAda
     @Override
     public BarDistanceAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.bar_item_distance, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.bar_maps_item, parent, false);
         view.setFocusable(true);
         return new BarDistanceAdapterViewHolder(view);
     }
