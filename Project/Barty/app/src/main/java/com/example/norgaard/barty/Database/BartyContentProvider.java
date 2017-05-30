@@ -13,6 +13,7 @@ public class BartyContentProvider extends ContentProvider {
     public static final int CODE_BARS = 100;
     public static final int CODE_BASKET_FOR_BAR = 101;
     public static final int CODE_BASKET = 102;
+    public static final int CODE_ORDERS = 103;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -28,6 +29,7 @@ public class BartyContentProvider extends ContentProvider {
         matcher.addURI(authority, BartyContract.PATH_BARS, CODE_BARS);
         matcher.addURI(authority, BartyContract.PATH_BASKET + "/*", CODE_BASKET_FOR_BAR);
         matcher.addURI(authority, BartyContract.PATH_BASKET, CODE_BASKET);
+        matcher.addURI(authority, BartyContract.PATH_ORDER, CODE_ORDERS);
 
         return matcher;
     }
@@ -84,6 +86,16 @@ public class BartyContentProvider extends ContentProvider {
                 try {
                     db.beginTransaction();
                     long basketId = db.insert(BartyContract.BasketEntry.TABLE_NAME_BASKET, null, values);
+                    db.setTransactionSuccessful();
+                }
+                finally {
+                    db.endTransaction();
+                }
+                return null;
+            case CODE_ORDERS:
+                try {
+                    db.beginTransaction();
+                    long orderId = db.insert(BartyContract.OrderEntry.TABLE_NAME_ORDERS, null, values);
                     db.setTransactionSuccessful();
                 }
                 finally {
@@ -171,6 +183,16 @@ public class BartyContentProvider extends ContentProvider {
             case CODE_BARS:
                 cursor = mOpenHelper.getReadableDatabase().query(
                         BartyContract.BarEntry.TABLE_NAME_BARS,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case CODE_ORDERS:
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        BartyContract.OrderEntry.TABLE_NAME_ORDERS,
                         projection,
                         selection,
                         selectionArgs,

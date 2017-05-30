@@ -84,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements
     private LatLng mDefaultLocation;
     ArrayList<Bar> bars;
     private boolean barsReady;
+    private String logTag = MapsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements
 
         Intent intent = new Intent(MapsActivity.this, BartyService.class);
         MapsActivity.this.startService(intent);
-        Log.d(MapsActivity.class.toString(), "Started " + BartyService.class.toString());
+        Log.d(logTag, "Started " + BartyService.class.toString());
 
         startFirebaseDb();
     }
@@ -193,11 +194,11 @@ public class MapsActivity extends FragmentActivity implements
                             this, R.raw.style_json));
 
             if (!success) {
-                Log.e("asd", "Style parsing failed.");
+                Log.e(logTag, "Style parsing failed.");
             }
         }
         catch (Resources.NotFoundException e) {
-            Log.e("asd", "Can't find style. Error: ", e);
+            Log.e(logTag, "Can't find style. Error: ", e);
         }
     }
 
@@ -212,7 +213,7 @@ public class MapsActivity extends FragmentActivity implements
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), DEFAULT_ZOOM));
         }
         else {
-            Log.d(MapsActivity.class.toString(), "Current location is null. Using defaults.");
+            Log.d(logTag, "Current location is null. Using defaults.");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
@@ -433,15 +434,6 @@ public class MapsActivity extends FragmentActivity implements
         contentResolver.bulkInsert(
                 BartyContract.BarEntry.CONTENT_URI_BARS,
                 values);
-
-        Cursor cursor = contentResolver.query(
-                BartyContract.BarEntry.CONTENT_URI_BARS,
-                null,
-                null,
-                null,
-                null);
-
-        Log.d("stuff", "asoid");
     }
 
     public void onLocationChanged(Location location) {
@@ -480,7 +472,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClick(Bar clickedBar) {
-        Log.d("bar was clicked", "Clicked");
+        Log.d(logTag, "bar licked");
 
         Intent intent = new Intent(this, CatalogActivity.class);
 

@@ -84,10 +84,6 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.DrinksAd
             int adapterPosition = getAdapterPosition();
             DrinkBase clickedDrink = mDrinkData.get(adapterPosition);
 
-            Toast.makeText(v.getContext(),
-                    "OnClick drink click",
-                    Toast.LENGTH_SHORT).show();
-
             mClickHandler.onClick(clickedDrink);
         }
     }
