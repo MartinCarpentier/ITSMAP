@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Barty</string>
     <string name="title_activity_maps">Barty</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="key_location">location</string>
     <string name="key_camera_position">camera_position</string>
@@ -11,9 +9,12 @@
     <string name="choose_payment_method">Choose payment method</string>
     <string name="info_not_signed_in_key">Whoops, you were not signed in!</string>
     <string name="oauth2_secret_key">261048188568-8h7ds467qtn3gg8meqolardcjc9j2c7n.apps.googleusercontent.com</string>
+    <string name="defaultCheckoutCounter">1000$</string>
+    <string name="total_price">Total price</string>
     <string name="info_not_logged_in_key">Not logged in</string>
     <string name="info_auth_failed_key">Authentication failed.</string>
     <string name="error_google_api_failed_connection_key">GoogleAPIClient builder failed to connect</string>
     <string name="txtBox_logged_in_as">Logged in as:</string>
     <string name="txtBox_no_thanks">No thanks</string>
+    <string name="nearby_bars">Nearby bars</string>
 </resources>

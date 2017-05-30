@@ -83,13 +83,6 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
             int adapterPosition = getAdapterPosition();
             Bar clickedBar = mBarData.get(adapterPosition);
 
-            //mCursor.moveToPosition(adapterPosition);
-
-            //ImageView weatherIcon =  (ImageView)v.findViewById(R.id.weatherIconImage);
-            //TextView high = (TextView)v.findViewById(R.id.list_item_high_textview);
-            //TextView low = (TextView)v.findViewById(R.id.list_item_low_textview);
-
-            //long date = mCursor.getLong(MainActivity.INDEX_WEATHER_DATE);
             mClickHandler.onClick(clickedBar);
         }
     }

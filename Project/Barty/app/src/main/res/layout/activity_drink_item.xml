@@ -38,13 +38,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|bottom"
                     android:background="@android:drawable/screen_background_dark_transparent"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/drinkName"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="3.01"
                         android:padding="16dp"
+                        android:text="Pina Colada"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/drinkPriceBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="16dp"
+                        android:text="20"
                         android:textColor="#FFFFFF"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -59,12 +72,6 @@
             android:gravity="center|right"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/favoriteDrink"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_star" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
