@@ -1,0 +1,698 @@
+{
+  "Bars" : {
+    "Cafe faust" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fcafe_faust_logo.png?alt=media&token=24196423-1975-47e1-965c-fb73ec4ca451",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_pina_colada-1.png?alt=media&token=5b76dd6e-de6c-4902-8931-8d3f5767f216",
+          "Name" : "Pina Colada",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_buttery_nipple-1.png?alt=media&token=97426ad7-4f50-428d-9ae5-6039f25ad072",
+          "Name" : "Butter Nipple",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_irish_flag-1.png?alt=media&token=da53f6c8-4ca6-4b05-9217-0f886b85d428",
+          "Name" : "Irish Flag",
+          "Price" : 75
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.1549966,
+        "Longitude" : 10.209677
+      },
+      "id" : 2
+    },
+    "Casablanca Aarhus" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fcasablanca_logo.png?alt=media&token=aaa8d82c-199c-41a0-ba78-026a55089e3d",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2FroyalExport.jpg?alt=media&token=f35f7bc5-2c90-443e-bee2-f36bffcefbea",
+          "Name" : "Royal Export",
+          "Price" : 33
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, null, null, null, null, null, null, null, null, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        } ],
+        "Shots" : [ null, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_buttery_nipple-1.png?alt=media&token=97426ad7-4f50-428d-9ae5-6039f25ad072",
+          "Name" : "Butter Nipple",
+          "Price" : 25
+        }, null, null, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_orgasm-1.png?alt=media&token=5b6b83e7-89a3-4bd9-875f-3df6a9b0f01e",
+          "Name" : "Orgasm",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.157649,
+        "Longitude" : 10.211343
+      },
+      "id" : 3
+    },
+    "G-bar" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fgbar_logo.png?alt=media&token=ea886f40-dc84-45dd-a07a-3d0b08bc413f",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_pina_colada-1.png?alt=media&token=5b76dd6e-de6c-4902-8931-8d3f5767f216",
+          "Name" : "Pina Colada",
+          "Price" : 75
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2FscrewdriverCocktail.png?alt=media&token=88b96c95-716b-4c08-9d01-5045df845080",
+          "Name" : "Screwdriver",
+          "Price" : 78
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_sex_on_the_beach-1.png?alt=media&token=5a07a66e-092f-4841-a77f-94d4246e2339",
+          "Name" : "Sex on the beach",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_orgasm-1.png?alt=media&token=5b6b83e7-89a3-4bd9-875f-3df6a9b0f01e",
+          "Name" : "Orgasm",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.1551207,
+        "Longitude" : 10.2092946
+      },
+      "id" : 4
+    },
+    "Heidis Bier Bar" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fheidis_bierbar_logo.png?alt=media&token=f4a5e33f-34eb-4b2c-888c-f5853857f7fc",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_caipirinha-1.png?alt=media&token=28d17a32-4df8-4c12-b57b-21a6518d56fa",
+          "Name" : "Caipirinha",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_cosmopolitan-1.png?alt=media&token=58df6649-a282-4b4b-a861-413e1842d369",
+          "Name" : "Cosmopolitan",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_dry_martini-1.png?alt=media&token=9570fcbf-c0d0-4150-a87a-54586fbc041c",
+          "Name" : "Dry Martini",
+          "Price" : 58
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_gin_tonic-1.png?alt=media&token=824cf527-e1f0-4f91-b7d3-1c569a7a9714",
+          "Name" : "Gin And Tonic",
+          "Price" : 55
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_gin_fizz-1.png?alt=media&token=2523ce3f-3788-4210-aaa0-327e0f7b09ba",
+          "Name" : "Gin Fizz",
+          "Price" : 55
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_orgasm-1.png?alt=media&token=5b6b83e7-89a3-4bd9-875f-3df6a9b0f01e",
+          "Name" : "Orgasm",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.1592,
+        "Longitude" : 10.206331
+      },
+      "id" : 5
+    },
+    "Joachims Lejlighed" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2FJoachim.jpg?alt=media&token=44873ea4-bdcd-452d-9bba-e7b4dbf00872",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2FroyalExport.jpg?alt=media&token=f35f7bc5-2c90-443e-bee2-f36bffcefbea",
+          "Name" : "Royal Export",
+          "Price" : 33
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fnthorpilsner.png?alt=media&token=9c8fd5c8-5698-496b-bb23-029bd6306d38",
+          "Name" : "Thor",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.167718,
+        "Longitude" : 10.191518
+      },
+      "id" : 1
+    },
+    "Meat Packers" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fmeatpackers_logo.png?alt=media&token=50a49c5f-319d-4d3e-a86c-e8f07d325efd",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fnthorpilsner.png?alt=media&token=9c8fd5c8-5698-496b-bb23-029bd6306d38",
+          "Name" : "Thor",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Flong_island.png?alt=media&token=eba2a461-223e-4221-98fc-79827e2b0795",
+          "Name" : "Long Island",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_pina_colada-1.png?alt=media&token=5b76dd6e-de6c-4902-8931-8d3f5767f216",
+          "Name" : "Pina Colada",
+          "Price" : 75
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2FscrewdriverCocktail.png?alt=media&token=88b96c95-716b-4c08-9d01-5045df845080",
+          "Name" : "Screwdriver",
+          "Price" : 78
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_sex_on_the_beach-1.png?alt=media&token=5a07a66e-092f-4841-a77f-94d4246e2339",
+          "Name" : "Sex on the beach",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_irish_flag-1.png?alt=media&token=da53f6c8-4ca6-4b05-9217-0f886b85d428",
+          "Name" : "Irish Flag",
+          "Price" : 75
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_orgasm-1.png?alt=media&token=5b6b83e7-89a3-4bd9-875f-3df6a9b0f01e",
+          "Name" : "Orgasm",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.155376,
+        "Longitude" : 10.211633
+      },
+      "id" : 6
+    },
+    "Mojo Aarhus" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fmojo_logo.png?alt=media&token=e89d2758-a631-462a-883b-744b3ccb5bd2",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_caipirinha-1.png?alt=media&token=28d17a32-4df8-4c12-b57b-21a6518d56fa",
+          "Name" : "Caipirinha",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_pina_colada-1.png?alt=media&token=5b76dd6e-de6c-4902-8931-8d3f5767f216",
+          "Name" : "Pina Colada",
+          "Price" : 75
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2FscrewdriverCocktail.png?alt=media&token=88b96c95-716b-4c08-9d01-5045df845080",
+          "Name" : "Screwdriver",
+          "Price" : 78
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_sex_on_the_beach-1.png?alt=media&token=5a07a66e-092f-4841-a77f-94d4246e2339",
+          "Name" : "Sex on the beach",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_orgasm-1.png?alt=media&token=5b6b83e7-89a3-4bd9-875f-3df6a9b0f01e",
+          "Name" : "Orgasm",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.154685,
+        "Longitude" : 10.212099
+      },
+      "id" : 7
+    },
+    "Old Irish Pub" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Flogo_Old_Irish_Pub.png?alt=media&token=2fef2f32-4136-4936-babc-7c0feb4fb87e",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2FroyalExport.jpg?alt=media&token=f35f7bc5-2c90-443e-bee2-f36bffcefbea",
+          "Name" : "Royal Export",
+          "Price" : 33
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fnthorpilsner.png?alt=media&token=9c8fd5c8-5698-496b-bb23-029bd6306d38",
+          "Name" : "Thor",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_caipirinha-1.png?alt=media&token=28d17a32-4df8-4c12-b57b-21a6518d56fa",
+          "Name" : "Caipirinha",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_cosmopolitan-1.png?alt=media&token=58df6649-a282-4b4b-a861-413e1842d369",
+          "Name" : "Cosmopolitan",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_dry_martini-1.png?alt=media&token=9570fcbf-c0d0-4150-a87a-54586fbc041c",
+          "Name" : "Dry Martini",
+          "Price" : 58
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_sex_on_the_beach-1.png?alt=media&token=5a07a66e-092f-4841-a77f-94d4246e2339",
+          "Name" : "Sex on the beach",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.156288,
+        "Longitude" : 10.209864
+      },
+      "id" : 8
+    },
+    "The Australian Bar" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fthe-australian-bar-logo.png?alt=media&token=e0840878-8fa5-44e5-8f05-0b13f49e1e70",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_irish_coffee-1.png?alt=media&token=102185df-76b3-4e72-af23-cdfd68a71f1d",
+          "Name" : "Irish Coffee",
+          "Price" : 50
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Flong_island.png?alt=media&token=eba2a461-223e-4221-98fc-79827e2b0795",
+          "Name" : "Long Island",
+          "Price" : 68
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2FscrewdriverCocktail.png?alt=media&token=88b96c95-716b-4c08-9d01-5045df845080",
+          "Name" : "Screwdriver",
+          "Price" : 78
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_sex_on_the_beach-1.png?alt=media&token=5a07a66e-092f-4841-a77f-94d4246e2339",
+          "Name" : "Sex on the beach",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_buttery_nipple-1.png?alt=media&token=97426ad7-4f50-428d-9ae5-6039f25ad072",
+          "Name" : "Butter Nipple",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_irish_flag-1.png?alt=media&token=da53f6c8-4ca6-4b05-9217-0f886b85d428",
+          "Name" : "Irish Flag",
+          "Price" : 75
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_irish_flag-1.png?alt=media&token=da53f6c8-4ca6-4b05-9217-0f886b85d428",
+          "Name" : "Irish Flag",
+          "Price" : 75
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.154945,
+        "Longitude" : 10.209709
+      },
+      "id" : 9
+    },
+    "Vinstuen" : {
+      "Barlogo" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Logos%2Fvinstue_logo.png?alt=media&token=2d91e762-97d9-46aa-aa74-eec8d5b71ccd",
+      "Drinks" : {
+        "Beer" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fbla_-thor-s.png?alt=media&token=51e58b51-121e-4639-bd26-c5d739054346",
+          "Name" : "Blå Thor",
+          "Price" : 27
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Carlsberg",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fcarlsberg-pilsner.jpg?alt=media&token=c0ac2de6-ebbd-4aaa-a309-085005c5df0a",
+          "Name" : "Royal Classic",
+          "Price" : 39
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots.png?alt=media&token=f8dcd2b7-0c56-42a4-8132-ad096f1e09a3",
+          "Name" : "Slots",
+          "Price" : 23
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Beer%2Fslots_classic.png?alt=media&token=5f40f9d5-80c9-44ec-b0a6-3a66b3d247c2",
+          "Name" : "Slots Classic",
+          "Price" : 28
+        } ],
+        "Cocktails" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_bloody_mary-1.png?alt=media&token=4afeba3f-a98f-4a61-b721-07f0709a43bc",
+          "Name" : "Bloody Mary",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_blue_lagoon-1.png?alt=media&token=4c0ec2ba-2955-46f7-8299-ab9f27804e78",
+          "Name" : "Blue Lagoon",
+          "Price" : 64
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_margarita-1.png?alt=media&token=69dc5aa7-3ca7-4784-b127-24c892b74f81",
+          "Name" : "Magarita",
+          "Price" : 66
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_manhattan-1.png?alt=media&token=07128d81-929e-4bf4-a71a-3dfb12fe46d0",
+          "Name" : "Manhatten",
+          "Price" : 67
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Cocktails%2Fcocktail_pina_colada-1.png?alt=media&token=5b76dd6e-de6c-4902-8931-8d3f5767f216",
+          "Name" : "Pina Colada",
+          "Price" : 75
+        } ],
+        "Shots" : [ {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_b52-1.png?alt=media&token=efd56221-0b20-4e3b-8238-22154e93583b",
+          "Name" : "B52",
+          "Price" : 30
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_blow_job-1.png?alt=media&token=c9b32497-e6b5-4e83-bbff-a2fb57ccff76",
+          "Name" : "Blowjob",
+          "Price" : 25
+        }, {
+          "ImageURL" : "https://firebasestorage.googleapis.com/v0/b/bardy-6435a.appspot.com/o/Shots%2Fcocktail_red_headed_slut-1.png?alt=media&token=fbd3e800-3b95-4eb5-b1b3-cfdb0df359c5",
+          "Name" : "Read Headed Slut",
+          "Price" : 33
+        } ]
+      },
+      "Location" : {
+        "Latitude" : 56.155191,
+        "Longitude" : 10.207971
+      },
+      "id" : 10
+    }
+  }
+}
