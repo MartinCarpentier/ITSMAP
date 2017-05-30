@@ -1,4 +1,4 @@
-package com.example.norgaard.barty;
+package com.example.norgaard.barty.Activities.Maps;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,22 +11,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.norgaard.barty.Models.Bar;
+import com.example.norgaard.barty.R;
 
 import java.util.ArrayList;
 
-public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.BarDistanceAdapterViewHolder> {
+public class MapsAdapter extends RecyclerView.Adapter<MapsAdapter.BarDistanceAdapterViewHolder> {
 
     private final Context mContext;
-
     final private BarDistanceOnClickHandler mClickHandler;
-
     private ArrayList<Bar> mBarData = new ArrayList<Bar>();
 
     public interface BarDistanceOnClickHandler {
+
         void onClick(Bar clickedBar);
     }
 
-    public BarDistanceAdapter(@NonNull Context context, BarDistanceOnClickHandler clickHandler) {
+    public MapsAdapter(@NonNull Context context, BarDistanceOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
@@ -34,7 +34,7 @@ public class BarDistanceAdapter extends RecyclerView.Adapter<BarDistanceAdapter.
     @Override
     public BarDistanceAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.bar_item_distance, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.bar_maps_item, parent, false);
         view.setFocusable(true);
         return new BarDistanceAdapterViewHolder(view);
     }

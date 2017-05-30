@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.Data;
+package com.example.norgaard.barty.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
