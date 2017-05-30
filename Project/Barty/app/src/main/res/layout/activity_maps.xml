@@ -46,7 +46,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/AppToolbar"
                 app:layout_collapseMode="parallax"
-                app:navigationIcon="@drawable/ic_location_city_white_48px"
                 app:popupTheme="@style/AppToolbar" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

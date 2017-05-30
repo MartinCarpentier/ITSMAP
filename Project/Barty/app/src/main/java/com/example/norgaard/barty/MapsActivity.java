@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.location.Location;
@@ -99,8 +100,24 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Nearby bars");
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+            collapsingToolbar.setTitle(getString(R.string.nearby_bars));
+            int colorId = ContextCompat.getColor(getApplicationContext(), R.color.cardview_light_background);
+            collapsingToolbar.setExpandedTitleColor(colorId);
+            collapsingToolbar.setCollapsedTitleTextColor(colorId);
+
+            // This part allows us to drag the google maps in the coordinator layout.
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+            AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
+            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                @Override
+                public boolean canDrag(AppBarLayout appBarLayout) {
+                    return false;
+                }
+            });
+            params.setBehavior(behavior);
+        }
 
         // Creating an instance of the Google API client
         // Code taken from/inspired by:
@@ -114,17 +131,6 @@ public class MapsActivity extends FragmentActivity implements
                     .addApi(Places.PLACE_DETECTION_API)
                     .build();
         }
-
-        // This part allows us to drag the google maps in the coordinator layout.
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
-        AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
-        behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
-            @Override
-            public boolean canDrag(AppBarLayout appBarLayout) {
-                return false;
-            }
-        });
-        params.setBehavior(behavior);
 
         recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
         layoutManager = new LinearLayoutManager(mapsActivity);
