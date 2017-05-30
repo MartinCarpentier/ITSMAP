@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
             collapsingToolbar.setTitle(getString(R.string.nearby_bars));
             int colorId = ContextCompat.getColor(getApplicationContext(), R.color.cardview_light_background);
@@ -153,8 +153,7 @@ public class MapsActivity extends FragmentActivity implements
         switch (requestCode) {
             case BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                 }
                 else {
@@ -430,9 +429,9 @@ public class MapsActivity extends FragmentActivity implements
         ContentValues[] values = ContentValueCreator.createContentValuesForBars(bars);
 
         //Insert values into db
-        ContentResolver barCuntentResolver = getApplicationContext().getContentResolver();
+        ContentResolver contentResolver = getApplicationContext().getContentResolver();
 
-        barCuntentResolver.bulkInsert(
+        contentResolver.bulkInsert(
                 BartyContract.BarEntry.CONTENT_URI_BARS,
                 values);
     }

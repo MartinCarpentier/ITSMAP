@@ -215,10 +215,10 @@ public class CheckoutActivity extends AppCompatActivity implements
     }
 
     private void clearDatabase() {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver contentResolver = mContext.getContentResolver();
         String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "= ?";
         String[] drinkArgs = new String[]{currentBarUri.getLastPathSegment()};
-        barCuntentResolver.delete(
+        contentResolver.delete(
                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                 drinkSelection,
                 drinkArgs);
