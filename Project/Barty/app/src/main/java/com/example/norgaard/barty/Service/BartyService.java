@@ -50,7 +50,6 @@ public class BartyService extends Service {
     public static final String LOG_TAG = "BartyServiceLogTag";
 
     // Timer
-    private LoopRequest loopRequest;
     private long delay = 15 * 1000;
     private static Timer timer;
 
@@ -74,9 +73,6 @@ public class BartyService extends Service {
             isServiceStarted = true;
 
             timer = new Timer();
-            Date date = new Date();
-            loopRequest = new LoopRequest();
-            timer.scheduleAtFixedRate(loopRequest, date, delay);
 
             //Check if there is pending orders
             startLookingForOrders();
@@ -225,16 +221,5 @@ public class BartyService extends Service {
         isServiceStarted = false;
 
         super.onDestroy();
-    }
-
-    private class LoopRequest extends TimerTask {
-
-        private String time;
-
-        @Override
-        public void run() {
-            time = Calendar.getInstance().getTime().toString();
-            Log.d(LOG_TAG, "Run method invoked at: " + time + ".");
-        }
     }
 }
