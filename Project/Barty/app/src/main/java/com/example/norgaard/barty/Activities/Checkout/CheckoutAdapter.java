@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.BarSale;
+package com.example.norgaard.barty.Activities.Checkout;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
-import com.example.norgaard.barty.Utilities;
+import com.example.norgaard.barty.Utilities.ContentValueCreator;
 
-public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.PointOfSaleViewHolder> {
+public class CheckoutAdapter extends RecyclerView.Adapter<CheckoutAdapter.PointOfSaleViewHolder> {
 
     private final Context mContext;
     public Cursor cursor = null;
@@ -29,29 +29,29 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
         void onDelete(String drinkName);
     }
 
-    public PointOfSaleAdapter(@NonNull Context context, PointOnSaleOnClickHandler clickHandler) {
+    public CheckoutAdapter(@NonNull Context context, PointOnSaleOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
 
     @Override
-    public PointOfSaleAdapter.PointOfSaleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CheckoutAdapter.PointOfSaleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.point_of_sale_drink_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.checkout_item, parent, false);
 
         view.setFocusable(true);
 
-        return new PointOfSaleAdapter.PointOfSaleViewHolder(view);
+        return new CheckoutAdapter.PointOfSaleViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(PointOfSaleAdapter.PointOfSaleViewHolder holder, int position) {
+    public void onBindViewHolder(CheckoutAdapter.PointOfSaleViewHolder holder, int position) {
         cursor.moveToPosition(position);
 
-        String drinkName = cursor.getString(PointOfSale.COLUMN_DRINK_NAME);
-        int quantity = cursor.getInt(PointOfSale.COLUMN_DRINK_QUANTITY);
-        double price = cursor.getDouble(PointOfSale.COLUMN_DRINK_PRICE);
-        long barId = cursor.getLong(PointOfSale.COLUMN_FOREIGN_BAR_ID);
+        String drinkName = cursor.getString(CheckoutActivity.COLUMN_DRINK_NAME);
+        int quantity = cursor.getInt(CheckoutActivity.COLUMN_DRINK_QUANTITY);
+        double price = cursor.getDouble(CheckoutActivity.COLUMN_DRINK_PRICE);
+        long barId = cursor.getLong(CheckoutActivity.COLUMN_FOREIGN_BAR_ID);
 
         holder.drinkName.setText(drinkName);
         holder.quantity.setText(String.valueOf(quantity));
@@ -90,14 +90,14 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("PointOfSaleAdapter", "add clicked");
+                    Log.d("CheckoutAdapter", "add clicked");
 
                     DrinkBase drink = new DrinkBase();
 
                     drink.setName(drinkName.getText().toString());
                     drink.setPrice((long) singleDrinkPrice);
 
-                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString()) + 1);
+                    ContentValues values = ContentValueCreator.createContentValuesForDrinks(drink, barId, Integer.valueOf(quantity.getText().toString()) + 1);
 
                     mClickHandler.onAddOrDelete(values);
                 }
@@ -111,7 +111,7 @@ public class PointOfSaleAdapter extends RecyclerView.Adapter<PointOfSaleAdapter.
                     drink.setName(drinkName.getText().toString());
                     drink.setPrice((long) singleDrinkPrice);
 
-                    ContentValues values = Utilities.createContentValuesForDrink(drink, barId, Integer.valueOf(quantity.getText().toString()) - 1);
+                    ContentValues values = ContentValueCreator.createContentValuesForDrinks(drink, barId, Integer.valueOf(quantity.getText().toString()) - 1);
 
                     if (Integer.valueOf(quantity.getText().toString()) - 1 == 0) {
                         mClickHandler.onDelete(drink.getName());

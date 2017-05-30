@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.BarSale;
+package com.example.norgaard.barty.Activities.Catalog;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -23,29 +23,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.norgaard.barty.Data.BartyContract;
+import com.example.norgaard.barty.Activities.Checkout.CheckoutActivity;
+import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Bar;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.R;
-import com.example.norgaard.barty.Utilities;
+import com.example.norgaard.barty.Utilities.ContentValueCreator;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class BarSale extends AppCompatActivity implements
-        DrinksAdapter.DrinksOnClickHandler,
+public class CatalogActivity extends AppCompatActivity implements
+        CatalogAdapter.DrinksOnClickHandler,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private RecyclerView recyclerView;
-    public DrinksAdapter drinksAdapter;
+    public CatalogAdapter catalogAdapter;
     private LinearLayoutManager layoutManager;
     private Bar currentBar;
     private MenuView.ItemView menu;
     public ArrayList<DrinkBase> drinks;
     private Context mContext = this;
-    private String logTag = BarSale.class.getSimpleName();
+    private String logTag = CatalogActivity.class.getSimpleName();
     private TextView barText;
+    private Context context = this;
 
     static final int CHECKOUT_COUNTER_RESULT = 1;
 
@@ -66,7 +68,7 @@ public class BarSale extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bar_sale);
+        setContentView(R.layout.activity_catalog);
 
         if (savedInstanceState != null) {
             currentBar = Parcels.unwrap(savedInstanceState.getParcelable("barname_key"));
@@ -93,10 +95,10 @@ public class BarSale extends AppCompatActivity implements
         layoutManager = new GridLayoutManager(this, columnAmount);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        drinksAdapter = new DrinksAdapter(this, this);
+        catalogAdapter = new CatalogAdapter(this, this);
         getSupportLoaderManager().initLoader(ID_BAR_LOADER, null, this);
-        recyclerView.setAdapter(drinksAdapter);
-        drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
+        recyclerView.setAdapter(catalogAdapter);
+        catalogAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
     }
 
     private void setTabs() {
@@ -113,13 +115,13 @@ public class BarSale extends AppCompatActivity implements
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getText().toString()) {
                     case "Cocktail":
-                        drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getCocktails()));
+                        catalogAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getCocktails()));
                         break;
                     case "Beer":
-                        drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
+                        catalogAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getBeer()));
                         break;
                     case "Shots":
-                        drinksAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getShots()));
+                        catalogAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getShots()));
                         break;
                 }
             }
@@ -156,7 +158,7 @@ public class BarSale extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                Intent intentOpenBasket = new Intent(this, PointOfSale.class);
+                Intent intentOpenBasket = new Intent(context, CheckoutActivity.class);
 
                 intentOpenBasket.setData(BartyContract.getUriForSpecificBar(currentBar.getId()));
 
@@ -180,7 +182,7 @@ public class BarSale extends AppCompatActivity implements
 
         String[] drinkArgs = new String[]{drink.getName()};
         Cursor drinkCursor = barContentResolver.query(BartyContract.BasketEntry.CONTENT_URI_BASKET,
-                BarSale.BAR_DRINK_BASKET_PROJECTION,
+                CatalogActivity.BAR_DRINK_BASKET_PROJECTION,
                 drinkSelection,
                 drinkArgs,
                 null
@@ -192,11 +194,11 @@ public class BarSale extends AppCompatActivity implements
         }
         else {
             drinkCursor.moveToFirst();
-            drinkQuantity = drinkCursor.getInt(BarSale.COLUMN_DRINK_QUANTITY) + 1;
+            drinkQuantity = drinkCursor.getInt(CatalogActivity.COLUMN_DRINK_QUANTITY) + 1;
         }
 
         //Create values to insert into db
-        ContentValues value = Utilities.createContentValuesForDrink(drink, currentBar.id, drinkQuantity);
+        ContentValues value = ContentValueCreator.createContentValuesForDrinks(drink, currentBar.id, drinkQuantity);
 
         //Insert values into db
         barContentResolver.insert(

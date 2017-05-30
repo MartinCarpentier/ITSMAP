@@ -1,4 +1,4 @@
-package com.example.norgaard.barty.BarSale;
+package com.example.norgaard.barty.Activities.Checkout;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.norgaard.barty.Data.BartyContract;
+import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.DrinkBase;
 import com.example.norgaard.barty.Models.OrderDrink;
 import com.example.norgaard.barty.R;
@@ -35,17 +35,17 @@ import java.util.UUID;
 import dk.danskebank.mobilepay.sdk.MobilePay;
 import dk.danskebank.mobilepay.sdk.model.Payment;
 
-public class PointOfSale extends AppCompatActivity implements
+public class CheckoutActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        PointOfSaleAdapter.PointOnSaleOnClickHandler {
+        CheckoutAdapter.PointOnSaleOnClickHandler {
 
     private CardView mobilePay;
     private int MOBILEPAY_REQUEST_CODE = 666;
     private Context mContext = this;
-    private PointOfSale pos = this;
+    private CheckoutActivity pos = this;
     private Uri currentBarUri;
     private RecyclerView recyclerView;
-    private PointOfSaleAdapter posAdapter;
+    private CheckoutAdapter posAdapter;
     private LinearLayoutManager layoutManager;
     private TextView totalPriceText;
 
@@ -63,13 +63,13 @@ public class PointOfSale extends AppCompatActivity implements
     public static final int COLUMN_FOREIGN_BAR_ID = 2;
     public static final int COLUMN_DRINK_QUANTITY = 3;
 
-    public PointOfSale() {
+    public CheckoutActivity() {
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_point_of_sale);
+        setContentView(R.layout.activity_checkout);
 
         Intent currentIntent = getIntent();
         currentBarUri = currentIntent.getData();
@@ -87,7 +87,7 @@ public class PointOfSale extends AppCompatActivity implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         getSupportLoaderManager().initLoader(ID_BASKET_LOADER, null, this);
-        posAdapter = new PointOfSaleAdapter(this, this);
+        posAdapter = new CheckoutAdapter(this, this);
         recyclerView.setAdapter(posAdapter);
 
         ItemTouchHelper.SimpleCallback simpleCallback =
@@ -110,8 +110,8 @@ public class PointOfSale extends AppCompatActivity implements
                                         " AND " + BartyContract.BasketEntry.COLUMN_DRINK_NAME +
                                         " = ?";
 
-                        PointOfSaleAdapter.PointOfSaleViewHolder posViewHolder =
-                                (PointOfSaleAdapter.PointOfSaleViewHolder) viewHolder;
+                        CheckoutAdapter.PointOfSaleViewHolder posViewHolder =
+                                (CheckoutAdapter.PointOfSaleViewHolder) viewHolder;
 
                         String[] drinkArgs
                                 = new String[]{posViewHolder.drinkName.getText().toString()};
@@ -165,9 +165,9 @@ public class PointOfSale extends AppCompatActivity implements
 
                 posAdapter.cursor.moveToFirst();
                 for (int i = 0; i < posAdapter.cursor.getCount(); i++) {
-                    String drinkName = posAdapter.cursor.getString(PointOfSale.COLUMN_DRINK_NAME);
-                    long drinkPrice = posAdapter.cursor.getLong(PointOfSale.COLUMN_DRINK_PRICE);
-                    int drinkQuantity = posAdapter.cursor.getInt(PointOfSale.COLUMN_DRINK_QUANTITY);
+                    String drinkName = posAdapter.cursor.getString(CheckoutActivity.COLUMN_DRINK_NAME);
+                    long drinkPrice = posAdapter.cursor.getLong(CheckoutActivity.COLUMN_DRINK_PRICE);
+                    int drinkQuantity = posAdapter.cursor.getInt(CheckoutActivity.COLUMN_DRINK_QUANTITY);
 
                     OrderDrink value = new OrderDrink(id, drinkName, drinkQuantity, drinkName, "pending");
                     order.put(drinkName + "_" + drinkPrice + "_" + drinkQuantity, value);
@@ -184,10 +184,10 @@ public class PointOfSale extends AppCompatActivity implements
     }
 
     private void clearDatabase() {
-        ContentResolver barCuntentResolver = mContext.getContentResolver();
+        ContentResolver contentResolver = mContext.getContentResolver();
         String drinkSelection = BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID + "= ?";
         String[] drinkArgs = new String[]{currentBarUri.getLastPathSegment()};
-        barCuntentResolver.delete(
+        contentResolver.delete(
                 BartyContract.BasketEntry.CONTENT_URI_BASKET,
                 drinkSelection,
                 drinkArgs);

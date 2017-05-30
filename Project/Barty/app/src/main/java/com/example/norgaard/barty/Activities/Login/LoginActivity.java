@@ -1,4 +1,4 @@
-package com.example.norgaard.barty;
+package com.example.norgaard.barty.Activities.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.norgaard.barty.Activities.Maps.MapsActivity;
+import com.example.norgaard.barty.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,35 +26,41 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-// Code taken from/inspired by
+// The following is taken from/heavily inspired by
 // https://developers.google.com/identity/sign-in/android/sign-in
-public class MainActivity extends FragmentActivity {
+public class LoginActivity extends FragmentActivity {
 
     private static final int RC_SIGN_IN = 101;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth firebaseAuth;
     private TextView currentUser;
     private Button btnNoThanks;
+    private GoogleSignInResult signInResult;
+    private GoogleSignInAccount signInAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
         firebaseAuth = FirebaseAuth.getInstance();
         btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);
 
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.oauth2_secret_key))
                 .build();
 
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
                         Log.d(this.getClass().getSimpleName(), getString(R.string.error_google_api_failed_connection_key));
-                        Toast.makeText(MainActivity.this,
+                        Toast.makeText(LoginActivity.this,
                                 getString(R.string.error_google_api_failed_connection_key),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -80,6 +88,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onStart() {
         super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         updateUser(currentUser);
     }
@@ -90,8 +99,8 @@ public class MainActivity extends FragmentActivity {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(signInResult);
         }
     }
 
@@ -99,8 +108,8 @@ public class MainActivity extends FragmentActivity {
         Log.d(this.getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            firebaseAuthWithGoogle(acct);
+             signInAccount = result.getSignInAccount();
+            firebaseAuthWithGoogle(signInAccount);
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -109,7 +118,6 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void updateUser(FirebaseUser user) {
-
         if (user == null){
             currentUser.setText(R.string.info_not_logged_in_key);
         }
@@ -137,7 +145,7 @@ public class MainActivity extends FragmentActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(this.getClass().getSimpleName(), "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this, R.string.info_auth_failed_key,
+                            Toast.makeText(LoginActivity.this, R.string.info_auth_failed_key,
                                     Toast.LENGTH_SHORT).show();
                             updateUser(null);
                         }
