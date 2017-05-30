@@ -35,7 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //This is a stored procedure, that helps with inserting another drink into db
         final String SQL_CREATE_ORDER_TABLE =
-                "CREATE TABLE " + BartyContract.OrderEntry.TABLE_NAME_BASKET + " (" +
+                "CREATE TABLE " + BartyContract.OrderEntry.TABLE_NAME_ORDERS + " (" +
                         BartyContract.BarEntry.COLUMN_BAR_NAME + " TEXT NOT NULL," +
                         BartyContract.BarEntry.COLUMN_BAR_ONLINE_ID + " INTEGER PRIMARY KEY," +
                         "UNIQUE (" + BartyContract.BarEntry.COLUMN_BAR_NAME + ") ON CONFLICT REPLACE);";

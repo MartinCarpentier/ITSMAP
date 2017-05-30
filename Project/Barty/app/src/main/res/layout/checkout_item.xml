@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Flaming Lamborghini"
-            android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"/>
 
     </LinearLayout>
 
@@ -46,7 +47,7 @@
             app:backgroundTint="@color/deleteDrink"
             app:elevation="@dimen/cardview_default_radius"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_remove_white_48px" />
+            app:srcCompat="@drawable/ic_remove_white_48px"/>
 
         <TextView
             android:id="@+id/amountOfDrinks"
@@ -56,7 +57,7 @@
             android:inputType="number"
             android:text="20"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addFabButton"
@@ -68,7 +69,7 @@
             app:backgroundTint="@color/buyDrink"
             app:elevation="@dimen/cardview_default_radius"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_add_white_48px" />
+            app:srcCompat="@drawable/ic_add_white_48px"/>
 
     </LinearLayout>
 
@@ -79,5 +80,5 @@
         android:layout_marginStart="8dp"
         android:text="@string/defaultCheckoutCounter"
         android:textAlignment="textStart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 </LinearLayout>
