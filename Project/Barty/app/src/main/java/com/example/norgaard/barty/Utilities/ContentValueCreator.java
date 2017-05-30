@@ -34,10 +34,9 @@ public class ContentValueCreator {
 
     public static ContentValues createContentValuesForOrders(String firebaseTag, long barId, double totalPrice) {
         ContentValues value = new ContentValues();
-        value.put(BartyContract.BasketEntry.COLUMN_DRINK_NAME, drink.getName());
-        value.put(BartyContract.BasketEntry.COLUMN_DRINK_PRICE, drink.getPrice());
-        value.put(BartyContract.BasketEntry.COLUMN_FOREIGN_BAR_ID, barId);
-        value.put(BartyContract.BasketEntry.COLUMN_DRINK_QUANTITY, drinkQuantity);
+        value.put(BartyContract.OrderEntry.COLUMN_ORDER_STATUS_TAG, firebaseTag);
+        value.put(BartyContract.OrderEntry.COLUMN_ORDER_PRICE, barId);
+        value.put(BartyContract.OrderEntry.COLUMN_FOREIGN_BAR_ID, barId);
 
         return value;
     }
