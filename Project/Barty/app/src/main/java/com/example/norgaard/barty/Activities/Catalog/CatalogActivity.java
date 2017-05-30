@@ -103,17 +103,17 @@ public class CatalogActivity extends AppCompatActivity implements
 
     private void setTabs() {
         TabLayout tabs = (TabLayout) findViewById(R.id.tabanim_tabs);
-        TabLayout.Tab cocktail = tabs.newTab().setText("Cocktail");
+        TabLayout.Tab cocktail = tabs.newTab().setText(R.string.cocktail).setTag("Cocktail");
 
-        tabs.addTab(tabs.newTab().setText("Beer"));
+        tabs.addTab(tabs.newTab().setText(R.string.beer).setTag("Beer"));
         tabs.addTab(cocktail);
-        tabs.addTab(tabs.newTab().setText("Shots"));
+        tabs.addTab(tabs.newTab().setText(R.string.shots).setTag("Shots"));
 
         //Handles which drinks to show in the drinksview
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getText().toString()) {
+                switch (tab.getTag().toString()) {
                     case "Cocktail":
                         catalogAdapter.swapData(new ArrayList<DrinkBase>(currentBar.drinks.getCocktails()));
                         break;

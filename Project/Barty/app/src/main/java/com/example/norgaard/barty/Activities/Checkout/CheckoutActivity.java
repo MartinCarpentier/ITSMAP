@@ -198,6 +198,8 @@ public class CheckoutActivity extends AppCompatActivity implements
                 clearDatabase();
 
                 getSupportLoaderManager().restartLoader(ID_BASKET_LOADER, null, this);
+
+                finish();
             }
         }
     }

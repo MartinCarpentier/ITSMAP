@@ -62,7 +62,6 @@ public class BartyContentProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        // TODO: Implement this to handle requests for the MIME type of the data
         // at the given URI.
         throw new UnsupportedOperationException("Not yet implemented");
     }
@@ -210,6 +209,6 @@ public class BartyContentProvider extends ContentProvider {
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

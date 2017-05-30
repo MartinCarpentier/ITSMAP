@@ -17,4 +17,7 @@
     <string name="txtBox_no_thanks">Nej tak</string>
     <string name="nearby_bars">Barer i nærheden</string>
     <string name="cart">Kurv</string>
+    <string name="cocktail">Cocktails</string>
+    <string name="beer">Øl</string>
+    <string name="shots">Shots</string>
 </resources>

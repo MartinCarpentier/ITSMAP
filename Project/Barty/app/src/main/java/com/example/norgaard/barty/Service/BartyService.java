@@ -14,6 +14,7 @@ import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Order;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Utilities.ContentValueCreator;
+import com.example.norgaard.barty.Utilities.NotificationID;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 
 public class BartyService extends Service {
@@ -50,7 +52,6 @@ public class BartyService extends Service {
     public static final String LOG_TAG = "BartyServiceLogTag";
 
     // Timer
-    private LoopRequest loopRequest;
     private long delay = 15 * 1000;
     private static Timer timer;
 
@@ -74,9 +75,6 @@ public class BartyService extends Service {
             isServiceStarted = true;
 
             timer = new Timer();
-            Date date = new Date();
-            loopRequest = new LoopRequest();
-            timer.scheduleAtFixedRate(loopRequest, date, delay);
 
             //Check if there is pending orders
             startLookingForOrders();
@@ -101,7 +99,7 @@ public class BartyService extends Service {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                onDataChangeImplementation(dataSnapshot);
+                onDataChangeImplementation(dataSnapshot, this);
             }
 
             @Override
@@ -154,7 +152,7 @@ public class BartyService extends Service {
             currentOrderRef.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    onDataChangeImplementation(dataSnapshot);
+                    onDataChangeImplementation(dataSnapshot, this);
                 }
 
                 @Override
@@ -166,7 +164,7 @@ public class BartyService extends Service {
         }
     }
 
-    private void onDataChangeImplementation(DataSnapshot dataSnapshot) {
+    private void onDataChangeImplementation(DataSnapshot dataSnapshot, ValueEventListener listener) {
         Log.d(LOG_TAG, "data changed");
 
         String currentOrder = dataSnapshot.getRef().getParent().getKey().toString();
@@ -176,6 +174,13 @@ public class BartyService extends Service {
         if(Objects.equals(value, OrderStatus.Ready.toString()))
         {
             CreateNotificationForFirebase(currentOrder);
+        }
+        if(Objects.equals(value, OrderStatus.Delivered.toString()))
+        {
+            Log.i(LOG_TAG, "Order have been delivered, and is being deleted from db");
+
+            //Delete order from database and unregister listener
+            this.stopSelf();
         }
 
         Log.d(LOG_TAG, "Value was " + value);
@@ -189,11 +194,10 @@ public class BartyService extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_location_city_white_48px)
                         .setContentTitle("Barty order is ready")
-                        .setContentText("You can now go and retrieve your order, show the bartenders the following" +
-                                "id to receive your drinks - " + currentOrder);
+                        .setContentText("Show this id " + currentOrder);
 
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        int mNotificationId = NotificationID.getID();
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -219,16 +223,5 @@ public class BartyService extends Service {
         isServiceStarted = false;
 
         super.onDestroy();
-    }
-
-    private class LoopRequest extends TimerTask {
-
-        private String time;
-
-        @Override
-        public void run() {
-            time = Calendar.getInstance().getTime().toString();
-            Log.d(LOG_TAG, "Run method invoked at: " + time + ".");
-        }
     }
 }
