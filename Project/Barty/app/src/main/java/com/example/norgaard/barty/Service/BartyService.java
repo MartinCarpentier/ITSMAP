@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 
 public class BartyService extends Service {
@@ -195,7 +196,7 @@ public class BartyService extends Service {
                         .setContentText("Show this id " + currentOrder);
 
         // Sets an ID for the notification
-        int mNotificationId = 001;
+        int mNotificationId = Integer.valueOf(currentOrder);
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
