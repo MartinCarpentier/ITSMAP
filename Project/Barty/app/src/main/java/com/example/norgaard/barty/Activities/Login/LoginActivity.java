@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+// The following is taken from/heavily inspired by
+// https://developers.google.com/identity/sign-in/android/sign-in
 public class LoginActivity extends FragmentActivity {
 
     private static final int RC_SIGN_IN = 101;
@@ -33,6 +35,8 @@ public class LoginActivity extends FragmentActivity {
     private FirebaseAuth firebaseAuth;
     private TextView currentUser;
     private Button btnNoThanks;
+    private GoogleSignInResult signInResult;
+    private GoogleSignInAccount signInAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,6 @@ public class LoginActivity extends FragmentActivity {
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
         firebaseAuth = FirebaseAuth.getInstance();
         btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);
-        // The following is heavily inspired by
-        // https://developers.google.com/identity/sign-in/android/sign-in
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -97,8 +99,8 @@ public class LoginActivity extends FragmentActivity {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(signInResult);
         }
     }
 
@@ -106,8 +108,8 @@ public class LoginActivity extends FragmentActivity {
         Log.d(this.getClass().getSimpleName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            firebaseAuthWithGoogle(acct);
+             signInAccount = result.getSignInAccount();
+            firebaseAuthWithGoogle(signInAccount);
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -116,7 +118,6 @@ public class LoginActivity extends FragmentActivity {
     }
 
     private void updateUser(FirebaseUser user) {
-
         if (user == null){
             currentUser.setText(R.string.info_not_logged_in_key);
         }
