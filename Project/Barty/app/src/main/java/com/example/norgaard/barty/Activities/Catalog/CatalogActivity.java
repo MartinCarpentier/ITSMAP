@@ -47,6 +47,7 @@ public class CatalogActivity extends AppCompatActivity implements
     private Context mContext = this;
     private String logTag = CatalogActivity.class.getSimpleName();
     private TextView barText;
+    private Context context = this;
 
     static final int CHECKOUT_COUNTER_RESULT = 1;
 
@@ -157,7 +158,7 @@ public class CatalogActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                Intent intentOpenBasket = new Intent(this, CheckoutActivity.class);
+                Intent intentOpenBasket = new Intent(context, CheckoutActivity.class);
 
                 intentOpenBasket.setData(BartyContract.getUriForSpecificBar(currentBar.getId()));
 
