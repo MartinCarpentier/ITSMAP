@@ -101,7 +101,7 @@ public class BartyService extends Service {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                onDataChangeImplementation(dataSnapshot);
+                onDataChangeImplementation(dataSnapshot, this);
             }
 
             @Override
@@ -154,7 +154,7 @@ public class BartyService extends Service {
             currentOrderRef.orderByKey().addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    onDataChangeImplementation(dataSnapshot);
+                    onDataChangeImplementation(dataSnapshot, this);
                 }
 
                 @Override
@@ -166,7 +166,7 @@ public class BartyService extends Service {
         }
     }
 
-    private void onDataChangeImplementation(DataSnapshot dataSnapshot) {
+    private void onDataChangeImplementation(DataSnapshot dataSnapshot, ValueEventListener listener) {
         Log.d(LOG_TAG, "data changed");
 
         String currentOrder = dataSnapshot.getRef().getParent().getKey().toString();
@@ -176,6 +176,13 @@ public class BartyService extends Service {
         if(Objects.equals(value, OrderStatus.Ready.toString()))
         {
             CreateNotificationForFirebase(currentOrder);
+        }
+        if(Objects.equals(value, OrderStatus.Delivered.toString()))
+        {
+            Log.i(LOG_TAG, "Order have been delivered, and is being deleted from db");
+
+            //Delete order from database and unregister listener
+            this.stopSelf();
         }
 
         Log.d(LOG_TAG, "Value was " + value);
@@ -189,8 +196,7 @@ public class BartyService extends Service {
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_location_city_white_48px)
                         .setContentTitle("Barty order is ready")
-                        .setContentText("You can now go and retrieve your order, show the bartenders the following" +
-                                "id to receive your drinks - " + currentOrder);
+                        .setContentText("Show this id " + currentOrder);
 
         // Sets an ID for the notification
         int mNotificationId = 001;

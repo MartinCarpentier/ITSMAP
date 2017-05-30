@@ -20,4 +20,7 @@
     <string name="nearby_bars">Nearby bars</string>
     <string name="orderId" translatable="false">86715c57-8840-4a6f-af5f-07ee89107ece</string>
     <string name="cart">Cart</string>
+    <string name="cocktail">Cocktail</string>
+    <string name="beer">Beer</string>
+    <string name="shots">Shots</string>
 </resources>
