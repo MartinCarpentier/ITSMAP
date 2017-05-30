@@ -142,7 +142,8 @@ public class MapsActivity extends FragmentActivity implements
         recyclerView.setAdapter(mapsAdapter);
 
         Intent intent = new Intent(MapsActivity.this, BartyService.class);
-        MapsActivity.this.startService(intent);
+        startService(intent);
+        //MapsActivity.this.startService(new Intent(".Service.BartyService"));
         Log.d(logTag, "Started " + BartyService.class.toString());
 
         startFirebaseDb();
