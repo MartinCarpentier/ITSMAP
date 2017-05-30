@@ -177,6 +177,8 @@ public class PointOfSale extends AppCompatActivity implements
 
                 ref.setValue(order);
                 clearDatabase();
+
+                getSupportLoaderManager().restartLoader(ID_BASKET_LOADER, null, this);
             }
         }
     }
