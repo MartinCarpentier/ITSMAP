@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+// Code taken from/inspired by
+// https://developers.google.com/identity/sign-in/android/sign-in
 public class MainActivity extends FragmentActivity {
 
     private static final int RC_SIGN_IN = 101;
@@ -39,18 +41,12 @@ public class MainActivity extends FragmentActivity {
         currentUser = (TextView) findViewById(R.id.textViewCurrentUser);
         firebaseAuth = FirebaseAuth.getInstance();
         btnNoThanks = (Button) findViewById(R.id.buttonNoThanks);
-        // The following is heavily inspired by
-        // https://developers.google.com/identity/sign-in/android/sign-in
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.oauth2_secret_key))
                 .build();
 
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
@@ -84,7 +80,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         updateUser(currentUser);
     }
