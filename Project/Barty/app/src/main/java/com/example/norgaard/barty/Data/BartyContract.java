@@ -12,6 +12,7 @@ public class BartyContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_BARS = "bars";
     public static final String PATH_BASKET = "basket";
+    public static final String PATH_ORDER = "order";
 
     public static Uri getUriForSpecificBar(long id)
     {
@@ -46,5 +47,19 @@ public class BartyContract {
         public static final String COLUMN_DRINK_NAME = "DrinkName";
         public static final String COLUMN_DRINK_PRICE = "DrinksPrice";
         public static final String COLUMN_DRINK_QUANTITY = "DrinksQuantity";
+    }
+
+    public static class OrderEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI_ORDER = BASE_CONTENT_URI
+                .buildUpon()
+                .appendPath(PATH_ORDER)
+                .build();
+
+        public static final String TABLE_NAME_ORDERS = "Orders";
+        public static final String COLUMN_FOREIGN_BAR_ID = "BarForeignId";
+        public static final String COLUMN_ORDER_STATUS_TAG = "FireBaseOrderTag";
+        public static final String COLUMN_ORDER_STATUS = "Status";
+        public static final String COLUMN_ORDER_PRICE = "TotalPrice";
     }
 }
