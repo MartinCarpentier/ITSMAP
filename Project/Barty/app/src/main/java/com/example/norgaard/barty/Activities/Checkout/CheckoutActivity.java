@@ -21,12 +21,16 @@ import android.widget.TextView;
 
 import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.DrinkBase;
+import com.example.norgaard.barty.Models.Order;
 import com.example.norgaard.barty.Models.OrderDrink;
 import com.example.norgaard.barty.R;
+import com.example.norgaard.barty.Service.OrderStatus;
+import com.example.norgaard.barty.Utilities.ContentValueCreator;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +52,7 @@ public class CheckoutActivity extends AppCompatActivity implements
     private CheckoutAdapter posAdapter;
     private LinearLayoutManager layoutManager;
     private TextView totalPriceText;
+    private ArrayList<Order>currentOrders;
 
     private static final int ID_BASKET_LOADER = 44;
 
@@ -143,7 +148,7 @@ public class CheckoutActivity extends AppCompatActivity implements
         if (isMobilePayInstalled) {
             Payment payment = new Payment();
             payment.setProductPrice(new BigDecimal(totalPriceText.getText().toString()));
-            payment.setOrderId("86715c57-8840-4a6f-af5f-07ee89107ece");
+            payment.setOrderId(getString(R.string.orderId));
             Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
             startActivityForResult(paymentIntent, MOBILEPAY_REQUEST_CODE);
         }
@@ -158,7 +163,11 @@ public class CheckoutActivity extends AppCompatActivity implements
         if (requestCode == MOBILEPAY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("/Orders/" + Calendar.getInstance().getTimeInMillis());
+
+                double totalPrice = Double.valueOf(totalPriceText.getText().toString());
+
+                String orderTag = String.valueOf(Calendar.getInstance().getTimeInMillis());
+                DatabaseReference ref = database.getReference("/Orders/" + orderTag);
 
                 Map<String, OrderDrink> order = new HashMap<String, OrderDrink>();
                 UUID id = UUID.randomUUID();
@@ -176,11 +185,33 @@ public class CheckoutActivity extends AppCompatActivity implements
                 }
 
                 ref.setValue(order);
+                ref.child("Status").setValue(OrderStatus.Pending.toString());
+
+                saveOrderInDb(orderTag, totalPrice);
+
+                Intent intent = new Intent();
+                intent.setAction("com.intent.action.USER_ACTION");
+                intent.putExtra("firebaseTag", orderTag);
+
+                sendBroadcast(intent);
+
                 clearDatabase();
 
                 getSupportLoaderManager().restartLoader(ID_BASKET_LOADER, null, this);
             }
         }
+    }
+
+    private void saveOrderInDb(String orderTag, double orderPrice) {
+        ContentResolver barContentResolver = mContext.getContentResolver();
+
+        long barId = Long.valueOf(currentBarUri.getLastPathSegment());
+
+        ContentValues values = ContentValueCreator.createContentValuesForOrders(orderTag, barId, orderPrice);
+
+        barContentResolver.insert(
+                BartyContract.OrderEntry.CONTENT_URI_ORDER,
+                values);
     }
 
     private void clearDatabase() {
