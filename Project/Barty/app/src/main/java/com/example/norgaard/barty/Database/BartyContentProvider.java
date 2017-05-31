@@ -55,6 +55,16 @@ public class BartyContentProvider extends ContentProvider {
                     db.endTransaction();
                 }
                 return deletedId;
+            case CODE_ORDERS:
+                try {
+                    db.beginTransaction();
+                    deletedId = db.delete(BartyContract.OrderEntry.TABLE_NAME_ORDERS, selection, selectionArgs);
+                    db.setTransactionSuccessful();
+                }
+                finally {
+                    db.endTransaction();
+                }
+                return deletedId;
             default:
                 return 0;
         }

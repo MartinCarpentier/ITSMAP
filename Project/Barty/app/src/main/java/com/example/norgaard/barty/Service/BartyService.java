@@ -1,21 +1,22 @@
 package com.example.norgaard.barty.Service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
+import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.example.norgaard.barty.Database.BartyContract;
 import com.example.norgaard.barty.Models.Order;
 import com.example.norgaard.barty.R;
-import com.example.norgaard.barty.Utilities.ContentValueCreator;
 import com.example.norgaard.barty.Utilities.NotificationID;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,16 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.UUID;
-import java.util.concurrent.locks.Lock;
 
 public class BartyService extends Service {
 
@@ -60,6 +54,8 @@ public class BartyService extends Service {
     private FirebaseDatabase firebase;
     private ArrayList<Order> currentOrders;
     private DatabaseReference currentOrderRef;
+    public static final String OrderDeliveredAction = "action_1";
+
 
     public BartyService() {
         Log.d(LOG_TAG, "Constructor invoked");
@@ -108,6 +104,7 @@ public class BartyService extends Service {
             }
         });
     }
+
 
     private void startLookingForOrders() {
 
@@ -177,7 +174,11 @@ public class BartyService extends Service {
         }
         if(Objects.equals(value, OrderStatus.Delivered.toString()))
         {
-            Log.i(LOG_TAG, "Order have been delivered, and is being deleted from db");
+            Log.i(LOG_TAG, "Order have been delivered to customer, and is being deleted from db");
+
+            MoveOrderToCompletedFirebase(currentOrder);
+
+            DeleteOrderFromLocalDb(currentOrder);
 
             //Delete order from database and unregister listener
             this.stopSelf();
@@ -186,23 +187,84 @@ public class BartyService extends Service {
         Log.d(LOG_TAG, "Value was " + value);
     }
 
+    private void DeleteOrderFromLocalDb(String currentOrder) {
+        ContentResolver contentResolver = getBaseContext().getContentResolver();
+        String drinkSelection = BartyContract.OrderEntry.COLUMN_ORDER_STATUS_TAG + "= ?";
+        String[] drinkArgs = new String[]{ currentOrder };
+        contentResolver.delete(
+                BartyContract.OrderEntry.CONTENT_URI_ORDER,
+                drinkSelection,
+                drinkArgs);
+    }
+
+    private void MoveOrderToCompletedFirebase(String currentOrder) {
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+        currentOrderRef = db.getReference().child("Orders/" + currentOrder);
+        DatabaseReference newPath = db.getReference("CompletedOrders/" + currentOrder);
+        moveFirebaseRecord(currentOrderRef, newPath);
+        //currentOrderRef.removeValue();
+    }
+
     private void CreateNotificationForFirebase(String currentOrder) {
 
         Log.d(LOG_TAG, "Send a notification");
+
+        Intent orderDeliveredIntent = new Intent(getBaseContext(), OrderDeliveredService.class);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_location_city_white_48px)
                         .setContentTitle("Barty order is ready")
+                        .setPriority(NotificationCompat.PRIORITY_MAX)
+                        .setDefaults(Notification.DEFAULT_SOUND)
                         .setContentText("Show this id " + currentOrder);
 
         // Sets an ID for the notification
         int mNotificationId = NotificationID.getID();
+
         // Gets an instance of the NotificationManager service
         NotificationManager mNotifyMgr =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
         // Builds the notification and issues it.
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
+
+    private void moveFirebaseRecord(final DatabaseReference fromPath, final DatabaseReference toPath)
+    {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase)
+                    {
+                        if (firebaseError != null)
+                        {
+                            Log.i(LOG_TAG, "Copy failed");
+                        }
+                        else
+                        {
+                            Log.i(LOG_TAG, "Success");
+
+                            //Remove old value when done being copied
+                            fromPath.removeValue();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError firebaseError)
+            {
+                Log.i(LOG_TAG, "Copy failed");
+            }
+        });
     }
 
     @Override
