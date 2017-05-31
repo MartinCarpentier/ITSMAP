@@ -67,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements
         LocationListener {
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
+    public static final String LOG_MAPS = "LOG_MAPS";
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
@@ -87,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG_MAPS, "onCreate()");
+
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_location));
@@ -150,6 +153,8 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d(LOG_MAPS, "onRequestPermissionsResult()");
+
         switch (requestCode) {
             case BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
@@ -177,6 +182,8 @@ public class MapsActivity extends FragmentActivity implements
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(LOG_MAPS, "onMapReady()");
+
         mMap = googleMap;
 
         // Turn on the My Location layer and the related control on the map.
@@ -205,6 +212,7 @@ public class MapsActivity extends FragmentActivity implements
     // Code taken from/inspired by:
     // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
     private void getDeviceLocation() {
+        Log.d(LOG_MAPS, "getDeviceLocation()");
 
         if (mCameraPosition != null) {
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
@@ -223,6 +231,8 @@ public class MapsActivity extends FragmentActivity implements
     // https://developer.android.com/training/location/retrieve-current.html
     @Override
     protected void onStart() {
+        Log.d(LOG_MAPS, "onStart()");
+
         mGoogleApiClient.connect();
         super.onStart();
     }
@@ -231,6 +241,8 @@ public class MapsActivity extends FragmentActivity implements
     // https://developer.android.com/training/location/retrieve-current.html
     @Override
     protected void onStop() {
+        Log.d(LOG_MAPS, "onStop()");
+
         mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -239,6 +251,8 @@ public class MapsActivity extends FragmentActivity implements
     // https://developer.android.com/training/location/retrieve-current.html
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.d(LOG_MAPS, "onConnected()");
+
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -255,15 +269,16 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.d(LOG_MAPS, "onConnectionSuspended()");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.d(LOG_MAPS, "onConnectionFailed()");
     }
 
     private void startFirebaseDb() {
+        Log.d(LOG_MAPS, "startFirebaseDb()");
 
         mFireDb = FirebaseDatabase.getInstance();
 
@@ -410,6 +425,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void setBarMarkers(ArrayList<Bar> bars) {
+        Log.d(LOG_MAPS, "setBarMarkers()");
 
         while (!barsReady) {
         }
@@ -426,6 +442,8 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void insertBarsIntoDatabase(ArrayList<Bar> bars) {
+        Log.d(LOG_MAPS, "insertBarsIntoDatabase()");
+
         ContentValues[] values = ContentValueCreator.createContentValuesForBars(bars);
 
         //Insert values into db
@@ -437,6 +455,8 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     public void onLocationChanged(Location location) {
+        Log.d(LOG_MAPS, "onLocationChanged()");
+
         mLastLocation = location;
         getDeviceLocation();
     }
@@ -444,6 +464,8 @@ public class MapsActivity extends FragmentActivity implements
     // Code taken from/inspired by:
     // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
     private void updateLocationUI() {
+        Log.d(LOG_MAPS, "updateLocationUI()");
+
         if (mMap == null) {
             return;
         }
@@ -472,7 +494,7 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public void onClick(Bar clickedBar) {
-        Log.d(logTag, "bar licked");
+        Log.d(LOG_MAPS, "Bar clicked: " + clickedBar.barName);
 
         Intent intent = new Intent(this, CatalogActivity.class);
 
@@ -482,6 +504,8 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        Log.d(LOG_MAPS, "onSaveInstanceState()");
+
         if (mMap != null) {
             outState.putParcelable(getString(R.string.key_camera_position), mMap.getCameraPosition());
             outState.putParcelable(getString(R.string.key_location), mLastLocation);
