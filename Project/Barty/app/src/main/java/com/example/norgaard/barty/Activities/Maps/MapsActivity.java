@@ -68,23 +68,22 @@ public class MapsActivity extends FragmentActivity implements
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
     public static final String LOG_MAPS = "LOG MAPS";
-    private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
+    private GoogleMap googleMap;
+    private GoogleApiClient googleApiClient;
+    private Location location;
     private float DEFAULT_ZOOM = 13;
     private RecyclerView recyclerView;
-    private Boolean mLocationPermissionGranted = false;
-    private CameraPosition mCameraPosition;
-    private AppBarLayout appBar;
+    private Boolean isLocationPermissionGranted = false;
+    private CameraPosition cameraPosition;
+    private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     public MapsAdapter mapsAdapter;
-    private LinearLayoutManager layoutManager;
-    public FirebaseDatabase mFireDb;
+    private LinearLayoutManager linearLayoutManager;
+    public FirebaseDatabase firebaseDatabase;
     private MapsActivity mapsActivity = this;
-    private LatLng mDefaultLocation;
+    private LatLng latLng;
     ArrayList<Bar> bars;
-    private boolean barsReady;
-    private String logTag = MapsActivity.class.getSimpleName();
+    private boolean isBarsReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +91,13 @@ public class MapsActivity extends FragmentActivity implements
 
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            mLastLocation = savedInstanceState.getParcelable(getString(R.string.key_location));
-            mCameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
+            location = savedInstanceState.getParcelable(getString(R.string.key_location));
+            cameraPosition = savedInstanceState.getParcelable(getString(R.string.key_camera_position));
         }
         setContentView(R.layout.activity_maps);
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
-        appBar = (AppBarLayout) findViewById(R.id.appbar);
-        mDefaultLocation = new LatLng(10, 10);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        latLng = new LatLng(10, 10);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -112,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements
             collapsingToolbar.setCollapsedTitleTextColor(colorId);
 
             // This part allows us to drag the google maps in the coordinator layout.
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
             AppBarLayout.Behavior behavior = new AppBarLayout.Behavior();
             behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
                 @Override
@@ -126,8 +125,8 @@ public class MapsActivity extends FragmentActivity implements
         // Creating an instance of the Google API client
         // Code taken from/inspired by:
         // https://developers.google.com/maps/documentation/android-api/current-place-tutorial
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(this)
                     .enableAutoManage(this, this)
                     .addConnectionCallbacks(this)
                     .addApi(LocationServices.API)
@@ -137,8 +136,8 @@ public class MapsActivity extends FragmentActivity implements
         }
 
         recyclerView = (RecyclerView) mapsActivity.findViewById(R.id.recyclerBarDistanceView);
-        layoutManager = new LinearLayoutManager(mapsActivity);
-        recyclerView.setLayoutManager(layoutManager);
+        linearLayoutManager = new LinearLayoutManager(mapsActivity);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         mapsAdapter = new MapsAdapter(getApplicationContext(), this);
         recyclerView.setAdapter(mapsAdapter);
@@ -146,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements
         Intent intent = new Intent(MapsActivity.this, BartyService.class);
         startService(intent);
         //MapsActivity.this.startService(new Intent(".Service.BartyService"));
-        Log.d(logTag, "Started " + BartyService.class.toString());
+        Log.d(LOG_MAPS, "Started " + BartyService.class.toString());
 
         startFirebaseDb();
     }
@@ -159,11 +158,11 @@ public class MapsActivity extends FragmentActivity implements
             case BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
+                    isLocationPermissionGranted = true;
                     updateLocationUI();
                 }
                 else {
-                    mLocationPermissionGranted = false;
+                    isLocationPermissionGranted = false;
                 }
                 break;
             }
@@ -185,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements
     public void onMapReady(GoogleMap googleMap) {
         Log.d(LOG_MAPS, "onMapReady()");
 
-        mMap = googleMap;
+        this.googleMap = googleMap;
 
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
@@ -202,11 +201,11 @@ public class MapsActivity extends FragmentActivity implements
                             this, R.raw.style_json));
 
             if (!success) {
-                Log.e(logTag, "Style parsing failed.");
+                Log.e(LOG_MAPS, "Style parsing failed.");
             }
         }
         catch (Resources.NotFoundException e) {
-            Log.e(logTag, "Can't find style. Error: ", e);
+            Log.e(LOG_MAPS, "Can't find style. Error: ", e);
         }
     }
 
@@ -215,16 +214,16 @@ public class MapsActivity extends FragmentActivity implements
     private void getDeviceLocation() {
         Log.d(LOG_MAPS, "getDeviceLocation()");
 
-        if (mCameraPosition != null) {
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
+        if (cameraPosition != null) {
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
-        else if (mLastLocation != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), DEFAULT_ZOOM));
+        else if (location != null) {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), DEFAULT_ZOOM));
         }
         else {
-            Log.d(logTag, "Current location is null. Using defaults.");
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            Log.d(LOG_MAPS, "Current location is null. Using defaults.");
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -234,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements
     protected void onStart() {
         Log.d(LOG_MAPS, "onStart()");
 
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
         super.onStart();
     }
 
@@ -244,7 +243,7 @@ public class MapsActivity extends FragmentActivity implements
     protected void onStop() {
         Log.d(LOG_MAPS, "onStop()");
 
-        mGoogleApiClient.disconnect();
+        googleApiClient.disconnect();
         super.onStop();
     }
 
@@ -254,12 +253,12 @@ public class MapsActivity extends FragmentActivity implements
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(LOG_MAPS, "onConnected()");
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (mLastLocation != null) {
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                onMapReady(mMap);
+            if (location != null) {
+                location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+                onMapReady(googleMap);
             }
         }
 
@@ -281,10 +280,10 @@ public class MapsActivity extends FragmentActivity implements
     private void startFirebaseDb() {
         Log.d(LOG_MAPS, "startFirebaseDb()");
 
-        mFireDb = FirebaseDatabase.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-        barsReady = false;
-        DatabaseReference myRef = mFireDb.getReference().child("Bars");
+        isBarsReady = false;
+        DatabaseReference myRef = firebaseDatabase.getReference().child("Bars");
 
         Query query = myRef.orderByKey();
 
@@ -408,12 +407,12 @@ public class MapsActivity extends FragmentActivity implements
                     currentBar.setBarlogo(currentBarLogo);
 
                     bars.add(currentBar);
-                    barsReady = true;
+                    isBarsReady = true;
                 }
                 setBarMarkers(bars);
                 insertBarsIntoDatabase(bars);
                 mapsAdapter.swapData(bars);
-                barsReady = true;
+                isBarsReady = true;
             }
 
             @Override
@@ -422,13 +421,13 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
-        barsReady = true;
+        isBarsReady = true;
     }
 
     private void setBarMarkers(ArrayList<Bar> bars) {
         Log.d(LOG_MAPS, "setBarMarkers()");
 
-        while (!barsReady) {
+        while (!isBarsReady) {
         }
         LatLng latLng;
         for (Bar bar : bars) {
@@ -436,7 +435,7 @@ public class MapsActivity extends FragmentActivity implements
                 continue;
             }
             latLng = new LatLng(bar.getLocation().getLatitude(), bar.getLocation().getLongitude());
-            mMap.addMarker(new MarkerOptions()
+            googleMap.addMarker(new MarkerOptions()
                     .position(latLng)
                     .title(bar.barName));
         }
@@ -458,7 +457,7 @@ public class MapsActivity extends FragmentActivity implements
     public void onLocationChanged(Location location) {
         Log.d(LOG_MAPS, "onLocationChanged()");
 
-        mLastLocation = location;
+        this.location = location;
         getDeviceLocation();
     }
 
@@ -467,29 +466,23 @@ public class MapsActivity extends FragmentActivity implements
     private void updateLocationUI() {
         Log.d(LOG_MAPS, "updateLocationUI()");
 
-        if (mMap == null) {
+        if (googleMap == null) {
             return;
         }
 
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            mLocationPermissionGranted = true;
-        }
-        else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            return;
         }
 
-        if (mLocationPermissionGranted) {
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        if (isLocationPermissionGranted) {
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         }
         else {
-            mMap.setMyLocationEnabled(false);
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mLastLocation = null;
+            googleMap.setMyLocationEnabled(false);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+            location = null;
         }
     }
 
@@ -507,9 +500,9 @@ public class MapsActivity extends FragmentActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         Log.d(LOG_MAPS, "onSaveInstanceState()");
 
-        if (mMap != null) {
-            outState.putParcelable(getString(R.string.key_camera_position), mMap.getCameraPosition());
-            outState.putParcelable(getString(R.string.key_location), mLastLocation);
+        if (googleMap != null) {
+            outState.putParcelable(getString(R.string.key_camera_position), googleMap.getCameraPosition());
+            outState.putParcelable(getString(R.string.key_location), location);
             super.onSaveInstanceState(outState);
         }
     }
