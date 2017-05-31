@@ -1,6 +1,8 @@
 package com.example.norgaard.barty.Activities.Maps;
 
 import android.Manifest;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +32,7 @@ import com.example.norgaard.barty.Models.Beer;
 import com.example.norgaard.barty.Models.Cocktail;
 import com.example.norgaard.barty.Models.Drinks;
 import com.example.norgaard.barty.Models.Shots;
+import com.example.norgaard.barty.NoLocationFragment;
 import com.example.norgaard.barty.R;
 import com.example.norgaard.barty.Service.BartyService;
 import com.example.norgaard.barty.Utilities.ContentValueCreator;
@@ -73,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements
     private Location mLastLocation;
     private float DEFAULT_ZOOM = 13;
     private RecyclerView recyclerView;
-    private Boolean mLocationPermissionGranted;
+    private Boolean mLocationPermissionGranted = false;
     private CameraPosition mCameraPosition;
     private AppBarLayout appBar;
     private CollapsingToolbarLayout collapsingToolbarLayout;

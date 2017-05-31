@@ -190,7 +190,7 @@ public class CheckoutActivity extends AppCompatActivity implements
                 saveOrderInDb(orderTag, totalPrice);
 
                 Intent intent = new Intent();
-                intent.setAction("com.intent.action.USER_ACTION");
+                intent.setAction("com.example.norgaard.barty.CREATE_ORDER_LISTENER");
                 intent.putExtra("firebaseTag", orderTag);
 
                 sendBroadcast(intent);

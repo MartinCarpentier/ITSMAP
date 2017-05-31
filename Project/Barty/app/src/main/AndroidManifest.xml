@@ -61,7 +61,7 @@
         </activity>
         <receiver android:name=".Service.NewOrderBroadcastReceiver">
             <intent-filter>
-                <action android:name="com.intent.action.USER_ACTION" />
+                <action android:name="com.example.norgaard.barty.CREATE_ORDER_LISTENER" />
             </intent-filter>
         </receiver>
     </application>
