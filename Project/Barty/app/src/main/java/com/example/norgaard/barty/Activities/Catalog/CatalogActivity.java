@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.norgaard.barty.Activities.Checkout.CheckoutActivity;
@@ -46,6 +48,7 @@ public class CatalogActivity extends AppCompatActivity implements
     public ArrayList<DrinkBase> drinks;
     private Context mContext = this;
     private String logTag = CatalogActivity.class.getSimpleName();
+    private LinearLayout priceLayout;
     private TextView barText;
     private Context context = this;
 
@@ -83,6 +86,14 @@ public class CatalogActivity extends AppCompatActivity implements
         setTitle(currentBar.getBarname());
         setTabs();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerDrinksView);
+        priceLayout = (LinearLayout) findViewById(R.id.priceLayout);
+
+        priceLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCheckoutActivity();
+            }
+        });
 
         int columnAmount;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -158,17 +169,21 @@ public class CatalogActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_favorite:
-                Intent intentOpenBasket = new Intent(context, CheckoutActivity.class);
-
-                intentOpenBasket.setData(BartyContract.getUriForSpecificBar(currentBar.getId()));
-
-                // putExtra values that the POS needs here
-
-                startActivityForResult(intentOpenBasket, CHECKOUT_COUNTER_RESULT);
+                startCheckoutActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void startCheckoutActivity() {
+        Intent intentOpenBasket = new Intent(context, CheckoutActivity.class);
+
+        intentOpenBasket.setData(BartyContract.getUriForSpecificBar(currentBar.getId()));
+
+        // putExtra values that the POS needs here
+
+        startActivityForResult(intentOpenBasket, CHECKOUT_COUNTER_RESULT);
     }
 
     @Override
