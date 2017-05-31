@@ -7,7 +7,6 @@
         android:id="@+id/action_favorite"
         android:icon="@drawable/ic_buyicon"
         android:title="16$"
-        android:titleCondensed="WHAT"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom" />
 
 </menu>
