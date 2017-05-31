@@ -20,4 +20,6 @@
     <string name="cocktail">Cocktails</string>
     <string name="beer">Øl</string>
     <string name="shots">Shots</string>
+    <string name="basket">Kurv</string>
+    <string name="hello_blank_fragment">Hej blank fragment</string>
 </resources>
