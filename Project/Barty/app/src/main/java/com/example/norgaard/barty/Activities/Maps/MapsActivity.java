@@ -67,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements
         LocationListener {
 
     private static final int BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 100;
-    public static final String LOG_MAPS = "LOG_MAPS";
+    public static final String LOG_MAPS = "LOG MAPS";
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
