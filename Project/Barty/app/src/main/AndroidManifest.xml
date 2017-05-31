@@ -49,11 +49,6 @@
                 <action android:name=".Service.BartyService" />
             </intent-filter>
         </service>
-        <service android:name=".Service.OrderDeliveredService"
-            android:enabled="true"
-            android:exported="false">
-
-        </service>
 
         <activity
             android:name=".Activities.Login.LoginActivity"

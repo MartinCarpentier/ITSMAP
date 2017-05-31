@@ -211,8 +211,6 @@ public class BartyService extends Service {
 
         Log.d(LOG_TAG, "Send a notification");
 
-        Intent orderDeliveredIntent = new Intent(getBaseContext(), OrderDeliveredService.class);
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_location_city_white_48px)
