@@ -90,11 +90,6 @@ public class Utilities {
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-        if (hour > 22 || hour < 7) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return !(hour > 22 || hour < 7);
     }
 }
