@@ -19,18 +19,13 @@ import com.example.martin.forecastapp.utils.SunshineDateUtils;
 import com.example.martin.forecastapp.utils.Utilities;
 import com.example.martin.forecastapp.utils.WeatherIdUtils;
 
-import org.w3c.dom.Text;
-
-import static android.R.attr.data;
-
 public class DetailFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     static final String DETAIL_URI = "URI";
     private Uri weatherContentProviderUri;
-
-
 
     private static final int ID_DETAIL_LOADER = 44;
 
@@ -45,7 +40,6 @@ public class DetailFragment extends Fragment implements
             ForecastContract.ForecastEntry.COLUMN_DEGREES,
             ForecastContract.ForecastEntry.COLUMN_FORECAST_ID
     };
-
 
     public static final int INDEX_WEATHER_ID = 0;
     public static final int INDEX_WEATHER_DATE = 1;
@@ -71,8 +65,7 @@ public class DetailFragment extends Fragment implements
     private TextView windSpeedTextView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         if (arguments != null) {
             weatherContentProviderUri = arguments.getParcelable(DetailFragment.DETAIL_URI);
@@ -80,14 +73,14 @@ public class DetailFragment extends Fragment implements
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        highTextView = (TextView)rootView.findViewById(R.id.highTemperatureText);
-        minTextView = (TextView)rootView.findViewById(R.id.lowTextView);
+        highTextView = (TextView) rootView.findViewById(R.id.highTemperatureText);
+        minTextView = (TextView) rootView.findViewById(R.id.lowTextView);
         dateTextView = (TextView) rootView.findViewById(R.id.dateTextView);
-        humidityTextView = (TextView)rootView.findViewById(R.id.currentHumidityText);
-        pressureTextView = (TextView)rootView.findViewById(R.id.currentPressureTextView);
-        windSpeedTextView = (TextView)rootView.findViewById(R.id.currentWindTextView);
-        weatherIconView = (ImageView)rootView.findViewById(R.id.imageView2);
-        shortDescriptionTextView = (TextView)rootView.findViewById(R.id.shortDescriptionText);
+        humidityTextView = (TextView) rootView.findViewById(R.id.currentHumidityText);
+        pressureTextView = (TextView) rootView.findViewById(R.id.currentPressureTextView);
+        windSpeedTextView = (TextView) rootView.findViewById(R.id.currentWindTextView);
+        weatherIconView = (ImageView) rootView.findViewById(R.id.imageView2);
+        shortDescriptionTextView = (TextView) rootView.findViewById(R.id.shortDescriptionText);
 
         getActivity().getSupportLoaderManager().initLoader(ID_DETAIL_LOADER, null, this);
 
@@ -98,16 +91,13 @@ public class DetailFragment extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         switch (id) {
-
             case ID_DETAIL_LOADER:
-
                 return new CursorLoader(getContext(),
                         weatherContentProviderUri,
                         DETAIL_PROJECTS,
                         null,
                         null,
                         null);
-
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
         }
@@ -144,7 +134,6 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        // Not needed
-    }
 
+    }
 }

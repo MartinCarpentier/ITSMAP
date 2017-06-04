@@ -10,10 +10,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**
- * Created by mbc on 06-05-2017.
- */
-
 public class ForecastProvider extends ContentProvider {
 
     public static final int CODE_WEATHER = 100;

@@ -30,8 +30,6 @@ import static android.content.ContentValues.TAG;
 
 public class WeatherService extends Service {
 
-    private static final String BROADCAST_BACKGROUND_SERVICE_RESULT = "100";
-    private static final String EXTRA_TASK_RESULT = "101";
     private static Timer requestTimer;
     long delay = 30 * 60 * 1000; // 30 min delay in milliseconds
 
@@ -57,8 +55,6 @@ public class WeatherService extends Service {
             Log.d(LOG_TAG_WEATHER_SERVICE, "Background service onStartCommand with wait: " + DEFAULT_WAIT + "s");
             isServiceStarted = true;
 
-            //volleyJsonObjectRequest();
-
             requestTimer.cancel();
             requestTimer = new Timer();
             Date executionDate = new Date(); // no params = now
@@ -78,17 +74,6 @@ public class WeatherService extends Service {
         }
     }
 
-    private void broadcastTaskResult(String s) {
-        Log.d(LOG_TAG_WEATHER_SERVICE, "Background service broadcastTaskResult()");
-
-        Intent intent = new Intent();
-        intent.setAction(BROADCAST_BACKGROUND_SERVICE_RESULT);
-        intent.putExtra(EXTRA_TASK_RESULT, s);
-
-        Log.d(LOG_TAG_WEATHER_SERVICE, "Broadcasting: " + s);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
-
     @Override
     public void onDestroy() {
         Log.d(LOG_TAG_WEATHER_SERVICE, "Background service onDestroy()");
@@ -105,8 +90,6 @@ public class WeatherService extends Service {
 
     public void volleyJsonObjectRequest() {
 
-        String REQUEST_TAG = "com.androidtutorialpoint.volleyJsonObjectRequest";
-
         URL weatherUrl = Utilities.createWeatherUrlForAarhus();
 
         JsonObjectRequest jsonObjectReq = new JsonObjectRequest(weatherUrl.toString(), null,
@@ -115,24 +98,23 @@ public class WeatherService extends Service {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
 
-                            Gson gson = new Gson();
+                        Gson gson = new Gson();
 
-                            CurrentWeather weather = gson.fromJson(response.toString(), CurrentWeather.class);
+                        CurrentWeather weather = gson.fromJson(response.toString(), CurrentWeather.class);
 
-                            //Type listType = new TypeToken<ArrayList<WeatherInfo>>() {}.getType();
-                            //WeatherInfo weatherInfo = gson.from(jsonString, WeatherInfo.class);
+                        //Type listType = new TypeToken<ArrayList<WeatherInfo>>() {}.getType();
+                        //WeatherInfo weatherInfo = gson.from(jsonString, WeatherInfo.class);
 
-                            Log.d(TAG, "Weatherinfo created: size -> " + weather);
+                        Log.d(TAG, "Weatherinfo created: size -> " + weather);
 
-                            ContentValues[] values = Utilities.createContentValuesForCurrentWeather(weather);
+                        ContentValues[] values = Utilities.createContentValuesForCurrentWeather(weather);
 
-                            //Insert values into db
-                            ContentResolver ForecastContentResolver = getApplicationContext().getContentResolver();
+                        //Insert values into db
+                        ContentResolver ForecastContentResolver = getApplicationContext().getContentResolver();
 
-                            ForecastContentResolver.bulkInsert(
-                                    ForecastContract.ForecastEntry.CONTENT_URI,
-                                    values);
-
+                        ForecastContentResolver.bulkInsert(
+                                ForecastContract.ForecastEntry.CONTENT_URI,
+                                values);
                     }
                 }, new Response.ErrorListener() {
             @Override

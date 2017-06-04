@@ -24,13 +24,11 @@ import android.widget.TextView;
 
 import com.example.martin.forecastapp.data.ForecastContract;
 
-/**
- * Created by mbc on 05-05-2017.
- */
+import static android.support.v4.app.ActivityOptionsCompat.*;
 
 public class ForecastFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        ForecastAdapter.ForecastAdapterOnClickHandler{
+        ForecastAdapter.ForecastAdapterOnClickHandler {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -65,25 +63,17 @@ public class ForecastFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerForecastView);
-
+        layoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerForecastView);
         progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
         fab = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
-
-        layoutManager =  new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setHasFixedSize(true);
-
         forecastAdapter = new ForecastAdapter(rootView.getContext(), this);
-
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(forecastAdapter);
+        recyclerView.setHasFixedSize(true);
 
         showLoading();
 
-        //TODO: retrieve data from database
         getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,16 +86,13 @@ public class ForecastFragment extends Fragment implements
         return rootView;
     }
 
-    private void stopLoading()
-    {
+    private void stopLoading() {
         progressBar.setVisibility(View.INVISIBLE);
-
         recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
-
         recyclerView.setVisibility(View.INVISIBLE);
     }
 
@@ -113,27 +100,20 @@ public class ForecastFragment extends Fragment implements
     public void onClick(long date, ImageView weatherIcon, TextView high, TextView low) {
         //Either start activity with date or show in this activity
 
-        if(MainActivity.mTwoPane)
-        {
-
-        }
-        else
-        {
+        if (!MainActivity.mTwoPane) {
             Intent weatherDetailIntent = new Intent(getActivity(), DetailActivity.class);
             Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(date);
             weatherDetailIntent.setData(uriForWeatherId);
 
-            Pair<View, String> p1 = Pair.create((View)weatherIcon, getString(R.string.weatherIconTransitionName));
-            Pair<View, String> p2 = Pair.create((View)high, getString(R.string.highTemperatureTransitionName));
-            Pair<View, String> p3 = Pair.create((View)low, getString(R.string.lowTemperatureTransitionName));
+            Pair<View, String> p1 = Pair.create((View) weatherIcon, getString(R.string.weatherIconTransitionName));
+            Pair<View, String> p2 = Pair.create((View) high, getString(R.string.highTemperatureTransitionName));
+            Pair<View, String> p3 = Pair.create((View) low, getString(R.string.lowTemperatureTransitionName));
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+            ActivityOptionsCompat options = makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
 
-            //android:transitionName="highTemperatureTransition"
             startActivity(weatherDetailIntent, options.toBundle());
         }
-}
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -165,8 +145,6 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //forecastAdapter.swapCursor(data);
-
         Log.d("ForecastFragment", "Showing " + data.getCount() + " in list");
         forecastAdapter.swapCursor(data);
 

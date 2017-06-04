@@ -2,7 +2,6 @@ package com.example.martin.forecastapp.utils;
 
 import android.content.ContentValues;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.example.martin.forecastapp.data.ForecastContract;
@@ -11,12 +10,6 @@ import com.example.martin.forecastapp.models.CurrentWeather;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-/**
- * Created by mbc on 08-05-2017.
- */
 
 public class Utilities {
 
@@ -56,22 +49,22 @@ public class Utilities {
             URL weatherQueryUrl = new URL(weatherQueryUri.toString());
             Log.v("WeatherService", "URL: " + weatherQueryUrl);
             return weatherQueryUrl;
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     public static ContentValues[] createContentValuesForCurrentWeather(CurrentWeather weather) {
-
         ContentValues[] values = new ContentValues[1];
-
         ContentValues forecastValues = new ContentValues();
 
         long normalizedDate;
         if (!SunshineDateUtils.isDateNormalized(weather.getDt())) {
             normalizedDate = ((long) weather.getDt()) * 1000;
-        } else {
+        }
+        else {
             normalizedDate = (long) weather.getDt();
         }
 
@@ -89,7 +82,6 @@ public class Utilities {
         return values;
     }
 
-
     public static boolean checkIfDay(long dateAsLong) {
 
         Calendar cal = Calendar.getInstance();
@@ -100,7 +92,8 @@ public class Utilities {
 
         if (hour > 22 || hour < 7) {
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }

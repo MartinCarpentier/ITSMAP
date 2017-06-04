@@ -72,5 +72,4 @@ public class Sys {
     public void setSunset(Integer sunset) {
         this.sunset = sunset;
     }
-
 }
