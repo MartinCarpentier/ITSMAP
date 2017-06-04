@@ -1,8 +1,5 @@
-package com.example.martin.forecastapp.models;
 
-/**
- * Created by mbc on 08-05-2017.
- */
+package com.example.martin.forecastapp.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

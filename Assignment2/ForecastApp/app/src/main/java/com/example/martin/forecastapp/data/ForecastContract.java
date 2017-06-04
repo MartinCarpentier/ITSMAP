@@ -48,11 +48,10 @@ public class ForecastContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-        public static String getSqlSelectForNowOnwards() {
-            //&long normalizedUtcNow = normalizeDate(System.currentTimeMillis());
-
-
-            return ForecastContract.ForecastEntry.COLUMN_DATE + " >= " + Calendar.getInstance().getTimeInMillis();
+        public static String getSqlSelectForLast24Hours() {
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.add(Calendar.HOUR, -24);
+            return ForecastContract.ForecastEntry.COLUMN_DATE + " >= " + yesterday.getTimeInMillis();
         }
 
         public static long normalizeDate(long date) {

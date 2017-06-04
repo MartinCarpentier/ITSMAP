@@ -15,18 +15,14 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.martin.forecastapp.data.ForecastContract;
-import com.example.martin.forecastapp.models.WeatherInfo;
+import com.example.martin.forecastapp.models.CurrentWeather;
 import com.example.martin.forecastapp.utils.Utilities;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,7 +34,7 @@ public class WeatherService extends Service {
     private static final String EXTRA_TASK_RESULT = "101";
     private static Timer requestTimer;
     long delay = 30 * 60 * 1000; // 30 min delay in milliseconds
-    //long delay = 30 * 1000; // 30 sec delay in milliseconds
+
     LoopRequest task = new LoopRequest();
 
     final private String LOG_TAG_WEATHER_SERVICE = "WeatherService";
@@ -119,24 +115,16 @@ public class WeatherService extends Service {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
 
-                        Gson gson = new Gson();
-                        JSONArray weatherArray = new JSONArray();
-                        try {
-                            weatherArray = response.getJSONArray("list");
+                            Gson gson = new Gson();
 
-                            List<WeatherInfo> weatherInfo = new ArrayList<WeatherInfo>();
-                            if (weatherArray != null) {
-                                for (int i = 0; i < weatherArray.length(); i++) {
-                                    weatherInfo.add(gson.fromJson(weatherArray.getString(i), WeatherInfo.class));
-                                }
-                            }
+                            CurrentWeather weather = gson.fromJson(response.toString(), CurrentWeather.class);
 
                             //Type listType = new TypeToken<ArrayList<WeatherInfo>>() {}.getType();
                             //WeatherInfo weatherInfo = gson.from(jsonString, WeatherInfo.class);
 
-                            Log.d(TAG, "Weatherinfo created: size -> " + weatherInfo.size());
+                            Log.d(TAG, "Weatherinfo created: size -> " + weather);
 
-                            ContentValues[] values = Utilities.createContentValuesForWeatherInfos(weatherInfo);
+                            ContentValues[] values = Utilities.createContentValuesForCurrentWeather(weather);
 
                             //Insert values into db
                             ContentResolver ForecastContentResolver = getApplicationContext().getContentResolver();
@@ -144,10 +132,7 @@ public class WeatherService extends Service {
                             ForecastContentResolver.bulkInsert(
                                     ForecastContract.ForecastEntry.CONTENT_URI,
                                     values);
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

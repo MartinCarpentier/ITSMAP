@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -13,6 +14,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ public class ForecastFragment extends Fragment implements
     private ProgressBar progressBar;
     private ForecastAdapter forecastAdapter;
     private LinearLayoutManager layoutManager;
+    private FloatingActionButton fab;
+    private ForecastFragment forecastFragment = this;
 
     public static final int INDEX_WEATHER_DATE = 0;
     public static final int INDEX_WEATHER_MAX_TEMP = 1;
@@ -65,8 +69,9 @@ public class ForecastFragment extends Fragment implements
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
 
-        layoutManager =
-                new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
+
+        layoutManager =  new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -80,6 +85,13 @@ public class ForecastFragment extends Fragment implements
 
         //TODO: retrieve data from database
         getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, forecastFragment);
+            }
+        });
 
         return rootView;
     }
@@ -137,14 +149,14 @@ public class ForecastFragment extends Fragment implements
                  * want all weather data from today onwards that is stored in our weather table.
                  * We created a handy method to do that in our WeatherEntry class.
                  */
-                String selection = ForecastContract.ForecastEntry.getSqlSelectForNowOnwards();
+                String selection = ForecastContract.ForecastEntry.getSqlSelectForLast24Hours();
 
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
                         MAIN_FORECAST_PROJECTION,
                         selection,
                         null,
-                        sortOrder);
+                        null);
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
@@ -153,8 +165,9 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         //forecastAdapter.swapCursor(data);
+
+        Log.d("ForecastFragment", "Showing " + data.getCount() + " in list");
         forecastAdapter.swapCursor(data);
 
         stopLoading();

@@ -6,7 +6,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.example.martin.forecastapp.data.ForecastContract;
-import com.example.martin.forecastapp.models.WeatherInfo;
+import com.example.martin.forecastapp.models.CurrentWeather;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Utilities {
 
-    private final static String weatherBaseUrl =  "http://api.openweathermap.org/data/2.5/forecast";
+    private final static String weatherBaseUrl = "http://api.openweathermap.org/data/2.5/weather";
 
     /* The format we want our API to return */
     private static final String format = "json";
@@ -29,7 +29,6 @@ public class Utilities {
 
     private static final String api_key = "9a5a49796eeb66ff23a2a826c6e9fb87";
     /* The number of days we want our API to return */
-    private static final int numDays = 14;
 
     /* The query parameter allows us to provide a location string to the API */
     private static final String QUERY_PARAM = "q";
@@ -41,20 +40,16 @@ public class Utilities {
     private static final String FORMAT_PARAM = "mode";
     /* The units parameter allows us to designate whether we want metric units or imperial units */
     private static final String UNITS_PARAM = "units";
-    /* The days parameter allows us to designate how many days of weather data we want */
-    private static final String DAYS_PARAM = "cnt";
 
     private static final String API_KEY_PARAM = "APPID";
 
-    public static URL createWeatherUrlForAarhus()
-    {
+    public static URL createWeatherUrlForAarhus() {
         //Add the days parameter, if you want a specific amount of days
         Uri weatherQueryUri = Uri.parse(weatherBaseUrl).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, city)
                 .appendQueryParameter(FORMAT_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
                 .appendQueryParameter(API_KEY_PARAM, api_key)
-                //.appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
                 .build();
 
         try {
@@ -67,40 +62,29 @@ public class Utilities {
         }
     }
 
-    public static ContentValues[] createContentValuesForWeatherInfos(List<WeatherInfo> weatherInfo) {
+    public static ContentValues[] createContentValuesForCurrentWeather(CurrentWeather weather) {
 
-        ContentValues[] values = new ContentValues[weatherInfo.size()];
+        ContentValues[] values = new ContentValues[1];
 
-        if (weatherInfo != null) {
-            for (int i=0;i<weatherInfo.size();i++){
+        ContentValues forecastValues = new ContentValues();
 
-                ContentValues forecastValues = new ContentValues();
-
-                Calendar cal = Calendar.getInstance();
-                //cal.setTime(new Date(weatherInfo.get(i).getDtTxt()));
-
-                long normalizedDate;
-                if(!SunshineDateUtils.isDateNormalized(weatherInfo.get(i).getDt()))
-                {
-                    normalizedDate = ((long)weatherInfo.get(i).getDt())*1000;
-                }
-                else
-                {
-                    normalizedDate = (long)weatherInfo.get(i).getDt();
-                }
-
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DATE, normalizedDate);
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_HUMIDITY, weatherInfo.get(i).getMain().getHumidity());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_PRESSURE, weatherInfo.get(i).getMain().getPressure());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_WIND_SPEED, weatherInfo.get(i).getWind().getSpeed());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DEGREES, weatherInfo.get(i).getWind().getDeg());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_TEMP_MAX, weatherInfo.get(i).getMain().getTempMax());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_TEMP_MIN, weatherInfo.get(i).getMain().getTempMin());
-                forecastValues.put(ForecastContract.ForecastEntry.COLUMN_FORECAST_ID, weatherInfo.get(i).getWeather().get(0).getId());
-
-                values[i] = forecastValues;
-            }
+        long normalizedDate;
+        if (!SunshineDateUtils.isDateNormalized(weather.getDt())) {
+            normalizedDate = ((long) weather.getDt()) * 1000;
+        } else {
+            normalizedDate = (long) weather.getDt();
         }
+
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DATE, normalizedDate);
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_HUMIDITY, weather.getMain().getHumidity());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_PRESSURE, weather.getMain().getPressure());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_WIND_SPEED, weather.getWind().getSpeed());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DEGREES, weather.getWind().getDeg());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_TEMP_MAX, weather.getMain().getTempMax());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_TEMP_MIN, weather.getMain().getTempMin());
+        forecastValues.put(ForecastContract.ForecastEntry.COLUMN_FORECAST_ID, weather.getWeather().get(0).getId());
+
+        values[0] = forecastValues;
 
         return values;
     }
@@ -114,12 +98,9 @@ public class Utilities {
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
 
-        if(hour > 22 || hour < 7)
-        {
+        if (hour > 22 || hour < 7) {
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }

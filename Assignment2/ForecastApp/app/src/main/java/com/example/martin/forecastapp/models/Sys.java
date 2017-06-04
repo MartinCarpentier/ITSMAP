@@ -1,24 +1,76 @@
-package com.example.martin.forecastapp.models;
 
-/**
- * Created by mbc on 08-05-2017.
- */
+package com.example.martin.forecastapp.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Sys {
 
-    @SerializedName("pod")
+    @SerializedName("type")
     @Expose
-    private String pod;
+    private Integer type;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("message")
+    @Expose
+    private Double message;
+    @SerializedName("country")
+    @Expose
+    private String country;
+    @SerializedName("sunrise")
+    @Expose
+    private Integer sunrise;
+    @SerializedName("sunset")
+    @Expose
+    private Integer sunset;
 
-    public String getPod() {
-        return pod;
+    public Integer getType() {
+        return type;
     }
 
-    public void setPod(String pod) {
-        this.pod = pod;
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Double getMessage() {
+        return message;
+    }
+
+    public void setMessage(Double message) {
+        this.message = message;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Integer getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(Integer sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public Integer getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(Integer sunset) {
+        this.sunset = sunset;
     }
 
 }
