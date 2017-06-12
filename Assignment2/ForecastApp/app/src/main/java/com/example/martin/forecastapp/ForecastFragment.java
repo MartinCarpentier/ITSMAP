@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -13,6 +14,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +24,18 @@ import android.widget.TextView;
 
 import com.example.martin.forecastapp.data.ForecastContract;
 
-/**
- * Created by mbc on 05-05-2017.
- */
+import static android.support.v4.app.ActivityOptionsCompat.*;
 
 public class ForecastFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        ForecastAdapter.ForecastAdapterOnClickHandler{
+        ForecastAdapter.ForecastAdapterOnClickHandler {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private ForecastAdapter forecastAdapter;
     private LinearLayoutManager layoutManager;
+    private FloatingActionButton fab;
+    private ForecastFragment forecastFragment = this;
 
     public static final int INDEX_WEATHER_DATE = 0;
     public static final int INDEX_WEATHER_MAX_TEMP = 1;
@@ -61,39 +63,36 @@ public class ForecastFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.recyclerForecastView);
-
+        layoutManager = new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerForecastView);
         progressBar = (ProgressBar) rootView.findViewById(R.id.loading_indicator);
-
-        layoutManager =
-                new LinearLayoutManager(rootView.getContext(), LinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setHasFixedSize(true);
-
+        fab = (FloatingActionButton) rootView.findViewById(R.id.refreshButton);
         forecastAdapter = new ForecastAdapter(rootView.getContext(), this);
-
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(forecastAdapter);
+        recyclerView.setHasFixedSize(true);
 
         showLoading();
 
-        //TODO: retrieve data from database
         getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, this);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportLoaderManager().initLoader(ID_FORECAST_LOADER, null, forecastFragment);
+            }
+        });
 
         return rootView;
     }
 
-    private void stopLoading()
-    {
+    private void stopLoading() {
         progressBar.setVisibility(View.INVISIBLE);
-
         recyclerView.setVisibility(View.VISIBLE);
     }
 
     private void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
-
         recyclerView.setVisibility(View.INVISIBLE);
     }
 
@@ -101,27 +100,20 @@ public class ForecastFragment extends Fragment implements
     public void onClick(long date, ImageView weatherIcon, TextView high, TextView low) {
         //Either start activity with date or show in this activity
 
-        if(MainActivity.mTwoPane)
-        {
-
-        }
-        else
-        {
+        if (!MainActivity.mTwoPane) {
             Intent weatherDetailIntent = new Intent(getActivity(), DetailActivity.class);
             Uri uriForWeatherId = ForecastContract.ForecastEntry.buildSpecificForecastUri(date);
             weatherDetailIntent.setData(uriForWeatherId);
 
-            Pair<View, String> p1 = Pair.create((View)weatherIcon, getString(R.string.weatherIconTransitionName));
-            Pair<View, String> p2 = Pair.create((View)high, getString(R.string.highTemperatureTransitionName));
-            Pair<View, String> p3 = Pair.create((View)low, getString(R.string.lowTemperatureTransitionName));
+            Pair<View, String> p1 = Pair.create((View) weatherIcon, getString(R.string.weatherIconTransitionName));
+            Pair<View, String> p2 = Pair.create((View) high, getString(R.string.highTemperatureTransitionName));
+            Pair<View, String> p3 = Pair.create((View) low, getString(R.string.lowTemperatureTransitionName));
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+            ActivityOptionsCompat options = makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
 
-            //android:transitionName="highTemperatureTransition"
             startActivity(weatherDetailIntent, options.toBundle());
         }
-}
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -137,14 +129,14 @@ public class ForecastFragment extends Fragment implements
                  * want all weather data from today onwards that is stored in our weather table.
                  * We created a handy method to do that in our WeatherEntry class.
                  */
-                String selection = ForecastContract.ForecastEntry.getSqlSelectForNowOnwards();
+                String selection = ForecastContract.ForecastEntry.getSqlSelectForLast24Hours();
 
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
                         MAIN_FORECAST_PROJECTION,
                         selection,
                         null,
-                        sortOrder);
+                        null);
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
@@ -153,8 +145,7 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        //forecastAdapter.swapCursor(data);
+        Log.d("ForecastFragment", "Showing " + data.getCount() + " in list");
         forecastAdapter.swapCursor(data);
 
         stopLoading();

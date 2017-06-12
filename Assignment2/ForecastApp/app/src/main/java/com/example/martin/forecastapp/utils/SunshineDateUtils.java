@@ -154,13 +154,13 @@ public final class SunshineDateUtils {
      */
     private static long getLocalMidnightFromNormalizedUtcDate(long normalizedUtcDate) {
         /* The timeZone object will provide us the current user's time zone offset */
-        TimeZone timeZone = TimeZone.getDefault();
+        TimeZone timeZone = TimeZone.getTimeZone("Europe/Copenhagen");
         /*
          * This offset, in milliseconds, when added to a UTC date time, will produce the local
          * time.
          */
         long gmtOffset = timeZone.getOffset(normalizedUtcDate);
-        long localMidnightMillis = normalizedUtcDate - gmtOffset;
+        long localMidnightMillis = normalizedUtcDate + gmtOffset;
         return localMidnightMillis;
     }
 

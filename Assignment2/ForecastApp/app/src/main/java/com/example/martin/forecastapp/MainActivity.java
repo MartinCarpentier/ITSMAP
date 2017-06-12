@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //putFakeDataInDatabase();
-
         if (findViewById(R.id.fragment_detail_layout) != null) {
             // The detail container view will be present only in the large-screen layouts
             // (res/layout-sw600dp). If this view is present, then the activity should be
@@ -57,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, WeatherService.class);
         MainActivity.this.startService(intent);
         Log.i("AutoStart", "started");
-
-        //ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
-        //.findFragmentById(R.id.fragment_forecast));
-        //forecastFragment.setUseTodayLayout(!mTwoPane);
     }
 
     private void putFakeDataInDatabase() {
@@ -77,15 +71,21 @@ public class MainActivity extends AppCompatActivity {
         dayAfterTomorrow.add(Calendar.DATE, 2);
         values[2] = createContentValue(dayAfterTomorrow.getTimeInMillis(), 24.3, 14.3, 933, 412.3, 52.2, 142.3, 3);
 
-
-                /* Delete old weather data because we don't need to keep multiple days' data */
+        /* Delete old weather data because we don't need to keep multiple days' data */
         ForecastContentResolver.bulkInsert(
                 ForecastContract.ForecastEntry.CONTENT_URI,
                 values);
     }
 
-    private ContentValues createContentValue(long dateTimeMillis, double high, double low, int humidity, double pressure
-            , double windSpeed, double windDirection, int forecast_id) {
+    private ContentValues createContentValue(long dateTimeMillis,
+                                             double high,
+                                             double low,
+                                             int humidity,
+                                             double pressure,
+                                             double windSpeed,
+                                             double windDirection,
+                                             int forecast_id) {
+
         ContentValues forecastValues = new ContentValues();
 
         forecastValues.put(ForecastContract.ForecastEntry.COLUMN_DATE, dateTimeMillis);
