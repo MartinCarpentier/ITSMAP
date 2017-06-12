@@ -101,7 +101,7 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
         MobilePay.getInstance().init(getString(R.string.key_mobilepay_test_merchant), Country.DENMARK);
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
-        latLng = new LatLng(10, 10);
+        latLng = new LatLng(56.154662, 10.205894);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
