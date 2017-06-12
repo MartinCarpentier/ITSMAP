@@ -355,7 +355,6 @@ public class MapsActivity extends FragmentActivity implements
             }
         });
 
-        isBarsReady = true;
     }
 
 
@@ -410,7 +409,9 @@ public class MapsActivity extends FragmentActivity implements
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, BARTY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
             return;
         }
-
+        else {
+            isLocationPermissionGranted = true;
+        }
         if (isLocationPermissionGranted) {
             googleMap.setMyLocationEnabled(true);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
