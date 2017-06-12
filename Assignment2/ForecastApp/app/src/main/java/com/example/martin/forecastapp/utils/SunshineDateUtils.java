@@ -46,10 +46,6 @@ public final class SunshineDateUtils {
      */
     public static long getNormalizedUtcDateForToday() {
 
-        /*
-         * This number represents the number of milliseconds that have elapsed since January
-         * 1st, 1970 at midnight in the GMT time zone.
-         */
         long utcNowMillis = System.currentTimeMillis();
 
         /*

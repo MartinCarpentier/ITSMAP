@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.martin.forecastapp.data.ForecastContract;
 import com.example.martin.forecastapp.services.WeatherService;
@@ -96,4 +99,24 @@ public class MainActivity extends AppCompatActivity {
 
         return forecastValues;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.weather_menu, menu);
+        return true;
+    }
+
+    // Code taken from/inspired by:
+    // https://stackoverflow.com/questions/7479992/handling-a-menu-item-click-event-android
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
