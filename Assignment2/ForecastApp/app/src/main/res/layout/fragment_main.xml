@@ -6,28 +6,18 @@
     android:focusable="true"
     android:background="?android:attr/selectableItemBackground">
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerForecastView">
+
+    </android.support.v7.widget.RecyclerView>
+
     <ProgressBar
         android:id="@+id/loading_indicator"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:visibility="invisible" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerForecastView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:clickable="true"
-        android:id="@+id/refreshButton"
-        android:focusable="true"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:src="@drawable/ic_sync_white_48px"
-        android:layout_gravity="bottom|end"/>
 
 </FrameLayout>
